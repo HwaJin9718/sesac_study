@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>style</title>
+    <style>
+        /* 
+        CSS 셀렉터란?? 원하는 HTML 요소를 선택하는 방법
+        총 3가지 : tag, class, id 
+        같은 depth/level (계층구조상에서) -> 같은 id 중 먼저 작성되어있는거 
+            : 늦게 적용되는게 살아남음 => 적용됨
+        tag, class, id 는 계층이 다름 -> 좀 더 포괄적으로 적용되는거 or 디테일하게 적용되는거
+        -> id > class > tag  => 디테일한 것이 우선순위가 더 높음
+        */
+        h1 {
+            color: blue
+        }
+        h2 {
+            color: red;
+        }
+        h3 {
+            color: #00ff00;
+        }
+        .color1 {
+            color: blue; 
+            background-color: yellow;
+            border: 5px solid red;
+        }
+        .color2 {
+            color: red; 
+            background-color: aqua;
+            border: 3px dotted purple;
+        }
+        #color3 {
+            color: magenta;
+            border: 10px dashed black;
+            width: 50%;
+        }
+    </style>
+</head>
+<body>
+    <h1>헤딩1</h1>
+    <h2>헤딩2</h2>
+    <h3>헤딩3</h3>
+    <p class="color1">본문 내용으로 아무 내용이나 작성합니다.</p>
+    <p class="color2">본문 내용으로 아무 내용이나 작성합니다.</p>
+    <p id="color3">본문 내용으로 아무 내용이나 작성합니다.</p>
+    <p>본문 내용으로 아무 내용이나 작성합니다.</p>
+    <p class="color1">본문 내용으로 아무 내용이나 작성합니다.</p>
+    <p>본문 내용으로 아무 내용이나 작성합니다.</p>
+    <!-- 셀렉터가 겹쳐도 동작은 하나, 좋은게 아님
+     절대 한 페이지에 셀렉터가 겹치게 만들지 말것!! -->
+    <p class="color1" id="color3">본문 내용으로 아무 내용이나 작성합니다.</p>
+</body>
+</html>

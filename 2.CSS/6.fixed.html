@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        .bg {
+                height: 200px;
+                background-color: orange;
+        }
+        .center {
+            background-color: orangered;
+        }
+        .fixed {
+            width: 100px;
+            height: 100px;
+            background-color: teal;
+            background-image: url(image/starbucks.png);
+            background-size: cover;
+            /* background-size: 100% 100%; -> cover 와 동일한 기능 */
+            position: fixed; /* 챗봇 같은 거 만들 때 어느 스크롤이던 고정된 위치에 있음*/
+            bottom: 50px;
+            right: 50px;
+        }
+    </style>
+</head>
+<body>
+    <div class="bg"></div>
+    <div class="bg center"></div>
+    <div class="bg"></div>
+    <div class="fixed"></div>
+</body>
+</html>

@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Document</title>
+    <style>
+        div {
+            width: 100px;
+            height: 100px;
+            background-color: orange;
+            margin: 5px;
+        }
+        .location {
+            /* relative : 상대적인(원래 나의 위치), absolute : 절대적인 */
+            background-color: orangered;
+            position: relative;
+            top: 50px;
+            left: 50px;
+        }
+        /* 셀렉트의 다양한 표현법 학습해볼 것
+        div p 와 div > p 와 어떻게 다른지 */
+        div p {
+            position: relative;
+            top: 20px;
+            left: 50px;
+            background-color: rgba(255, 255, 255, 0.5);
+            display: inline;
+        }
+        .cat-container {
+            width: 400px;
+            height: 300px;
+            background-image: url(image/cat2.jpg);
+            background-repeat: no-repeat;
+            background-size: cover;
+        }
+    </style>
+</head>
+<body>
+    <div>1</div>
+    <div class="location">2</div>
+    <div>3</div>
+    <div class="cat-container">
+        <p>귀여운 고양이</p>
+    </div>
+    <p>못생긴 고양이</p>
+</body>
+</html>
