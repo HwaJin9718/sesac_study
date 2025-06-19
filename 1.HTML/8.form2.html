@@ -1,0 +1,37 @@
+<!--
+
+인라인 요소 (inline elment) : 필요한 만큼만 공간을 차지
+-> ex) img, a, span, ...
+블럭 요소 (block elment) : 무조건 그 한줄을 다 차지함
+-> ex) h1~h6, p, div, ...
+
+숏폼 나옴 : vscode cheat sheet
+
+-->
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Document</title>
+
+</head>
+<body>
+    <h2>form 학습</h2>
+    <form>
+        <label for="user_id">아이디</label> <!-- label의 for 속성이랑 input의 id 속성이랑 동일 -->
+        <input type="text" name="id" id="user_id"> <br />
+        <label for="user_pw">비밀번호</label>
+        <input type="password" name="password" id="user_pw"> <br />
+        <input type="submit" value="로그인">
+        <!-- 폼이 전송될 때, 위의 input 값의 name이 key가 되고, 실제로 사용자가 입력한게 value가 되어서 서버로 전달된다. -->
+    </form>
+
+    <h2>검색창 만들기</h2>
+    <form>
+        <label for="search">검색</label>
+        <input type="text" name="q" id="search">
+        <input type="submit" value="검색">
+    </form>
+</body>
+</html>
