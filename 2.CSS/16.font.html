@@ -1,0 +1,43 @@
+<!-- 
+ 이렇게 폰트를 직접 적을 수 있는데 이건 보는사람 컴퓨터에 없으면 해당 글씨체로 보지 못함
+ 그래서 있는게 웹폰트
+ 대표적으로 구글폰트
+  -->
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="https://fonts.google.com/selection/embed">
+    <style>
+        .p1 {
+            font-family: "Times New Roman", "Times", serif;
+            text-shadow: 2px 2px 5px red;
+        }
+        .p2 {
+            font-family: Arial, Helvetica, sans-serif;
+            text-decoration: line-through;
+            letter-spacing: -1px;
+        }
+        .p3 {
+            font-family: "바탕", "Batang", "Bulim";
+        }
+        .p4 {
+            font-family: "나눔고딕", "Nanum Gothic", "Serif";
+        }
+        .p5 {
+            font-family: "Noto Sans KR";
+        }
+    </style>
+</head>
+<body>
+    <h1>다양한 폰트 테스트</h1>
+    <p class="p1">This is "Times New Roman, serif" font</p>
+    <p class="p2">This is "Arial, Melvertica, sans-serif" font</p>
+    <p class="p3">여기는 한글 폰트 바탕체</p>
+    <p class="p4">여기는 한글 폰트 고딕체</p>
+    <p class="p5">여기는 구글웹폰트중 NotoSansKR</p>
+</body>
+</html>
