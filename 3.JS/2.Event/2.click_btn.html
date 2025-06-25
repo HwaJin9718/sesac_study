@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <button id="MyButton">클릭하시오</button>
+    <script>
+        // const myButton = document.getElementById('MyButton');
+        // myButton.addEventListener('click', mouse_click)
+
+        // function mouse_click() {
+        //     console.log('마우스 클릭됨');
+        // }
+
+        // 위랑 동일하게 동작하나 실무에서는 이렇게 작성!!
+        document.getElementById('MyButton').addEventListener('click', () => {
+            console.log('마우스 클릭됨');
+        })
+    </script>
+</body>
+</html>

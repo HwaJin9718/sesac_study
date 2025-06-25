@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        #content {
+            height: 2000px;
+            background: linear-gradient(to bottom, blue 0%, red 100%);
+        }
+    </style>
+</head>
+<body>
+    <div id="content"></div>
+    <script>
+        window.addEventListener('scroll', function () {
+            console.log('페이지 스크롤됨');
+
+            // const scrollPosition = window.pageYOffset; // 요즘은 많은 브라우저들이 이걸로 알 수 있음
+            // const scrollPosition = document.documentElement.scrollTop; // 위에걸로 알 수 없으면 이거로 진행
+
+            const scrollPosition = window.pageYOffset || document.documentElement.scrollTop; // 실무에서는 이거거나 저거거나 할 때 || <-- or 을 통해서 가져옴
+            // 이때 왼쪽에 있는 것이 먼저 할당됨
+            console.log('현재 스크롤바 위치 : ', scrollPosition)
+        });
+    </script>
+</body>
+</html>

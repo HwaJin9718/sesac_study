@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <h3>창 사이즈를 변경해 보시오</h3>
+    <script>
+        window.addEventListener('resize', () => {
+            console.log('창 사이즈가 바뀌는중!!');
+
+            const iwidth = window.innerWidth; // 스크롤바 제외 안쪽 영역
+            const owidth = window.outerWidth; // 스크롤바 포함한 바깥쪽 영역
+
+            const iheight = window.innerHeight;
+            const oheight = window.outerHeight;
+
+            const screenWidth = screen.width;
+            const screenHeight = screen.height;
+
+            console.log(`화면 크기: ${screenWidth}X${screenHeight}`)
+            console.log(`안쪽 크기: ${iwidth}X${iheight}, 바깥쪽 크기: ${owidth}X${oheight}`)
+        })
+    </script>
+</body>
+</html>
