@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        #dragItem {
+            width: 100px;
+            height: 100px;
+            background-color: #ffcc00;
+
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+
+            cursor: pointer;
+            margin-right: 20px;
+            margin-bottom: 20px;
+        }
+
+        #dropZone1, #dropZone2 {
+            width: fit-content;
+            min-width: 200px;
+            height: 200px;
+            border: 2px dashed #cccccc;
+            background-color: #f0f0f0;
+            gap: 10px;
+            padding: 10px;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 20px;
+        }
+    </style>
+</head>
+<body>
+
+    <div id="dropZone1">
+        Drop here
+        <div id="dragItem" draggable="true">Drag me</div>
+    </div>
+    <div id="dropZone2">Drop here</div>
+
+    <script>
+        const dragItem = document.getElementById('dragItem')
+        const dropZone1 = document.getElementById('dropZone1')
+        const dropZone2 = document.getElementById('dropZone2')
+
+        dragItem.addEventListener('dragstart', function() {
+        });
+
+        dropZone1.addEventListener('dragover', function(event) {
+            event.preventDefault();
+        });
+
+        dropZone1.addEventListener('drop', function(event) {
+            dropZone1.appendChild(dragItem);
+        });
+
+        dropZone2.addEventListener('dragover', function(event) {
+            event.preventDefault();
+        });
+
+        dropZone2.addEventListener('drop', function(event) {
+            dropZone2.appendChild(dragItem);
+        });
+    </script>
+</body>
+</html>
