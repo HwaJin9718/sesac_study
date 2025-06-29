@@ -17,12 +17,15 @@
         #container {
             width: 300px;
             height: 150px;
-            border: 1px solid;
+            border: 1px solid #ccc;;
             display: flex;
             justify-content: center;
             align-items: center;
             flex-direction: column;
             gap: 20px;
+            background-color: white;
+            border-radius: 15px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
         }
         #timerZone {
             display: flex;
@@ -54,10 +57,67 @@
         </div>
     </div>
     <script>
+
+        let startTime = 0;
+        let elapsedTime = 0;
+        let timerInterval = null;
+        let isRunning = false;
+
         const timerZone = document.getElementById('timerZone');
         const startBtn = document.getElementById('start');
         const stopBtn = document.getElementById('stop');
         const resetBtn = document.getElementById('reset');
+
+        function formatTime(milliseconds) {
+            const totalSeconds = Math.floor(milliseconds / 1000);
+            const minutes = Math.floor(totalSeconds / 60);
+            const seconds = totalSeconds % 60;
+            const ms = Math.floor((milliseconds % 1000) / 10); // 1/100초 단위
+
+            return `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}.${ms.toString().padStart(2, '0')}`;
+        }
+
+        function updateTimer() {
+            elapsedTime = Date.now() - startTime;
+            timerZone.textContent = formatTime(elapsedTime);
+        }
+
+        // Start 버튼 이벤트
+        startBtn.addEventListener('click', function() {
+            if (!isRunning) {
+                startTime = Date.now() - elapsedTime; // 이전 시간 고려
+                timerInterval = setInterval(updateTimer, 10); // 10ms마다 업데이트
+                isRunning = true;
+                
+                startBtn.disabled = true;
+                stopBtn.disabled = false;
+            }
+        });
+
+        // Stop 버튼 이벤트
+        stopBtn.addEventListener('click', function() {
+            if (isRunning) {
+                clearInterval(timerInterval);
+                isRunning = false;
+                
+                startBtn.disabled = false;
+                stopBtn.disabled = true;
+            }
+        });
+
+        // Reset 버튼 이벤트
+        resetBtn.addEventListener('click', function() {
+            clearInterval(timerInterval);
+            isRunning = false;
+            elapsedTime = 0;
+            timerZone.textContent = '00:00.00';
+            
+            startBtn.disabled = false;
+            stopBtn.disabled = true;
+        });
+
+        // 초기 상태 설정
+        stopBtn.disabled = true;
 
     </script>
 </body>
