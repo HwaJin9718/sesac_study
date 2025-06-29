@@ -6,7 +6,7 @@ print(type(x))
 print(type(y))
 print(type(z))
 
-# 각각의 변수 타입은 클레스로 만들어져 있고, 그 안에 있는 함수를 통해서 세부 클래스의 함수
+# 각각의 변수 타입은 클래스로 만들어져 있고, 그 안에 있는 함수를 통해서 세부 클래스의 함수들이 동작한다
 # print(y.upper())
 # print(x.upper())
 
@@ -19,6 +19,7 @@ print(isinstance(y, (str, list))) # y는 str나 list로 만들어 진거야?
 
 print('-' * 10)
 
+# 클래스 A 만들어짐
 class A:
     pass # 아무것도 안해도 괜찮아
 

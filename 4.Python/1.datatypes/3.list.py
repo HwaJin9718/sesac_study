@@ -4,9 +4,9 @@ print(my_list)
 print(len(my_list))
 print(my_list[0])
 print(my_list[1])
-# print(myList[5]) # 이게 JS에서는 undefined, 그 외 다른 언어(python 포함)
+# print(myList[5]) # 이게 JS에서는 undefined, 그 외 다른 언어(python 포함) 에서는 오류 발생
 print(my_list[4])
-print(my_list[-1]) # 거꾸로 갈 수 있음, 파이썬의 특징, 대부분의 언어는 허용하지 않음
+print(my_list[-1]) # 거꾸로 갈 수 있음, 파이썬의 특징, 대부분의 다른 언어는 허용하지 않음
 
 # 리스트 슬라이싱
 print(my_list[1:3]) # 1번 인덱스부터 3번째를 포함하기 전까지 -> 인덱스로 따지만 1, 2번 항목만 결과값은 :  [1] [2] 만 나옴
@@ -58,12 +58,15 @@ count_2 = my_list.count(2) # 2라는 숫자는 몇개?
 print(count_2)
 
 print('--- 소팅전 ---')
+print(my_list)
 sorted_list = sorted(my_list) # 이거는 인자를 받아서 반환하는 함수 (원본을 변경하지 않음)
 print(sorted_list)
-
 print('--- 소팅후 ---')
 print(my_list)
-my_list.sort() # 일부 함수는 복제본을 만들어서 반환하는 애가 있고, 원본 데이터를 고치는 애가 있음
+
+print('-' * 10) # 선 귿기
+
+my_list.sort() # 일부 함수는 복제본을 만들어서 반환하는 애가 있고, 원본 데이터를 고치는 애가 있음, 이 sort 함수는 원본 데이터를 변환하는 아이
 # 뭐라고 정의하지 않으면 오름차순(작은거 -> 큰거)
 print(my_list)
 
@@ -78,10 +81,10 @@ print(my_list2)
 
 # 리스트 컴프리헨션 (파이썬의 매우 큰 특징/장점!!)
 # 리스트 안에 반복문 또는 조건문을 통해서, 리스트 안에 채워질 요소를 정의할 수 있는 문법
-numbers = [x for x in range(10)]
+numbers = [x        for x in range(10)] 
 print(numbers)
 
-numbers = [mynumber for mynumber in range(5)]
+numbers = [mynumber        for mynumber in range(5)] 
 print(numbers)
 
 numbers = [num for num in range(1, 11)] # 1부터 10까지의 숫자를 만들어서, 이 리스트에 채우시오
@@ -90,5 +93,5 @@ print(numbers)
 numbers = [num**2 for num in range(1, 11)] # 1부터 10까지의 숫자를 만들어서, 그 제곱수로 채우시오
 print(numbers)
 
-numbers = [num for num in range(1, 11) if num % 2 == 0] # 1부터 10까지의 숫자를 만들어서,  채우시오
+numbers = [num       for num in range(1,11)      if num % 2 == 0] # 1부터 10까지의 숫자를 만들어서, 그 중에 짝수로만 채우시오
 print(numbers)

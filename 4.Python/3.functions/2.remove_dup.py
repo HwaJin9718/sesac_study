@@ -1,4 +1,4 @@
-# 레거시 코드
+# 레거시 코드 (c 스타일의 코드)
 def remove_duplicate(number):
     # 구현하기
     # 1. 목록을 순회한다
@@ -32,6 +32,7 @@ def remove_duplicate2(number):
 def remove_duplicate3(number):
     return list(set(number))
 
+# 내 버전
 # def remove_duplicate(number):
 #     return set(numbers)
 

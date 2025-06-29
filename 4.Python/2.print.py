@@ -1,8 +1,7 @@
 name = "Alice"
 print(name)
 
-print("Hello,", name)
-print("Hello," + name) # 콤마(,) 는 띄어쓰기를 하지 않아도 사이에 자동으로 띄어쓰기를 해줌
+print("Hello,", name) # 콤마(,) 는 띄어쓰기를 하지 않아도 사이에 자동으로 띄어쓰기를 해줌
 print("Hello," + name) # 플러스(+)는 띄어쓰기 안해줌, 그냥 str을 덧셈 연산한것
 print("Hello," + name + "!!")
 

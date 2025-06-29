@@ -15,11 +15,10 @@ print(my_list)
 print(my_tuple)
 
 my_tuple2 = tuple(my_list) # 이러면 복제본이 생기는 것!
-# my_tuple2[2] = 10 # 이건 튜플 데이터이기 때문에 오류 발생
+# my_tuple2[2] = 10 # 이건 튜플 데이터이기 때문에 오류 발생, 튜블은 데이터 변경 불가
 
 # 튜플안에 데이터를 여러개의 변수로 나누어 담을 수 있음
 # 튜플 언패킹
-
 a, b, c = (1, 2, 3)
 print(a)
 print(b)

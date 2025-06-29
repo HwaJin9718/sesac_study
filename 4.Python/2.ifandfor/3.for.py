@@ -34,7 +34,7 @@ for index, fruit in enumerate(fruits): # enumerate 는 index 와 값을 같이 �
 
 print("-" * 5)
 
-for i, f in enumerate(fruits): # 지금 시대는 이거(f)보다는 위에처럼 길고 설명/이해하기 좋은게 잘 작성한 변수
+for i, f in enumerate(fruits): # 지금 시대는 이거(f)보다는 위에처럼 길고 설명/이해하기 좋게 작성한 것이 잘 작성한 변수
     print(i, f)
 
 print("-" * 5)
@@ -45,6 +45,7 @@ for char in str:
 
 print("-" * 5)
 
+# 위 문장에서 o 의 갯수를 구하시오.
 count_o = 0
 for char in str:
     if char == 'o':
@@ -52,6 +53,7 @@ for char in str:
 
 print(f"{str} 문장 내의 o의 갯수는 {count_o} 개 입니다.")
 
+# 위 문장에서 l 의 갯수를 구하시오.
 count_l = 0
 for char in str:
     if char == 'l':

@@ -1,3 +1,4 @@
+# 데이터베이스
 # 딕셔너리를 여러개 가지고 있는 리스트
 users = [
     {"name": "Alice", "age": 25, "location": "Seoul", "car": "BMW"},
@@ -27,7 +28,8 @@ def find_users(name):
 def find_users_caseinsensitive(name):
     result = []
     for u in users:
-        if u["name"].lower() == name.lower():
+        if u["name"].lower() == name.lower(): # DB 내용도, 사용자의 입력도 모두다 소문자로 바꿔서 비교
+
             result.append(u)
     return result
 
@@ -52,6 +54,8 @@ print(find_user2('Alice', 25))
 print(find_user2('Bob', 30))
 print(find_user2('bob', 40))
 
+print('--- find_user3 할차례 ---')
+
 def find_user3(name=None, age=None):
     result = []
 
@@ -63,6 +67,7 @@ def find_user3(name=None, age=None):
                         result.append(u)
                 else: # 이름은 메치가 됐고 나이는 신경쓰지 않는 경우
                     result.append(u)
+        # 이름이 없고, 나이만 있는 경우
         elif age:
             if u["age"] == age:
                 result.append(u)
@@ -107,7 +112,8 @@ print(find_user3_simple(age=40, name="Bob"))
 print('--- 더 간단한 버전 재구현 ---')
 
 def find_user3_simplest(name=None, age=None):
-    return [u          for u in users            if (name is None or u["name"] == name) and (age is None or u["age"] == age)]
+    return [u         for u in users         if (name is None or u["name"] == name) and (age is None or u["age"] == age)]
+
 
 
 print(find_user3_simplest(name='Bob'))

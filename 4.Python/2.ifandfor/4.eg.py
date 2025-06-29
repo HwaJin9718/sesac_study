@@ -28,18 +28,55 @@ print('-' * 5)
 
 # 다음 목록에서 성적이 A인 학생만 반환하시오
 students = {
-    '김철수' : 70,
-    '이영희' : 82,
-    '박민수' : 88,
-    '최지은' : 75,
-    '장현우' : 93,
-    '서민정' : 67,
-    '정우성' : 99,
-    '한지민' : 76,
-    '오세훈' : 61,
-    '송지효' : 85,
+    '김철수': 70,
+    '이영희': 82,
+    '박민수': 88,
+    '최지은': 75,
+    '장현우': 93,
+    '서민정': 67,
+    '정우성': 99,
+    '한지민': 76,
+    '오세훈': 61,
+    '송지효': 85
 }
 
+# 강사님 버전
+# 방법1
+def get_a_grade_students(students): 
+    result = []
+    for name, score in students.items():
+        if score >= 90: # A 등급
+            # print(name)
+            result.append(name)
+    return result
+
+a_students = get_a_grade_students(students)    
+print(a_students)
+
+# 방법2
+def get_grade(score):
+    if score >= 90:
+        return 'A'
+    if score >= 80:
+        return 'B'
+    if score >= 70:
+        return 'C'
+    return 'F'
+
+def get_a_grade_students2(students): 
+    result = []
+    for name, score in students.items():
+        if get_grade(score) == 'A': # A 등급
+            # print(name)
+            result.append(name)
+    return result
+
+a_students = get_a_grade_students2(students)    
+print(a_students)
+
+print('-' * 5)
+
+# 내 버전
 def getGrade(score):
     scoreInt = int(score)
 
@@ -55,7 +92,7 @@ def getGrade(score):
 
 def getAGrade(students):
     studentAGrade = []
-    for name, score in students.items: # 이름 name , 점수 score
+    for name, score in students.items(): # 이름 name , 점수 score
         if getGrade(score) == 'A학점':
             studentAGrade.append(name)
     return studentAGrade
