@@ -3,6 +3,7 @@
 import sys
 import csv
 from user.user_generator import UserGenerator
+from store.store_generator import StoreGenerator
 
 # 사용자 입력 값
 data_type = input(("데이터 유형을 입력하세요 (User, Store 또는 Item): "))
@@ -26,7 +27,22 @@ class UserDisplayData(UserGenerator):
             csv_writer = csv.writer(file)
             csv_writer.writerow(top_data)
             csv_writer.writerows(data)
-        print(f"CSV 파일에 저장 완료")
+        print(f"CSV 파일 저장 완료")
+
+class StoreDisplayData(StoreGenerator): 
+    def print_console(self, count):
+        data = self.generate_store(count)
+        for id, name, cafename, address in data:
+            print(f"ID: {id}\nName: {name}\nCafeName: {cafename}\nAddress: {address}\n")
+                                                 
+    def print_csv(self, count):
+        data = self.generate_store(count)
+
+        with open(file_path, "w", newline = "", encoding="utf-8") as file:
+            csv_writer = csv.writer(file)
+            csv_writer.writerow(top_data)
+            csv_writer.writerows(data)
+        print(f"CSV 파일 저장 완료")
 
 # 데이터 유형 확인
 if data_type.lower() == "user":
@@ -34,7 +50,9 @@ if data_type.lower() == "user":
     file_path = "users.csv"
     top_data = ["ID", "Name", "Gender", "Age", "Birthdate", "Address"]
 elif data_type.lower() == "store":
-    pass
+    my_data = StoreDisplayData()
+    file_path = "stores.csv"
+    top_data = ["ID", "Name", "Type", "Address"]
 elif data_type.lower() == "item":
     pass
 elif data_type.lower() == "order":
