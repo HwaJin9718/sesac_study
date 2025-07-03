@@ -1,0 +1,10 @@
+Americano
+Espresso
+Latte
+Milk
+Red Velvet
+Vanilla
+Strawberry
+Watermelon
+Lemon
+Chocolate
