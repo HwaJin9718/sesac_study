@@ -1,8 +1,8 @@
 import random
 import uuid
 
-# item id
+# order id
 class IdGenerator:
     def generate_id(self):
-        item_id = uuid.uuid4()
-        return item_id
+        order_id = uuid.uuid4()
+        return order_id
