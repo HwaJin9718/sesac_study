@@ -1,0 +1,54 @@
+# > python main.py
+
+import sys
+import csv
+from user.user_generator import UserGenerator
+
+# 사용자 입력 값
+data_type = input(("데이터 유형을 입력하세요 (User, Store 또는 Item): "))
+num = int(input("생성할 데이터 개수를 입력하세요: "))
+output_type = input(("아웃풋 형태를 입력하세요 (csv, console): "))
+
+my_data = None
+file_path = ""
+top_data = []
+
+class UserDisplayData(UserGenerator):
+    def print_console(self, count):
+        data = self.generate_user(count)
+        for id, name, birthdate, age, gender, address in data:
+            print(f"ID: {id}\nName: {name}\nBirthdate: {birthdate}\nAge: {age}\nGender: {gender}\nAddress: {address}\n")
+                                                 
+    def print_csv(self, count):
+        data = self.generate_user(count)
+
+        with open(file_path, "w", newline = "", encoding="utf-8") as file:
+            csv_writer = csv.writer(file)
+            csv_writer.writerow(top_data)
+            csv_writer.writerows(data)
+        print(f"CSV 파일에 저장 완료")
+
+# 데이터 유형 확인
+if data_type.lower() == "user":
+    my_data = UserDisplayData()
+    file_path = "users.csv"
+    top_data = ["ID", "Name", "Gender", "Age", "Birthdate", "Address"]
+elif data_type.lower() == "store":
+    pass
+elif data_type.lower() == "item":
+    pass
+elif data_type.lower() == "order":
+    pass
+elif data_type.lower() == "orderitem":
+    pass
+else:
+    print("일치하는 데이터 유형이 없습니다.")
+
+# 아웃풋 형태 확인
+if output_type.lower() == "csv":
+    my_data.print_csv(num)
+elif output_type.lower() == "console":
+    my_data.print_console(num)
+else:
+    print("지원되지 않는 출력 형태입니다.")
+
