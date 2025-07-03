@@ -1,4 +1,4 @@
-from orderitem.id_generator import IdGenerator
+from common.id_generator import IdGenerator
 from orderitem.order_get import OrderGet
 from orderitem.item_get import ItemGet
 

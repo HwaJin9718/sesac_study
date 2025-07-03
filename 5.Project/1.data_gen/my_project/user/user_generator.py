@@ -1,6 +1,6 @@
 from datetime import datetime
 
-from user.id_generator import IdGenerator
+from common.id_generator import IdGenerator
 from user.name_generator import NameGenerator
 from user.birthdate_generator import BirthdateGenerator
 from user.gender_generator import GenderGenerator

@@ -1,6 +1,6 @@
 from datetime import datetime
 
-from order.id_generator import IdGenerator
+from common.id_generator import IdGenerator
 from order.user_get import UserGet
 from order.store_get import StoreGet
 

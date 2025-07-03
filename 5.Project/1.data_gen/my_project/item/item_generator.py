@@ -1,4 +1,4 @@
-from item.id_generator import IdGenerator
+from common.id_generator import IdGenerator
 from item.name_generator import NameGenerator
 from item.price_generator import PriceGenerator
 

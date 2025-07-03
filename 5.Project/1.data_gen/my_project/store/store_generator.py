@@ -1,4 +1,4 @@
-from store.id_generator import IdGenerator
+from common.id_generator import IdGenerator
 from store.name_generator import NameGenerator
 from store.address_generator import AddressGenerator
 
