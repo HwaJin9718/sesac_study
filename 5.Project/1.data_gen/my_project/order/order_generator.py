@@ -7,8 +7,6 @@ from order.store_get import StoreGet
 class OrderGenerator:
     def __init__(self):
         self.id_gen = IdGenerator()
-        # self.store_gen = StoreGet()
-        # self.user_gen = UserGet()
         
     def generate_order(self, count):
         orders = []

@@ -6,6 +6,7 @@ from user.user_generator import UserGenerator
 from store.store_generator import StoreGenerator
 from item.item_generator import ItemGenerator
 from order.order_generator import OrderGenerator
+from orderitem.orderitem_generator import OrderItemGenerator
 
 # 사용자 입력 값
 data_type = input(("데이터 유형을 입력하세요 (User, Store 또는 Item): "))
@@ -76,6 +77,21 @@ class OrderDisplayData(OrderGenerator):
             csv_writer.writerows(data)
         print(f"CSV 파일 저장 완료")
 
+class OrderItemDisplayData(OrderItemGenerator):
+    def print_console(self, count):
+        data = self.generate_orderitem(count)
+        for id, order_id, item_id in data:
+            print(f"ID: {id}\nOrderId: {order_id}\nItemId: {item_id}\n")
+
+    def print_csv(self, count):
+        data = self.generate_orderitem(count)
+
+        with open(file_path, "w", newline = "", encoding="utf-8") as file:
+            csv_writer = csv.writer(file)
+            csv_writer.writerow(top_data)
+            csv_writer.writerows(data)
+        print(f"CSV 파일 저장 완료")
+
 # 데이터 유형 확인
 if data_type.lower() == "user":
     my_data = UserDisplayData()
@@ -94,7 +110,9 @@ elif data_type.lower() == "order":
     file_path = "orders.csv"
     top_data = ["ID", "OrderAt", "StoreId", "UserId"]
 elif data_type.lower() == "orderitem":
-    pass
+    my_data = OrderItemDisplayData()
+    file_path = "order_items.csv"
+    top_data = ["ID", "OrderId", "ItemId"]
 else:
     print("일치하는 데이터 유형이 없습니다.")
 
