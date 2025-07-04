@@ -5,8 +5,8 @@ from store.address_generator import AddressGenerator
 class StoreGenerator:
     def __init__(self):
         self.id_gen = IdGenerator()
-        self.name_gen = NameGenerator('db/store.txt', 'db/cities.txt')
-        self.address_gen = AddressGenerator('db/cities.txt')
+        self.name_gen = NameGenerator('data/store.txt', 'data/cities.txt')
+        self.address_gen = AddressGenerator('data/cities.txt')
         
     def generate_store(self, count):
         stores = []

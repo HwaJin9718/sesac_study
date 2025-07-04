@@ -14,27 +14,27 @@ top_data = []
 # 데이터 유형 확인
 if data_type.lower() == "user":
     my_data = UserDisplayData()
-    file_path = "users.csv"
+    file_path = "output/users.csv"
     top_data = ["ID", "Name", "Gender", "Age", "Birthdate", "Address"]
 
 elif data_type.lower() == "store":
     my_data = StoreDisplayData()
-    file_path = "stores.csv"
+    file_path = "output/stores.csv"
     top_data = ["ID", "Name", "Type", "Address"]
 
 elif data_type.lower() == "item":
     my_data = ItemDisplayData()
-    file_path = "items.csv"
+    file_path = "output/items.csv"
     top_data = ["ID", "Name", "Type", "UnitPrice"]
 
 elif data_type.lower() == "order":
     my_data = OrderDisplayData()
-    file_path = "orders.csv"
+    file_path = "output/orders.csv"
     top_data = ["ID", "OrderAt", "StoreId", "UserId"]
 
 elif data_type.lower() == "orderitem":
     my_data = OrderItemDisplayData()
-    file_path = "order_items.csv"
+    file_path = "output/order_items.csv"
     top_data = ["ID", "OrderId", "ItemId"]
 
 else:

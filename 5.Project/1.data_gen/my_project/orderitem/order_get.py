@@ -1,7 +1,7 @@
 import csv
 import random
 
-file_path = "orders.csv"
+file_path = "output/orders.csv"
 
 class OrderGet:
 

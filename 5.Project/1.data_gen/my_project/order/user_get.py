@@ -1,7 +1,7 @@
 import csv
 import random
 
-file_path = "users.csv"
+file_path = "output/users.csv"
 
 class UserGet:
 

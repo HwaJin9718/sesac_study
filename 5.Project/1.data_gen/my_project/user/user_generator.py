@@ -9,10 +9,10 @@ from user.address_generator import AddressGenerator
 class UserGenerator:
     def __init__(self):
         self.id_gen = IdGenerator()
-        self.name_gen = NameGenerator('db/names.txt', 'db/surnames.txt')
+        self.name_gen = NameGenerator('data/names.txt', 'data/surnames.txt')
         self.bday_gen = BirthdateGenerator()
         self.gender_gen = GenderGenerator()
-        self.address_gen = AddressGenerator('db/cities.txt')
+        self.address_gen = AddressGenerator('data/cities.txt')
         
     def generate_user(self, count):
         users = []
