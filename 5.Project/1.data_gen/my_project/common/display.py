@@ -15,7 +15,7 @@ class UserDisplayData(UserGenerator):
     def print_csv(self, count, file_path, top_data):
         data = self.generate_user(count)
 
-        with open(file_path, "w", newline = "", encoding="utf-8") as file:
+        with open(file_path, "w", newline="", encoding="utf-8") as file:
             csv_writer = csv.writer(file)
             csv_writer.writerow(top_data)
             csv_writer.writerows(data)
@@ -30,7 +30,7 @@ class StoreDisplayData(StoreGenerator):
     def print_csv(self, count, file_path, top_data):
         data = self.generate_store(count)
 
-        with open(file_path, "w", newline = "", encoding="utf-8") as file:
+        with open(file_path, "w", newline="", encoding="utf-8") as file:
             csv_writer = csv.writer(file)
             csv_writer.writerow(top_data)
             csv_writer.writerows(data)
@@ -45,7 +45,7 @@ class ItemDisplayData(ItemGenerator):
     def print_csv(self, count, file_path, top_data):
         data = self.generate_item(count)
 
-        with open(file_path, "w", newline = "", encoding="utf-8") as file:
+        with open(file_path, "w", newline="", encoding="utf-8") as file:
             csv_writer = csv.writer(file)
             csv_writer.writerow(top_data)
             csv_writer.writerows(data)
@@ -60,7 +60,7 @@ class OrderDisplayData(OrderGenerator):
     def print_csv(self, count, file_path, top_data):
         data = self.generate_order(count)
 
-        with open(file_path, "w", newline = "", encoding="utf-8") as file:
+        with open(file_path, "w", newline="", encoding="utf-8") as file:
             csv_writer = csv.writer(file)
             csv_writer.writerow(top_data)
             csv_writer.writerows(data)
@@ -75,7 +75,7 @@ class OrderItemDisplayData(OrderItemGenerator):
     def print_csv(self, count, file_path, top_data):
         data = self.generate_orderitem(count)
 
-        with open(file_path, "w", newline = "", encoding="utf-8") as file:
+        with open(file_path, "w", newline="", encoding="utf-8") as file:
             csv_writer = csv.writer(file)
             csv_writer.writerow(top_data)
             csv_writer.writerows(data)
