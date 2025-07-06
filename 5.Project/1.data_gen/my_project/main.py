@@ -1,6 +1,6 @@
 # > python main.py
 
-from common.display import UserDisplayData, StoreDisplayData, ItemDisplayData, OrderDisplayData, OrderItemDisplayData
+from generators.common.display import UserDisplayData, StoreDisplayData, ItemDisplayData, OrderDisplayData, OrderItemDisplayData
 
 # 사용자 입력 값
 data_type = input(("데이터 유형을 입력하세요 (User, Store 또는 Item): "))

@@ -1,6 +1,6 @@
-from common.id_generator import IdGenerator
-from store.name_generator import NameGenerator
-from store.address_generator import AddressGenerator
+from generators.common.id_generator import IdGenerator
+from generators.store.name_generator import NameGenerator
+from generators.store.address_generator import AddressGenerator
 
 class StoreGenerator:
     def __init__(self):

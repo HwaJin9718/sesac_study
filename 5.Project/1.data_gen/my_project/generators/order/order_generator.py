@@ -1,8 +1,8 @@
 from datetime import datetime
 
-from common.id_generator import IdGenerator
-from order.user_get import UserGet
-from order.store_get import StoreGet
+from generators.common.id_generator import IdGenerator
+from generators.order.user_get import UserGet
+from generators.order.store_get import StoreGet
 
 class OrderGenerator:
     def __init__(self):

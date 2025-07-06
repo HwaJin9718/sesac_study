@@ -1,6 +1,6 @@
-from common.id_generator import IdGenerator
-from item.name_generator import NameGenerator
-from item.price_generator import PriceGenerator
+from generators.common.id_generator import IdGenerator
+from generators.item.name_generator import NameGenerator
+from generators.item.price_generator import PriceGenerator
 
 class ItemGenerator:
     def __init__(self):

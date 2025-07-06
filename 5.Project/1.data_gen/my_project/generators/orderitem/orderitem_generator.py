@@ -1,6 +1,6 @@
-from common.id_generator import IdGenerator
-from orderitem.order_get import OrderGet
-from orderitem.item_get import ItemGet
+from generators.common.id_generator import IdGenerator
+from generators.orderitem.order_get import OrderGet
+from generators.orderitem.item_get import ItemGet
 
 class OrderItemGenerator:
     def __init__(self):

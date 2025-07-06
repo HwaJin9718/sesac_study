@@ -1,10 +1,10 @@
 from datetime import datetime
 
-from common.id_generator import IdGenerator
-from user.name_generator import NameGenerator
-from user.birthdate_generator import BirthdateGenerator
-from user.gender_generator import GenderGenerator
-from user.address_generator import AddressGenerator
+from generators.common.id_generator import IdGenerator
+from generators.user.name_generator import NameGenerator
+from generators.user.birthdate_generator import BirthdateGenerator
+from generators.user.gender_generator import GenderGenerator
+from generators.user.address_generator import AddressGenerator
 
 class UserGenerator:
     def __init__(self):
