@@ -8,10 +8,22 @@ users = [
 ]
 
 # http://localhost:5000/pages/1
+
 @app.route('/')
 def index():
-    page = None
-    return render_template('users.html', users=users, page=page)
+    return render_template('users.html', users=users)
+
+@app.route('/page/<page>')
+def page(page):
+
+    if page:
+        print(f"page값 : {page}")
+        send_users = []
+        for u in users:
+            if 10 * (int(page)-1) < int(u['id']) <= 10 * int(page):
+                send_users.append(u)
+        # print(send_users)
+        return render_template('users.html', users=send_users, page=page)
 
 if __name__ == "__main__":
     app.run(debug=True)

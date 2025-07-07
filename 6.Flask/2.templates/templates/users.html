@@ -7,8 +7,23 @@
 </head>
 <body>
     <!-- 이쁘게 사용자를 출력한다 -->
-     {% for u in users %}
-        {{ u }}<br>
-     {% endfor %}
+    {% if page %}
+        <h1>Page {{ page }}</h1>
+        {% if page and page|int > 1 %}
+        <!-- <a href="/?page={{page|int-1}}">Previous</a> page_getparam -->
+        <a href="/page/{{page|int-1}}">Previous</a> <!-- page_urlparam -->
+        {% endif %}
+        {% if page and 11 > page|int + 1 %}
+        <!-- <a href="/?page={{page|int+1}}">Next</a> page_getparam -->
+        <a href="/page/{{page|int+1}}">Next</a> <!-- page_urlparam -->
+        {% endif %}
+    {% else %}
+        <h1>All Users</h1>
+    {% endif %}
+    <ul>
+        {% for u in users %}
+        <li>{{ u.id }} - {{ u.name }} ({{ u.age }}세, {{ u.phone }})</li>
+        {% endfor %}
+    </ul>
 </body>
 </html>
