@@ -6,7 +6,7 @@ app = Flask(__name__)
 app.config['UPLOAD_FOLDER'] = 'uploads'
 app.config['ALLOWED_FILE_EXT'] = {'png', 'jpg', 'jpeg', 'gif', 'png'}
 app.config['MAX_CONTENT_LENGTH'] = 1 * 1024 * 1024 # 1MB
-# 참고 자료 : https://flask-docs-kr.readthedocs.io/ko/latest/patterns/fileuploads.html
+# 파일 업로드 참고 자료 : https://flask-docs-kr.readthedocs.io/ko/latest/patterns/fileuploads.html
 
 os.makedirs(app.config['UPLOAD_FOLDER'], exist_ok=True) # 시작할 때 폴더가 없으면 만들어줘, 이미 있으면 괜찮아!!
 
