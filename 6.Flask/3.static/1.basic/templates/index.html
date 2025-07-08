@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>인사 페이지</title>
+    <!-- <link rel="stylesheet" href="static/css/style.css"> --> <!-- 하드 코딩한 것 -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css')}}">
+</head>
+<body>
+    <h1>빈 페이지</h1>
+    <!-- <img src="static/img/cat.jpg" alt="고양이"> --> <!-- 하드 코딩한 것 -->
+    <img src="{{ url_for('static', filename='img/cat.jpg')}}" alt="고양이">
+    <script src="{{ url_for('static', filename='js/script.js')}}"></script>
+</body>
+</html>
