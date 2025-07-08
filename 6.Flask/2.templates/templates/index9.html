@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        th, td {
+            padding: 15px;
+            text-align: left;
+            border-bottom: 1px solid black;
+        }
+        th {
+            background-color: #ddd;
+        }
+        tr:hover {
+            background-color: #e6e6e6;
+        }
+    </style>
+</head>
+<body>
+    <h1>User Information</h1>
+    <form>
+        <input type="text" name="name" placeholder="Search name">
+        <input type="number" name="age" placeholder="Search age">
+        <input type="text" name="phone" placeholder="Search phone">
+        <input type="submit" value="Search">
+    </form>
+    <table>
+        <tr>
+            <th>Name</th>
+            <th>Age</th>
+            <th>Phone</th>
+        </tr>
+        {% for user in users %}
+        <tr>
+            <td>{{user['name']}}</td>
+            <td>{{user['age']}}</td>
+            <td>{{user['mobile']}}</td>
+        </tr>
+        {% endfor %}
+    </table>
+</body>
+</html>

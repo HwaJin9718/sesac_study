@@ -6,4 +6,7 @@ __pycache__/
 *.pyc
 
 # 5.Project 내 output 폴더 내 항목 제거
-output/
+**/output/*
+
+# 6.Flask 내 upload 폴더 내 항목 제거
+**/uploads/*
