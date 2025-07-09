@@ -49,14 +49,28 @@
                     const imageList = document.getElementById('imageList');
                     imageList.innerHTML = "";
 
-                    data[0].images.forEach(img => {
+                    data.images.forEach(img => {
                         console.log(img)
                         imageList.innerHTML += `<tr>
-                            <td><img src="${data[1].path}${img.filename}"></td>
+                            <td><img src="${data.path}${img.filename}"></td>
                             <td>${img.filename}</td>
-                            <td><input type="text" name="keywords" id="keywords" value="${img.keywords.join(',')}">
-                                <button onclick="location.href='/api/modify'">수정</button></td>
-                            <td><a href="/api/remove">삭제</a></td></tr>`
+                            <td>
+                                <form action="/api/modify" method="POST">
+                                    <input type="hidden" name="filename" value=${img.filename}>
+                                    <input type="text" name="keywords" id="keywords" value="${img.keywords.join(',')}">
+                                    <button type="submit">수정</button>
+                                </form>
+                            </td>
+                            <td><a href="/api/remove/${img.filename}">삭제</a></td></tr>`
+
+                    // data[0].images.forEach(img => {
+                    //     console.log(img)
+                    //     imageList.innerHTML += `<tr>
+                    //         <td><img src="${data[1].path}${img.filename}"></td>
+                    //         <td>${img.filename}</td>
+                    //         <td><input type="text" name="keywords" id="keywords" value="${img.keywords.join(',')}">
+                    //             <button onclick="location.href='/api/modify'">수정</button></td>
+                    //         <td><a href="/api/remove">삭제</a></td></tr>`
                     })
                 })
         })
