@@ -30,5 +30,26 @@ def search():
 
     return jsonify({"url": results}) # 순수 backend 개발자는 여기까지
 
+@app.route('/admin')
+def admin():
+    return send_from_directory(app.static_folder, 'admin.html')
+
+@app.route('/api/images')
+def get_images():
+    file_path = "static/img/"
+    return jsonify({"images": images}, {"path": file_path})
+
+@app.route('/api/upload', methods=["POST"])
+def upload():
+    return 'upload 호출'
+
+@app.route('/api/modify')
+def keywords_modify():
+    return 'modify 호출'
+
+@app.route('/api/remove')
+def remove():
+    return 'remove 호출'
+
 if __name__ == '__main__':
     app.run(debug=True)
