@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>admin</title>
+    <style>
+        table {
+            border: 1px solid;
+            border-collapse: collapse;
+        }
+        tr, th, td {
+            border: 1px solid;
+        }
+        img {
+            width: 200px;
+        }
+    </style>
+</head>
+<body>
+    <h1>이미지 업로드</h1>
+    <form action="/upload" method="POST" enctype="multipart/form-data">
+        <input type="file" name="file">
+        <label for="keywords">키워드 : </label>
+        <input type="text" name="keywords" id="keywords" placeholder="예: cat, animal">
+        <button type="submit">업로드</button>
+    </form>
+
+    <h2>이미지 목록</h2>
+    <table>
+        <tr>
+            <th>미리보기</th>
+            <th>파일명</th>
+            <th>키워드</th>
+            <th>삭제</th>
+        </tr>
+        {% for img in images %}
+        <tr>
+            <td><img src="{{ path }}{{ img.filename }}"></td>
+            <td>{{ img.filename }}</td>
+            <td><input type="text" name="keywords" id="keywords" value="{{ img.keywords|join(',') }}"><button onclick="location.href=`{{url_for('keywords_modify')}}`">수정</button></td>
+            <td><a href="/remove">삭제</a></td>
+        </tr>
+        {% endfor %}
+    </table>
+</body>
+</html>
