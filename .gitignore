@@ -10,3 +10,6 @@ __pycache__/
 
 # 6.Flask 내 upload 폴더 내 항목 제거
 **/uploads/*
+
+# JS - Naver로 DOM 제어 숙제 파일 - naver.html
+3.JS/2.Event/naver.html
