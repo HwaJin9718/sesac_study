@@ -4,6 +4,11 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
+    <style>
+        img {
+            width: 200px;
+        }
+    </style>
 </head>
 <body>
     <!-- 
@@ -16,22 +21,26 @@
     미션2-1. 품종 목록 get API 확인 - https://dog.ceo/api/breeds/list/all
     미션2-2. 품종 목록 출력 (동적 출력)
             힌트: 빈 SELECT를 만들어 두고, 받아온 breeds/list/all 을 받아와서 OPTIONS 로 채워준다.
-    미션2-3. 품종에 해당하는 강아지 이미지 출력 - https://dog.ceo/api/breed/{여기에 품종이 들어가야해!}/images
+    미션2-3. 품종에 해당하는 강아지 이미지 출력 - https://dog.ceo/api/breed/{품종}/images
 
-    미션3-1. 서브카테고리까지 처리 (동적 출력)
+    미션3-1. 서브카테고리까지 처리 (동적 출력) - https://dog.ceo/api/breed/{품종}/list
+            서브 카테고리 이미지 출력 - https://dog.ceo/api/breed/{품종}/{서브 품종}/images
     미션3-2. UX적으로 불편한점 찾기!
     -->
     <button id="image">이미지 요청</button>
-    <button id="breed">품종 목록 요청</button>
     <div id="result"></div>
+    <button id="breed">품종 목록 요청</button>
     <div id="breed_list"></div>
+    <div id="breed_result"></div>
 
     <script>
+        // 품종 요청
         document.getElementById('breed').addEventListener('click', () => {
             console.log('품종 목록 요청 버튼클릭')
             fetch('https://dog.ceo/api/breeds/list/all')
                 .then(response => response.json())
                 .then(list => {
+                    console.log(list.message)
                     // console.log(Object.keys(list.message))
                     breeds = Object.keys(list.message)
                     // console.log(breeds)
@@ -39,15 +48,68 @@
                     document.getElementById('breed_list').innerHTML += `<select id="breed_select"></select>`
                     
                     for (let i = 0; i < breeds.length; i++) {
-                        document.getElementById('breed_select').innerHTML += `<option id="select${[i]}" value="${breeds[i]}">${breeds[i]}</option>`
+                        document.getElementById('breed_select').innerHTML += `<option value="${breeds[i]}">${breeds[i]}</option>`
                     }
+
+                    // 특정 품종에 대한 서브 품종 요청
+                    document.getElementById('breed_select').addEventListener('change', (breed) => {
+
+                        fetch(`https://dog.ceo/api/breed/${breed.target.value}/list`)
+                            .then(response => response.json())
+                            .then(sub_breeds => {
+
+                                if (sub_breeds.message.length > 0) {
+
+                                    console.log(sub_breeds.message) // 리스트 형태로 반환
+                                    document.getElementById('breed_list').innerHTML += `<select id="sub_breed_select"></select>`
+                                    
+                                    for (let i = 0; i < sub_breeds.message.length; i++) {
+                                        console.log(sub_breeds.message[i])
+                                        document.getElementById('sub_breed_select').innerHTML += `<option value="${sub_breeds.message[i]}">${sub_breeds.message[i]}</option>`
+                                    }
+
+                                    // 서브 품종에 대한 이미지 요청
+                                    document.getElementById('sub_breed_select').addEventListener('change', (sub_breed) => {
+                                        // console.log(breed.target.value)
+                                        // console.log(sub_breed.target.value)
+                                        fetch(`https://dog.ceo/api/breed/${breed.target.value}/${sub_breed.target.value}/images`)
+                                            .then(response => response.json())
+                                            .then(images => {
+                                                console.log(images)
+                                                console.log(images.message.length)
+    
+                                                for (let i = 0; i < images.message.length; i++) {
+                                                    document.getElementById('breed_result').innerHTML += `<img src="${images.message[i]}">`
+                                                }
+                                            })
+                                    })
+
+                                } else {
+
+                                    // 품종에 대한 이미지 처리
+                                    // console.log('select 클릭 인식')
+                                    // console.log(breed.target.value)
+                                    fetch(`https://dog.ceo/api/breed/${breed.target.value}/images`)
+                                        .then(response => response.json())
+                                        .then(images => {
+                                            // console.log(images)
+                                            // console.log(images.message.length)
+                                            for (let i = 0; i < images.message.length; i++) {
+                                                // console.log(i)
+                                                document.getElementById('breed_result').innerHTML += `<img src="${images.message[i]}">`
+                                            }
+                                        })
+
+                                }
+                                
+                            })
+
+                    })
                     
                 })
         })
 
-        // 클릭하면 그 아이디에 해당하는 value를 가져와야하는데....
-        // document.getElementById
-
+        // 이미지 요청
         document.getElementById('image').addEventListener('click', () => {
             console.log('이미지 요청 버튼클릭')
             fetch('https://dog.ceo/api/breeds/image/random')
