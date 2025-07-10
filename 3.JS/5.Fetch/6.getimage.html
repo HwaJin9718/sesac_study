@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <!-- 
+    https://dog.ceo/
+    미션1-1. 버튼 및 결과 출력 공간 생성
+    미션1-2. 버튼 클릭 시 하기 사이트에 이미지 요청
+        https://dog.ceo/api/breeds/image/random
+    미션1-3. 받아온 결과를 결과 출력 공간에 이미지 출력
+
+    미션2-1. 품종 목록 get API 확인 - https://dog.ceo/api/breeds/list/all
+    미션2-2. 품종 목록 출력 (동적 출력)
+            힌트: 빈 SELECT를 만들어 두고, 받아온 breeds/list/all 을 받아와서 OPTIONS 로 채워준다.
+    미션2-3. 품종에 해당하는 강아지 이미지 출력 - https://dog.ceo/api/breed/{여기에 품종이 들어가야해!}/images
+
+    미션3-1. 서브카테고리까지 처리 (동적 출력)
+    미션3-2. UX적으로 불편한점 찾기!
+    -->
+    <button id="image">이미지 요청</button>
+    <button id="breed">품종 목록 요청</button>
+    <div id="result"></div>
+    <div id="breed_list"></div>
+
+    <script>
+        document.getElementById('breed').addEventListener('click', () => {
+            console.log('품종 목록 요청 버튼클릭')
+            fetch('https://dog.ceo/api/breeds/list/all')
+                .then(response => response.json())
+                .then(list => {
+                    // console.log(Object.keys(list.message))
+                    breeds = Object.keys(list.message)
+                    // console.log(breeds)
+
+                    document.getElementById('breed_list').innerHTML += `<select id="breed_select"></select>`
+                    
+                    for (let i = 0; i < breeds.length; i++) {
+                        document.getElementById('breed_select').innerHTML += `<option id="select${[i]}" value="${breeds[i]}">${breeds[i]}</option>`
+                    }
+                    
+                })
+        })
+
+        // 클릭하면 그 아이디에 해당하는 value를 가져와야하는데....
+        // document.getElementById
+
+        document.getElementById('image').addEventListener('click', () => {
+            console.log('이미지 요청 버튼클릭')
+            fetch('https://dog.ceo/api/breeds/image/random')
+                .then(response => response.json())
+                .then(img => {
+                    document.getElementById('result').innerHTML = `<img src="${img.message}">`
+                })
+        })
+    </script>
+</body>
+</html>

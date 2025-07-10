@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <h1>랜덤 강아지 사진</h1>
+    <button id="fetch">사진 가져오기</button>
+    <div id="image"></div>
+
+    <script>
+        document.getElementById('fetch').addEventListener('click', () => {
+            fetch('https://dog.ceo/api/breeds/image/random')
+                .then(response => response.json())
+                .then(data => {
+                    // console.log(data);
+                    const img_url = data.message;
+                    const img_div = document.getElementById('image');
+                    img_div.innerHTML = `<img src="${img_url}" alt="랜덤 강아지 사진">`
+
+                    // const img = document.createElement('img');
+                    // img.src = img_url;
+                    // img.alt = "랜덤 강아지 사진"
+                    // img_div.appendChild(img);
+                });
+        });
+    </script>
+</body>
+</html>

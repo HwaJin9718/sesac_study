@@ -13,12 +13,10 @@
     <script>
         document.getElementById('load').addEventListener('click', () => {
             console.log('버튼 클릭 감지');
-            // 외부에 요청하겠어 : 이전에 xml-http-request 방식으로 복잡하게 요청
-            // jquery -> Ajax -> fetch => 요즘에는 fetch 사용
             // fetch('http://127.0.0.1:5000/data')
-            fetch('http://127.0.0.1:5000/api/search?q=dog')
+            fetch('http://127.0.0.1:5000/api/search?q=dog') // 동일한 SOP 라 CORS 불필요
+            // fetch('http://localhost:5000/api/search?q=dog') // 이렇게 하면 SOP가 달라지기 때문에 CORS 설정 필요
                 .then(response => {
-                    console.log("일단 응답 왔음")
                     if (!response.ok) {
                         throw new Error("네트워크 오류??");
                     }
@@ -31,7 +29,6 @@
                 .catch(error => { // 위의 then, then 등의 구문 중 발생한 오류를 error 변수로 받아줌
                     console.error(`오류가 났음: `,error);
                 });
-            console.log("fetch 요청 이후")
         })
     </script>
 </body>
