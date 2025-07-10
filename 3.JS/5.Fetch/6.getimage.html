@@ -27,13 +27,189 @@
             서브 카테고리 이미지 출력 - https://dog.ceo/api/breed/{품종}/{서브 품종}/images
     미션3-2. UX적으로 불편한점 찾기!
     -->
-    <button id="image">이미지 요청</button>
-    <div id="result"></div>
-    <button id="breed">품종 목록 요청</button>
-    <div id="breed_list"></div>
-    <div id="breed_result"></div>
+    <h1>강아지 이미지 검색</h1>
+
+    <div>
+        <h2>랜덤 이미지</h2>
+        <button id="image">이미지 요청</button>
+        <div id="result"></div>
+    </div>
+
+    <div>
+        <h2>품종 별 이미지</h2>
+        <button id="breed">품종 목록 요청</button>
+        <button id="clear">결과 초기화</button>
+        <div id="breed_list"></div>
+        <div id="breed_result"></div>
+    </div>
 
     <script>
+        // 전역 변수 선언
+        let currentBreed = null;
+        let currentSubBreed = null;
+
+        // 품종 목록 요청 함수
+        function getBreedList() {
+            console.log('품종 목록 요청 버튼 클릭')
+
+            fetch('https://dog.ceo/api/breeds/list/all')
+                .then(response => response.json())
+                .then(list => {
+                    console.log(list.message);
+                    const breeds = Object.keys(list.message);
+                    createBreedsSelector(breeds);
+                })
+        }
+
+        // 품종 select option 생성 함수
+        function createBreedsSelector(breeds) {
+            let selectHTML = '<select id="breed_select">';
+            selectHTML += '<option value="">품종을 선택하세요</option>';
+
+            for (let i = 0; i < breeds.length; i++) {
+                selectHTML += `<option value="${breeds[i]}">${breeds[i]}</option>`
+            }
+            selectHTML += '</select>'
+
+            document.getElementById('breed_list').innerHTML = selectHTML;
+        }
+
+        // 품종 선택 처리 함수
+        function handleBreedSelection(selectedBreed) {
+            console.log('선택된 품종: ', selectedBreed);
+            currentBreed = selectedBreed;
+
+            removeSubBreedSelector(); // 서브 품종 선택 있을 경우 제거
+
+            document.getElementById('breed_result').innerHTML = ''; // 이미지 조회 결과 초기화
+
+            // 서브 품종 체크
+            getSubBreeds(selectedBreed)
+        }
+
+        // 서브 품종 목록 요청 함수
+        function getSubBreeds(breed) {
+            fetch(`https://dog.ceo/api/breed/${breed}/list`)
+                .then(response => response.json())
+                .then(sub_breeds => {
+                    if (sub_breeds.message.length > 0) { // 서브 품종이 있을 경우 서브품종 select option 생성 함수 호출
+                        createSubBreedSelector(sub_breeds.message)
+                    } else { // 서브 품종이 없을 경우 검색한 결과 이미지 표시
+                        showBreedImages(breed);
+                    }
+                })
+        }
+
+        // 서브품종 select option 생성 함수
+        function createSubBreedSelector(sub_breeds) {
+            let selectHTML = '<select id="sub_breed_select">';
+            selectHTML += '<option value="">서브 품종을 선택하세요</option>';
+
+            for (let i = 0; i < sub_breeds.length; i++) {
+                selectHTML += `<option value="${sub_breeds[i]}">${sub_breeds[i]}</option>`
+            }
+            selectHTML += '</select>'
+
+            document.getElementById('breed_list').innerHTML += selectHTML; // 기존 품종 선택기 뒤에 추가
+        }
+
+        // 서브 품종 선택 처리 함수
+        function handleSubBreedSelection(selectedSubBreed) {
+            console.log('선택된 서브 품종: ', selectedSubBreed);
+            currentSubBreed = selectedSubBreed;
+
+            document.getElementById('breed_result').innerHTML = ''; // 이미지 조회 결과 초기화
+
+            // 서브 품종 이미지 표시 함수 호출
+            showSubBreedImages(currentBreed, currentSubBreed)
+        }
+
+        // 품종 이미지 출력 함수
+        function showBreedImages(breed) {
+            fetch(`https://dog.ceo/api/breed/${breed}/images`)
+                .then(response => response.json())
+                .then(images => {
+                    console.log('이미지 개수 : ', images.message.length);
+                    displayImages(images.message)
+                })
+        }
+
+        // 서브 품종 이미지 출력 함수
+        function showSubBreedImages(breed, subBreed) {
+            fetch(`https://dog.ceo/api/breed/${breed}/${subBreed}/images`)
+                .then(response => response.json())
+                .then(images => {
+                    console.log('이미지 개수 : ', images.message.length);
+                    displayImages(images.message)
+                })
+        }
+
+        // 이미지 출력 함수
+        function displayImages(imageList) {
+            let imageHTML = '';
+
+            for (let i = 0; i < imageList.length; i++) {
+                imageHTML += `<img src="${imageList[i]}">`
+            }
+
+            document.getElementById('breed_result').innerHTML = imageHTML
+        }
+
+        // 서브 품종 선택 있을 경우 제거
+        function removeSubBreedSelector() {
+            const subBreedSelect = document.getElementById('sub_breed_select')
+            if (subBreedSelect) {
+                subBreedSelect.remove();
+            }
+        }
+
+        // 검색 결과 초기화
+        function clearResults() {
+            document.getElementById('breed_list').innerHTML = '';
+            document.getElementById('breed_result').innerHTML = '';
+            document.getElementById('result').innerHTML = '';
+            currentBreed = null;
+            currentSubBreed = null;
+        }
+
+        // 랜덤 이미지 요청 함수
+        function getRandomImage() {
+            fetch('https://dog.ceo/api/breeds/image/random')
+                .then(response => response.json())
+                .then(img => {
+                    document.getElementById('result').innerHTML = `<img src="${img.message}">`
+                })
+        }
+
+        // click 이벤트 위임
+        document.addEventListener('click', function(e) {
+            if (e.target.id === 'image') {
+                getRandomImage();
+            } else if (e.target.id === 'breed') {
+                getBreedList();
+            } else if (e.target.id === 'clear') {
+                clearResults();
+            }
+        })
+        // change 이벤트 위임
+        document.addEventListener('change', function(e) {
+            if (e.target.id === 'breed_select') {
+                // 품종이 변경 되었을 때
+                const selectedBreed = e.target.value;
+                if (selectedBreed) {
+                    handleBreedSelection(selectedBreed)
+                }
+            } else if (e.target.id === 'sub_breed_select') {
+                // 서브 품종이 변경 되었을 때
+                const selectedSubBreed = e.target.value;
+                if (selectedSubBreed) {
+                    handleSubBreedSelection(selectedSubBreed)
+                }
+            }
+        })
+    </script>
+
+    <!-- <script> // 리펙토링 전
         // 품종 요청
         document.getElementById('breed').addEventListener('click', () => {
             console.log('품종 목록 요청 버튼클릭')
@@ -118,6 +294,6 @@
                     document.getElementById('result').innerHTML = `<img src="${img.message}">`
                 })
         })
-    </script>
+    </script> -->
 </body>
 </html>
