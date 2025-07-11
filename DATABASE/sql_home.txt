@@ -1,0 +1,160 @@
+1. non_usa_customers.sql: 미국에 거주하지 않는 고객(전체 이름, 고객 ID 및 국가)을 표시하는 쿼리를 제공합니다.
+1. non_usa_customers.sql: Provide a query showing Customers (just their full names, customer ID and country) who are not in the US.
+- 확인 테이블 : customers
+
+SELECT CONCAT(FirstName, ' ', LastName) AS FullName, CustomerId, Country FROM customers WHERE Country != "USA";
+SELECT FirstName||' '||LastName AS FullName, CustomerId, Country FROM customers WHERE Country != "USA";
+
+====================
+2. brazil_customers.sql: 브라질 고객만 표시하는 쿼리를 제공합니다.
+2. brazil_customers.sql: Provide a query only showing the Customers from Brazil.
+- 확인 테이블 : customers
+
+SELECT * FROM customers WHERE country = "Brazil";
+SELECT FirstName||' '||LastName AS FullName, CustomerId, Country FROM customers WHERE country = "Brazil"; -> 조금 더 예쁘게 출력
+
+====================
+3. brazil_customers_invoices.sql: 브라질 고객의 송장을 보여주는 쿼리를 제공합니다. 결과 테이블에는 고객의 전체 이름, 송장 ID, 송장 날짜 및 청구 국가가 표시되어야 합니다.
+3. brazil_customers_invoices.sql: Provide a query showing the Invoices of customers who are from Brazil. The resultant table should show the customer's full name, Invoice ID, Date of the invoice and billing country.
+- 확인 테이블 : customers // invoices
+
+SELECT customers.FirstName||' '||customers.LastName AS FullName, invoices.InvoiceId, invoices.InvoiceDate, invoices.BillingCountry FROM customers LEFT JOIN invoices ON invoices.CustomerId = customers.CustomerId Where customers.Country = 'Brazil';
+
+SELECT c.FirstName||' '||c.LastName AS FullName, i.InvoiceId, i.InvoiceDate, i.BillingCountry FROM customers c LEFT JOIN invoices i ON i.CustomerId = c.CustomerId Where c.Country = 'Brazil';
+
+====================
+4. sales_agents.sql: 판매 대리인인 직원만 표시하는 쿼리를 제공하십시오. (해설: 직원의 타이틀에 Sales 가 포함된 모든 직원을 의미함)
+4. sales_agents.sql: Provide a query showing only the Employees who are Sales Agents.
+- 확인 테이블 : employees
+
+SELECT * FROM employees WHERE Title LIKE "Sales%";
+
+====================
+5. unique_invoice_countries.sql: 송장 테이블에서 청구 국가의 고유/고유 목록을 표시하는 쿼리를 제공합니다.
+5. unique_invoice_countries.sql: Provide a query showing a unique/distinct list of billing countries from the Invoice table.
+- 확인 테이블 : invoices
+
+SELECT DISTINCT BillingCountry FROM invoices;
+
+====================
+6. sales_agent_invoices.sql: 각 판매 에이전트와 연결된 송장을 표시하는 쿼리를 제공합니다. 결과 테이블에는 영업 에이전트의 전체 이름이 포함되어야 합니다.
+6. sales_agent_invoices.sql: Provide a query that shows the invoices associated with each sales agent. The resultant table should include the Sales Agent's full name.
+- 확인 테이블 : employees, invoices, customers
+
+====================
+7. invoice_totals.sql: 모든 송장 및 고객에 대한 송장 합계, 고객 이름, 국가 및 판매 대리점 이름을 표시하는 쿼리를 제공합니다.
+7. invoice_totals.sql: Provide a query that shows the Invoice Total, Customer name, Country and Sale Agent name for all invoices and customers.
+- 확인 테이블 : 
+
+====================
+8. total_invoices_{year}.sql: 2009년과 2011년에 몇 개의 인보이스가 있었습니까?
+8. total_invoices_{year}.sql: How many Invoices were there in 2009 and 2011?
+- 확인 테이블 : 
+
+====================
+9. total_sales_{year}.sql: 각 연도의 총 매출은 얼마입니까?
+9. total_sales_{year}.sql: What are the respective total sales for each of those years?
+- 확인 테이블 : 
+
+====================
+10. invoice_37_line_item_count.sql: InvoiceLine 테이블을 보고 Invoice ID 37에 대한 라인 항목 수를 계산하는 쿼리를 제공합니다.
+10. invoice_37_line_item_count.sql: Looking at the InvoiceLine table, provide a query that COUNTs the number of line items for Invoice ID 37.
+- 확인 테이블 : 
+
+====================
+11. line_items_per_invoice.sql: InvoiceLine 테이블을 보고 각 Invoice에 대한 라인 항목 수를 계산하는 쿼리를 제공합니다. 힌트: 그룹화 기준
+11. line_items_per_invoice.sql: Looking at the InvoiceLine table, provide a query that COUNTs the number of line items for each Invoice. HINT: GROUP BY
+- 확인 테이블 : 
+
+====================
+12. line_item_track.sql: 각 송장 라인 항목에 구매한 트랙 이름을 포함하는 쿼리를 제공합니다.
+12. line_item_track.sql: Provide a query that includes the purchased track name with each invoice line item.
+- 확인 테이블 : 
+
+====================
+13. line_item_track_artist.sql: 구매한 트랙 이름과 아티스트 이름을 포함하는 쿼리를 각 송장 라인 항목과 함께 제공합니다.
+13. line_item_track_artist.sql: Provide a query that includes the purchased track name AND artist name with each invoice line item.
+- 확인 테이블 : 
+
+====================
+14. country_invoices.sql: 국가별 송장 수를 표시하는 쿼리를 제공합니다. 힌트: 그룹화 기준
+14. country_invoices.sql: Provide a query that shows the # of invoices per country. HINT: GROUP BY
+- 확인 테이블 : 
+
+====================
+15. playlists_track_count.sql: 각 재생 목록의 총 트랙 수를 표시하는 쿼리를 제공합니다. 재생 목록 이름은 결과 테이블에 포함되어야 합니다.
+15. playlists_track_count.sql: Provide a query that shows the total number of tracks in each playlist. The Playlist name should be include on the resulant table.
+- 확인 테이블 : 
+
+====================
+16. Tracks_no_id.sql: 모든 트랙을 표시하지만 ID는 표시하지 않는 쿼리를 제공합니다. 결과에는 앨범 이름, 미디어 유형 및 장르가 포함되어야 합니다.
+16. tracks_no_id.sql: Provide a query that shows all the Tracks, but displays no IDs. The result should include the Album name, Media type and Genre.
+- 확인 테이블 : 
+
+====================
+17. invoices_line_item_count.sql: 모든 송장을 표시하지만 송장 라인 항목의 수를 포함하는 쿼리를 제공합니다.
+17. invoices_line_item_count.sql: Provide a query that shows all Invoices but includes the # of invoice line items.
+- 확인 테이블 : 
+
+====================
+18. sales_agent_total_sales.sql: 판매 대리점별 총 매출을 조회하는 쿼리를 제공한다.
+18. sales_agent_total_sales.sql: Provide a query that shows total sales made by each sales agent.
+- 확인 테이블 : 
+
+====================
+19. top_2009_agent.sql: 2009년 가장 많은 매출을 올린 판매원은?
+힌트: 하위 쿼리에서 MAX 함수를 사용하십시오.
+19. top_2009_agent.sql: Which sales agent made the most in sales in 2009?
+    Hint: Use the MAX function on a subquery. 
+- 확인 테이블 : 
+
+====================
+20. top_agent.sql: 전체 판매 실적이 가장 많은 판매 대리점은?
+20. top_agent.sql: Which sales agent made the most in sales over all?
+- 확인 테이블 : 
+
+====================
+21. sales_agent_customer_count.sql: 각 판매 대리점에 할당된 고객 수를 보여주는 쿼리를 제공한다.
+21. sales_agent_customer_count.sql: Provide a query that shows the count of customers assigned to each sales agent.
+- 확인 테이블 : 
+
+====================
+22. sales_per_country.sql: 국가별 총 매출을 보여주는 쿼리를 제공한다.
+22. sales_per_country.sql: Provide a query that shows the total sales per country.
+- 확인 테이블 : 
+
+====================
+23. top_country.sql: 고객이 가장 많이 지출한 국가는 어디입니까?
+23. top_country.sql: Which country's customers spent the most?
+- 확인 테이블 : 
+
+====================
+24. top_2013_track.sql: 2013년 가장 많이 구매한 트랙을 보여주는 쿼리를 제공합니다.
+24. top_2013_track.sql: Provide a query that shows the most purchased track of 2013.
+- 확인 테이블 : 
+
+====================
+25. top_5_tracks.sql: 가장 많이 구매한 상위 5곡을 보여주는 쿼리를 제공합니다.
+25. top_5_tracks.sql: Provide a query that shows the top 5 most purchased songs.
+- 확인 테이블 : 
+
+====================
+26. top_3_artists.sql: 가장 많이 팔린 3명의 아티스트를 보여주는 쿼리를 제공합니다.
+26. top_3_artists.sql: Provide a query that shows the top 3 best selling artists.
+- 확인 테이블 : 
+
+====================
+27. top_media_type.sql: 가장 많이 구매한 Media Type을 보여주는 쿼리를 제공한다.
+27. top_media_type.sql: Provide a query that shows the most purchased Media Type.
+- 확인 테이블 : 
+
+====================
+1. 특정 사용자가 주문한 주문 목록을 모두 출력하시오
+2. 나이가 20대인 사용자만 출력하시오
+3. 특정 사용자가 주문한 상점명과 상품명을 모두 출력하시오
+4. 특정 사용자가 주문한 유닉한 상품명의 목록을 구하시오
+5. 특정 사용자가 주문한 매출액의 합산을 구하시오
+6. 상점별 월간 통계(매출액)을 구하시오
+7. 특정 사용자가 방문한 상점의 빈도가 높은 순서대로 소팅하여 상위 5개만 구하시오
+8. 구매한 매출액의 합산이 가장 높은 사용자 10명을 구하고 각각의 매출액을 구하시오
+그 외에도 남여 성별로, 나이별로, 생일별로, 지역별로 등등 다양한 통계 구해보기
