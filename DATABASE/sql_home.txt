@@ -3,6 +3,7 @@
 - 확인 테이블 : customers
 
 SELECT CONCAT(FirstName, ' ', LastName) AS FullName, CustomerId, Country FROM customers WHERE Country != "USA";
+
 SELECT FirstName||' '||LastName AS FullName, CustomerId, Country FROM customers WHERE Country != "USA";
 
 ====================
@@ -11,6 +12,7 @@ SELECT FirstName||' '||LastName AS FullName, CustomerId, Country FROM customers 
 - 확인 테이블 : customers
 
 SELECT * FROM customers WHERE country = "Brazil";
+
 SELECT FirstName||' '||LastName AS FullName, CustomerId, Country FROM customers WHERE country = "Brazil"; -> 조금 더 예쁘게 출력
 
 ====================
@@ -41,30 +43,49 @@ SELECT DISTINCT BillingCountry FROM invoices;
 6. sales_agent_invoices.sql: Provide a query that shows the invoices associated with each sales agent. The resultant table should include the Sales Agent's full name.
 - 확인 테이블 : employees, invoices, customers
 
+SELECT e.FirstName || ' ' || e.LastName AS FullName, e.Title, i.InvoiceId FROM employees e LEFT JOIN customers c ON e.EmployeeId = c.SupportRepId LEFT JOIN invoices i ON c.CustomerId = i.CustomerId WHERE Title LIKE "Sales%";
+-> LEFT JOIN -> 담당 고객이 없는 직원도 포함됨 -> 원하는 결과값 아님
+
+SELECT e.FirstName || ' ' || e.LastName AS FullName, e.Title, i.InvoiceId FROM employees e INNER JOIN customers c ON e.EmployeeId = c.SupportRepId INNER JOIN invoices i ON c.CustomerId = i.CustomerId WHERE Title LIKE "Sales%";
+-> INNER JOIN -> 담당 고객이 없는 직원은 제외 -> 원하는 결과값
+
 ====================
 7. invoice_totals.sql: 모든 송장 및 고객에 대한 송장 합계, 고객 이름, 국가 및 판매 대리점 이름을 표시하는 쿼리를 제공합니다.
 7. invoice_totals.sql: Provide a query that shows the Invoice Total, Customer name, Country and Sale Agent name for all invoices and customers.
-- 확인 테이블 : 
+- 확인 테이블 : invoices, customers, employees
+
+select INV.InvoiceId, CUS.FirstName || ' ' || CUS.LastName as CUSFullName, CUS.Country, EMP.FirstName || ' ' || EMP.LastName as EMPFullName from invoices INV inner join customers CUS on INV.CustomerId = CUS.CustomerId inner join employees EMP on CUS.SupportRepId = EMP.EmployeeId order by INV.InvoiceId ASC;
 
 ====================
 8. total_invoices_{year}.sql: 2009년과 2011년에 몇 개의 인보이스가 있었습니까?
 8. total_invoices_{year}.sql: How many Invoices were there in 2009 and 2011?
-- 확인 테이블 : 
+- 확인 테이블 : invoices
+
+select count(InvoiceDate)
+from invoices where InvoiceDate like '2009%' or InvoiceDate like '2011%'; -> 2009년 2011년 전체 invoices 조회
+
+select strftime('%Y', InvoiceDate) as year, count(InvoiceDate) as count from invoices where InvoiceDate like '2009%' or InvoiceDate like '2011%' GROUP BY strftime('%Y', InvoiceDate); -> 2009년 2011년 각각 count 출력
 
 ====================
 9. total_sales_{year}.sql: 각 연도의 총 매출은 얼마입니까?
 9. total_sales_{year}.sql: What are the respective total sales for each of those years?
-- 확인 테이블 : 
+- 확인 테이블 : invoices
+
+select strftime('%Y', InvoiceDate), sum(Total) from invoices group by strftime('%Y', InvoiceDate);
 
 ====================
 10. invoice_37_line_item_count.sql: InvoiceLine 테이블을 보고 Invoice ID 37에 대한 라인 항목 수를 계산하는 쿼리를 제공합니다.
 10. invoice_37_line_item_count.sql: Looking at the InvoiceLine table, provide a query that COUNTs the number of line items for Invoice ID 37.
-- 확인 테이블 : 
+- 확인 테이블 : invoice_items
+
+select count(*) from invoice_items where InvoiceId = 37;
 
 ====================
 11. line_items_per_invoice.sql: InvoiceLine 테이블을 보고 각 Invoice에 대한 라인 항목 수를 계산하는 쿼리를 제공합니다. 힌트: 그룹화 기준
 11. line_items_per_invoice.sql: Looking at the InvoiceLine table, provide a query that COUNTs the number of line items for each Invoice. HINT: GROUP BY
-- 확인 테이블 : 
+- 확인 테이블 : invoice_items
+
+select InvoiceId, count(*) from invoice_items group by InvoiceId;
 
 ====================
 12. line_item_track.sql: 각 송장 라인 항목에 구매한 트랙 이름을 포함하는 쿼리를 제공합니다.
