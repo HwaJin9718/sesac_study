@@ -90,32 +90,44 @@ select InvoiceId, count(*) from invoice_items group by InvoiceId;
 ====================
 12. line_item_track.sql: 각 송장 라인 항목에 구매한 트랙 이름을 포함하는 쿼리를 제공합니다.
 12. line_item_track.sql: Provide a query that includes the purchased track name with each invoice line item.
-- 확인 테이블 : 
+- 확인 테이블 : invoice_items, tracks
+
+select INV_IT.InvoiceLineId, TRA.Name from invoice_items INV_IT left join tracks TRA on INV_IT.TrackId = TRA.TrackId order by INV_IT.InvoiceLineId;
 
 ====================
 13. line_item_track_artist.sql: 구매한 트랙 이름과 아티스트 이름을 포함하는 쿼리를 각 송장 라인 항목과 함께 제공합니다.
 13. line_item_track_artist.sql: Provide a query that includes the purchased track name AND artist name with each invoice line item.
-- 확인 테이블 : 
+- 확인 테이블 : invoice_items, tracks, albums, artists
+
+select INV_IT.InvoiceLineId, TRA.Name, ART.Name from invoice_items INV_IT left join tracks TRA on INV_IT.TrackId = TRA.TrackId left join albums ALB on TRA.AlbumId = ALB.AlbumId left join artists ART on ALB.ArtistId = ART.ArtistId order by INV_IT.InvoiceLineId;
 
 ====================
 14. country_invoices.sql: 국가별 송장 수를 표시하는 쿼리를 제공합니다. 힌트: 그룹화 기준
 14. country_invoices.sql: Provide a query that shows the # of invoices per country. HINT: GROUP BY
-- 확인 테이블 : 
+- 확인 테이블 : invoices
+
+select BillingCountry, count(*) from invoices group by BillingCountry;
 
 ====================
 15. playlists_track_count.sql: 각 재생 목록의 총 트랙 수를 표시하는 쿼리를 제공합니다. 재생 목록 이름은 결과 테이블에 포함되어야 합니다.
 15. playlists_track_count.sql: Provide a query that shows the total number of tracks in each playlist. The Playlist name should be include on the resulant table.
-- 확인 테이블 : 
+- 확인 테이블 : playlists, playlist_track
+
+select PL.Name, count(PLK.TrackId) as Track_Count from playlists PL left join playlist_track PLK on Pl.PlaylistId = PLK.PlaylistId group by PL.PlaylistId;
 
 ====================
 16. Tracks_no_id.sql: 모든 트랙을 표시하지만 ID는 표시하지 않는 쿼리를 제공합니다. 결과에는 앨범 이름, 미디어 유형 및 장르가 포함되어야 합니다.
 16. tracks_no_id.sql: Provide a query that shows all the Tracks, but displays no IDs. The result should include the Album name, Media type and Genre.
-- 확인 테이블 : 
+- 확인 테이블 : tracks, albums, media_types, genres
+
+select TRA.Name, ALB.Title, METY.Name, GEN.Name, TRA.Composer, TRA.Milliseconds, TRA.Bytes, TRA.UnitPrice from tracks TRA left join albums ALB on TRA.AlbumId = ALB.AlbumId left join media_types METY on TRA.MediaTypeId = METY.MediaTypeId left join genres GEN on TRA.GenreId = GEN.GenreId;
 
 ====================
 17. invoices_line_item_count.sql: 모든 송장을 표시하지만 송장 라인 항목의 수를 포함하는 쿼리를 제공합니다.
 17. invoices_line_item_count.sql: Provide a query that shows all Invoices but includes the # of invoice line items.
-- 확인 테이블 : 
+- 확인 테이블 : invoices, invoice_items
+
+select INV.InvoiceId, INV.CustomerId, INV.InvoiceDate, INV.BillingAddress, INV.BillingCity, INV.BillingState, INV.BillingCountry, INV.BillingPostalCode, INV.Total, count(INV_IT.InvoiceLineId) as Count from invoice_items INV_IT left join invoices INV on INV_IT.InvoiceId = INV.InvoiceId group by INV.InvoiceId;
 
 ====================
 18. sales_agent_total_sales.sql: 판매 대리점별 총 매출을 조회하는 쿼리를 제공한다.
