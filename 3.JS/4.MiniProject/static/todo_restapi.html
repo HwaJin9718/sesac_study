@@ -7,14 +7,40 @@
 </head>
 <body>
     <h1>ToDo List</h1>
-    <input type="text" id="userInput" placeholder="할 일 추가하기">
-    <button id="addTodo">추가</button>
+    <form action="/addTodo" method="POST">
+        <label for="userInput"></label>
+        <input type="text" name="userInput" id="userInput" placeholder="할 일 추가하기">
+        <button type="submit" id="addTodo">추가</button>
+    </form>
     <ul id="todoList"><!-- 할일이 추가될 곳--></ul>
 
     <script>
-        const userInput = document.getElementById('userInput')
         const todoList = document.getElementById('todoList');
         const addTodo = document.getElementById('addTodo');
+
+        // DOM 구성 시 자동 호출
+        document.addEventListener('DOMContentLoaded', function() {
+            fetch(`/getTodo`)
+                .then(response => response.json())
+                .then(data => {
+                    console.log('data 값 : ', data)
+                    todoList.innerHTML = "";
+
+                    data.forEach(todo => {
+                        console.log('todo값 : ', todo.todos)
+
+                        // 새로운 li 및 삭제 버튼 만들기
+                        const new_li = document.createElement('li');
+                        new_li.textContent = todo.todos;
+                        const del_btn = document.createElement('button');
+                        del_btn.textContent = '삭제';
+                        del_btn.setAttribute("class", "delBtn");
+                        new_li.appendChild(del_btn);
+                        todoList.appendChild(new_li);
+
+                    });
+                })
+        })
         
         // 클릭으로 추가 시
         addTodo.addEventListener('click', function() {
@@ -37,14 +63,6 @@
                 body: JSON.stringify(newTodo)
             })
 
-            // 새로운 li 및 삭제 버튼 만들기
-            const new_li = document.createElement('li');
-            new_li.textContent = userInput;
-            const del_btn = document.createElement('button');
-            del_btn.textContent = '삭제';
-            del_btn.setAttribute("class", "delBtn");
-            new_li.appendChild(del_btn);
-            todoList.appendChild(new_li);
         });
 
         // 엔터로 추가 시
@@ -70,14 +88,6 @@
                 body: JSON.stringify(newTodo)
             })
 
-                // 새로운 li 및 삭제 버튼 만들기
-                const new_li = document.createElement('li');
-                new_li.textContent = userInput;
-                const del_btn = document.createElement('button');
-                del_btn.textContent = '삭제';
-                // del_btn.setAttribute("class", "delBtn");
-                new_li.appendChild(del_btn);
-                todoList.appendChild(new_li);
             }
         });
 
