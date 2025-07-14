@@ -17,3 +17,8 @@ __pycache__/
 # DB 파일 git 미등록
 *.db
 *.csv
+*.sqlite
+*.sqlite3
+
+# 민감정보
+.env
