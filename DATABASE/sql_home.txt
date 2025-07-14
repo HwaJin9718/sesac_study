@@ -377,12 +377,19 @@ from orders O
          left join items I on OI.ItemId = I.Id
 where U.Id = '7b5dda41-7547-4660-ab66-3ad52f739fff';
 
+- 강사님 풀이
+select u.id u.name, o.orderAt from users u join orders o on u.id = o.userId where u.id='';
+
 ====================
 2. 나이가 20대인 사용자만 출력하시오
 
 select Name, Gender, Age, Birthdate, Address
 from users
 where Age like '2%';
+
+- 강사님 풀이
+select * from users where age between 20 and 29;
+select * from users where cast(age as integer) between 20 and 29;
 
 ====================
 3. 특정 사용자가 주문한 상점명과 상품명을 모두 출력하시오
@@ -395,6 +402,15 @@ from orders O
          left join items I on OI.ItemId = I.Id
 where U.Id = '7b5dda41-7547-4660-ab66-3ad52f739fff';
 
+- 강사님 풀이
+select u.id as 고객ID, u.name as 고객명, o.orderAt as 주문시간, s.name as 상점명, i.name as 상품명
+from users u
+join orders o on u.id = o.userId
+join stores s on o.storeId = s.id
+join orderitems oi on o.id = oi.OrderId
+join items i on oi.itemId = i.id
+where u.id='';
+
 ====================
 4. 특정 사용자가 주문한 유닉한 상품명의 목록을 구하시오
 
@@ -404,6 +420,26 @@ from orders O
          left join orderitems OI on O.Id = OI.OrderId
          left join items I on OI.ItemId = I.Id
 where U.Id = '7b5dda41-7547-4660-ab66-3ad52f739fff';
+
+- 강사님 풀이
+select distinct i.name as 상품명
+from users u
+join orders o on u.id = o.userId
+join stores s on o.storeId = s.id
+join orderitems oi on o.id = oi.OrderId
+join items i on oi.itemId = i.id
+where u.id='';
+
+- 여기에서 각 상품명로 몇개나 주문하였나? + 소팅까지
+select i.name as 상품명, count(*) as 총수량
+from users u
+join orders o on u.id = o.userId
+join stores s on o.storeId = s.id
+join orderitems oi on o.id = oi.OrderId
+join items i on oi.itemId = i.id
+where u.id='7b5dda41-7547-4660-ab66-3ad52f739fff'
+group by i.id 
+order by 총수량 DESC;
 
 ====================
 5. 특정 사용자가 주문한 매출액의 합산을 구하시오
@@ -415,6 +451,15 @@ from orders O
          left join items I on OI.ItemId = I.Id
 where U.Id = '7b5dda41-7547-4660-ab66-3ad52f739fff'
 group by U.Id, U.Name;
+
+- 강사님 풀이
+select u.name as 고객, sum(cast(i.UnitPrice as integer)) as 매출액
+from users u
+join orders o on u.id = o.userId
+join stores s on o.storeId = s.id
+join orderitems oi on o.id = oi.OrderId
+join items i on oi.itemId = i.id
+where u.id='7b5dda41-7547-4660-ab66-3ad52f739fff';
 
 ====================
 6. 상점별 월간 통계(매출액)을 구하시오
