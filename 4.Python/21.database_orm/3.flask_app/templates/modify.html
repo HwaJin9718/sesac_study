@@ -6,7 +6,12 @@
     <title>Document</title>
 </head>
 <body>
-    <form method="POST">
+    <h1>사용자 정보 수정</h1>
+    <!-- <form method="POST"> --> <!-- 내가 한거 -->
+    <!-- 강사님꺼 -->
+    <form action="/update_user/{{ user.id }}" method="POST">
+    <!-- <form action="{{url_for('update_user', id=user.id)}}" method="POST"> -->
+        <span>ID : {{ user.id }}</span>
         <input type="text" name="name" value="{{ user.name }}" required>
         <input type="number" name="age" value="{{ user.age }}" required>
         <button type="submit">사용자 수정</button>

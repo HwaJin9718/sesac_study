@@ -43,6 +43,7 @@ def delete_user(id):
     
     return redirect('/')
 
+# 내풀이
 @app.route('/modify/<int:id>', methods=['GET', 'POST'])
 def modify_user(id):
     user = db.session.get(User, id)
@@ -59,6 +60,25 @@ def modify_user(id):
         return redirect(url_for('index'))
 
     return render_template('modify.html', user=user)
+
+# 강사님 풀이
+@app.route('/edit_user/<int:id>')
+def edit_user(id):
+    user = db.session.get(User, id) # 사용자가 없으면 처리할 예외처리 코드 추가 필요
+    return render_template('modify.html', user=user)
+
+@app.route('/update_user/<int:id>', methods=['POST'])
+def update_user(id):
+    user = db.session.get(User, id)
+
+    name = request.form.get('name')
+    age = request.form.get('age')
+    user.name = name
+    user.age = int(age)
+    db.session.commit()
+
+    return redirect('/')
+
 
 if __name__ == '__main__':
     # app = create_app()
