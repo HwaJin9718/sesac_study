@@ -27,13 +27,25 @@
     </div>
     <script>
         // JS 공간
+        function get_url_by_page() {
+            const url_path = window.location.pathname.split('/') // /를 기준으로 나눠서 url 파라미터 추출
+            if (url_path[url_path.length - 1] == 0) {
+                return 1
+            } else {
+                return url_path[url_path.length - 1] // 추출된 리스트의 마지막 값 (현재 페이지) 리턴
+            }
+        }
+
         function get_users() {
-            fetch('/api/user')
+            const page = get_url_by_page()
+            fetch('/api/user/')
                 .then(response => response.json())
                 .then(users => {
                     // console.log(users)
                     const resultDiv = document.getElementById('result');
+                    const pageDiv = document.getElementById('paging');
                     resultDiv.innerHTML = ""; // 기존 데이터 제거
+                    pageDiv.innerHTML = ""; // 기존 데이터 제거
 
                     if (users.users.length === 0) {
                         const new_p = document.createElement('p')
@@ -77,7 +89,7 @@
 
                     // forEach 문으로 했을 때
                     users.users.forEach(user => {
-                        console.log(user)
+                        // console.log(user)
 
                         const user_table = document.getElementById('user_table');
                         const new_tr = document.createElement('tr')
@@ -87,7 +99,7 @@
                         
                         // const a = document.getElementById('id')
                         const td1_a = document.createElement('a')
-                        td1_a.setAttribute('href', '/api/user/' + user.Id)
+                        td1_a.setAttribute('href', `/api/user/${user.Id}`)
                         td1_a.textContent = user.Id
                         // <a href="/"></a>
 
@@ -113,11 +125,145 @@
 
                     });
 
+                    // console.log(users.total_page)
+                    const previous = document.createElement('a')
+                    previous.setAttribute('href', `/api/user/${page - 1}`)
+                    previous.textContent = "Previous"
+                    pageDiv.appendChild(previous)
+                    
+                    for ( let i = 1; i <= users.total_page; i++ ) {
+                        // console.log(i)
+                        const a = document.createElement('a')
+                        a.setAttribute('href', `/api/user/${i}`)
+                        a.textContent = i
+                        pageDiv.appendChild(a)
+                    }
+
+                    const next = document.createElement('a')
+                    next.setAttribute('href', `/api/user/${page + 1}`)
+                    next.textContent = "Next"
+                    pageDiv.appendChild(next)
+
+                })
+        }
+
+        function get_users_by_page() {
+            const page = get_url_by_page()
+            console.log(page)
+            fetch(`/api/user/page/${page}`)
+                .then(response => response.json())
+                .then(users => {
+                    // console.log(users)
+                    const resultDiv = document.getElementById('result');
+                    const pageDiv = document.getElementById('paging');
+                    resultDiv.innerHTML = ""; // 기존 데이터 제거
+                    pageDiv.innerHTML = ""; // 기존 데이터 제거
+
+                    if (users.users.length === 0) {
+                        const new_p = document.createElement('p')
+                        new_p.textContent = "검색 결과가 없습니다."
+                        resultDiv.appendChild(new_p)
+                        // resultDiv.innerHTML = "<p>검색 결과가 없습니다.</p>"
+                        return;
+                    }
+
+                    // for 문으로 했을 때
+                    // for ( let i = 0; i < users.users.length; i++ ) {
+                    //     console.log(users.users[i])
+                    // }
+
+                    const new_table = document.createElement('table');
+                    new_table.setAttribute('id', 'user_table');
+                    const new_tr = document.createElement('tr')
+
+                    const new_th1 = document.createElement('th')
+                    new_th1.textContent = "ID"
+
+                    const new_th2 = document.createElement('th')
+                    new_th2.textContent = "NAME"
+
+                    const new_th3 = document.createElement('th')
+                    new_th3.textContent = "GENDER"
+
+                    const new_th4 = document.createElement('th')
+                    new_th4.textContent = "AGE"
+
+                    const new_th5 = document.createElement('th')
+                    new_th5.textContent = "BIRTHDAY"
+
+                    new_tr.appendChild(new_th1)
+                    new_tr.appendChild(new_th2)
+                    new_tr.appendChild(new_th3)
+                    new_tr.appendChild(new_th4)
+                    new_tr.appendChild(new_th5)
+                    new_table.appendChild(new_tr)
+                    resultDiv.appendChild(new_table)
+
+                    // forEach 문으로 했을 때
+                    users.users.forEach(user => {
+                        // console.log(user)
+
+                        const user_table = document.getElementById('user_table');
+                        const new_tr = document.createElement('tr')
+
+                        const new_td1 = document.createElement('td')
+                        // new_td1.setAttribute('id', 'id')
+                        
+                        // const a = document.getElementById('id')
+                        const td1_a = document.createElement('a')
+                        td1_a.setAttribute('href', `/api/user/${user.Id}`)
+                        td1_a.textContent = user.Id
+                        // <a href="/"></a>
+
+                        const new_td2 = document.createElement('td')
+                        new_td2.textContent = user.Name
+
+                        const new_td3 = document.createElement('td')
+                        new_td3.textContent = user.Gender
+
+                        const new_td4 = document.createElement('td')
+                        new_td4.textContent = user.Age
+
+                        const new_td5 = document.createElement('td')
+                        new_td5.textContent = user.Birthdate
+
+                        new_td1.appendChild(td1_a)
+                        new_tr.appendChild(new_td1)
+                        new_tr.appendChild(new_td2)
+                        new_tr.appendChild(new_td3)
+                        new_tr.appendChild(new_td4)
+                        new_tr.appendChild(new_td5)
+                        user_table.appendChild(new_tr)
+
+                    });
+
+                    const previous = document.createElement('a')
+                    previous.setAttribute('href', `/api/user/${page - 1}`)
+                    previous.textContent = "Previous"
+                    pageDiv.appendChild(previous)
+                    
+                    for ( let i = 1; i <= users.total_page; i++ ) {
+                        // console.log(i)
+                        const a = document.createElement('a')
+                        a.setAttribute('href', `/api/user/${i}`)
+                        a.textContent = i
+                        pageDiv.appendChild(a)
+                    }
+
+                    const next = document.createElement('a')
+                    next.setAttribute('href', `/api/user/${page + 1}`)
+                    next.textContent = "Next"
+                    pageDiv.appendChild(next)
+
                 })
         }
 
         document.addEventListener('DOMContentLoaded', () => {
-            get_users()
+            if (get_url_by_page() == 1) {
+                get_users()
+            } else {
+                get_users_by_page()
+            }
         })
     </script>
 </body>
