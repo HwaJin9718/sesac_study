@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <h2>CRM</h2>
+    <nav>
+        <a href="/">User</a> |
+        <a href="/">Order</a> |
+        <a href="/">Order Item</a> |
+        <a href="/">Item</a> |
+        <a href="/">Store</a> 
+    </nav>
+    <div>
+        <div id="search">
+            <!-- 검색 - 어떤 페이지인지 따라 달라짐 -->
+        </div>
+        <div id="result">
+             <!-- User Store Item Order OrderItem  페이지 출력 -->
+         </div>
+         <div id="paging">
+            <!-- 페이징 처리 - 공통 -->
+         </div>
+    </div>
+    <script>
+        // JS 공간
+        function get_users() {
+            fetch('/api/user')
+                .then(response => response.json())
+                .then(users => {
+                    // console.log(users)
+                    const resultDiv = document.getElementById('result');
+                    resultDiv.innerHTML = ""; // 기존 데이터 제거
+
+                    if (users.users.length === 0) {
+                        const new_p = document.createElement('p')
+                        new_p.textContent = "검색 결과가 없습니다."
+                        resultDiv.appendChild(new_p)
+                        // resultDiv.innerHTML = "<p>검색 결과가 없습니다.</p>"
+                        return;
+                    }
+
+                    // for 문으로 했을 때
+                    // for ( let i = 0; i < users.users.length; i++ ) {
+                    //     console.log(users.users[i])
+                    // }
+
+                    const new_table = document.createElement('table');
+                    new_table.setAttribute('id', 'user_table');
+                    const new_tr = document.createElement('tr')
+
+                    const new_th1 = document.createElement('th')
+                    new_th1.textContent = "ID"
+
+                    const new_th2 = document.createElement('th')
+                    new_th2.textContent = "NAME"
+
+                    const new_th3 = document.createElement('th')
+                    new_th3.textContent = "GENDER"
+
+                    const new_th4 = document.createElement('th')
+                    new_th4.textContent = "AGE"
+
+                    const new_th5 = document.createElement('th')
+                    new_th5.textContent = "BIRTHDAY"
+
+                    new_tr.appendChild(new_th1)
+                    new_tr.appendChild(new_th2)
+                    new_tr.appendChild(new_th3)
+                    new_tr.appendChild(new_th4)
+                    new_tr.appendChild(new_th5)
+                    new_table.appendChild(new_tr)
+                    resultDiv.appendChild(new_table)
+
+                    // forEach 문으로 했을 때
+                    users.users.forEach(user => {
+                        console.log(user)
+
+                        const user_table = document.getElementById('user_table');
+                        const new_tr = document.createElement('tr')
+
+                        const new_td1 = document.createElement('td')
+                        // new_td1.setAttribute('id', 'id')
+                        
+                        // const a = document.getElementById('id')
+                        const td1_a = document.createElement('a')
+                        td1_a.setAttribute('href', '/api/user/' + user.Id)
+                        td1_a.textContent = user.Id
+                        // <a href="/"></a>
+
+                        const new_td2 = document.createElement('td')
+                        new_td2.textContent = user.Name
+
+                        const new_td3 = document.createElement('td')
+                        new_td3.textContent = user.Gender
+
+                        const new_td4 = document.createElement('td')
+                        new_td4.textContent = user.Age
+
+                        const new_td5 = document.createElement('td')
+                        new_td5.textContent = user.Birthdate
+
+                        new_td1.appendChild(td1_a)
+                        new_tr.appendChild(new_td1)
+                        new_tr.appendChild(new_td2)
+                        new_tr.appendChild(new_td3)
+                        new_tr.appendChild(new_td4)
+                        new_tr.appendChild(new_td5)
+                        user_table.appendChild(new_tr)
+
+                    });
+
+                })
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            get_users()
+        })
+    </script>
+</body>
+</html>
