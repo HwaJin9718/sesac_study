@@ -21,3 +21,15 @@ def get_users():
 
     return users
 
+
+def get_user_by_id(id):
+    conn = get_connection()
+    cursor = conn.cursor()
+    cursor.execute("SELECT * FROM users WHERE Id=?", (id,))
+    user = cursor.fetchone()
+    conn.close()
+
+    user = dict(user)
+
+    return user
+
