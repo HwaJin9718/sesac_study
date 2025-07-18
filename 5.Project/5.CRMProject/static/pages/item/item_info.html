@@ -6,7 +6,7 @@
     <title>Document</title>
 </head>
 <body>
-    <h2>매장 상세 정보</h2>
+    <h2>상품 상세 정보</h2>
     <nav>
         <a href="/">User</a> |
         <a href="/">Order</a> |
@@ -15,8 +15,8 @@
         <a href="/api/store">Store</a> 
     </nav>
     <div>
-        <p>매장 정보</p>
-        <div id="store_result">
+        <p>상품 정보</p>
+        <div id="item_result">
             <!-- Store Info 출력 -->
         </div>
     </div>
@@ -29,57 +29,49 @@
             return url_path[url_path.length - 1] // 추출된 리스트의 마지막 값 리턴
         }
 
-        function get_store_by_id() {
+        function get_item_by_id() {
 
             const id = get_url_by_id();
 
-            fetch(`/api/store/info/${id}`)
+            fetch(`/api/item/info/${id}`)
                 .then(response => response.json())
-                .then(store => {
+                .then(item => {
 
-                    const storeResultDiv = document.getElementById('store_result');
-                    storeResultDiv.innerHTML = ""; // 기존 데이터 제거
+                    const itemResultDiv = document.getElementById('item_result');
+                    itemResultDiv.innerHTML = ""; // 기존 데이터 제거
 
                     const new_table = document.createElement('table');
-                    new_table.setAttribute('id', 'store_table');
+                    new_table.setAttribute('id', 'item_table');
                     const new_th_tr = document.createElement('tr')
 
                     const new_th1 = document.createElement('th')
                     new_th1.textContent = "NAME"
 
                     const new_th2 = document.createElement('th')
-                    new_th2.textContent = "Type"
-
-                    const new_th3 = document.createElement('th')
-                    new_th3.textContent = "ADDRESS"
+                    new_th2.textContent = "UNIT_PRICE"
 
                     new_th_tr.appendChild(new_th1)
                     new_th_tr.appendChild(new_th2)
-                    new_th_tr.appendChild(new_th3)
                     new_table.appendChild(new_th_tr)
-                    storeResultDiv.appendChild(new_table)
+                    itemResultDiv.appendChild(new_table)
 
-                    const store_table = document.getElementById('store_table');
+                    const item_table = document.getElementById('item_table');
                     const new_tb_tr = document.createElement('tr')
 
                     const new_td1 = document.createElement('td')
-                    new_td1.textContent = store.store.Name
+                    new_td1.textContent = item.item.Name
 
                     const new_td2 = document.createElement('td')
-                    new_td2.textContent = store.store.Type
-
-                    const new_td3 = document.createElement('td')
-                    new_td3.textContent = store.store.Address
+                    new_td2.textContent = item.item.UnitPrice
 
                     new_tb_tr.appendChild(new_td1)
                     new_tb_tr.appendChild(new_td2)
-                    new_tb_tr.appendChild(new_td3)
-                    store_table.appendChild(new_tb_tr)
+                    item_table.appendChild(new_tb_tr)
 
                 })
         }
         document.addEventListener('DOMContentLoaded', () => {
-            get_store_by_id()
+            get_item_by_id()
         })
     </script>
 </body>

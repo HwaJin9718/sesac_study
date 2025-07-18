@@ -18,13 +18,12 @@
         <div id="search">
             <!-- 검색 - 어떤 페이지인지 따라 달라짐 -->
              <form id="search_form">
-                <label for="name">Name</label>
-                <input type="text" name="name" id="name"/>
-                <label for="gender">Gender</label>
-                <select name="gender" id="gender">
+                <label for="type">Type</label>
+                <select name="type" id="type">
                     <option value="">선택하세요</option>
-                    <option value="Female">Female</option>
-                    <option value="Male">Male</option>
+                    <option value="Coffee">Coffee</option>
+                    <option value="Juice">Juice</option>
+                    <option value="Cake">Cake</option>
                 </select>
                 <button id="search_btn" type="submit">Search</button>
              </form>
@@ -37,7 +36,7 @@
          </div>
     </div>
     <script>
-        // JS 공간
+        // JS 영역
         function get_page_by_url() {
             // url 파라미터 확인
             const url_path = window.location.pathname.split('/') // /를 기준으로 나눠서 url 파라미터 추출
@@ -67,474 +66,391 @@
 
         function get_search_param() {
             const params = new URLSearchParams(window.location.search)
-            const name = params.get('name')
-            const gender = params.get('gender')
+            const type = params.get('type')
 
             return {
                 // 삼항 연산자 처리
-                name: name === "null" || name === null ? null : name,
-                gender: gender === "null" || gender === null ? null : gender
+                type: type === "null" || type === null ? null : type
             }
             
         }
 
-        function get_users() {
+        function get_items() {
             const url = get_page_by_url()
-            fetch('/api/user/')
+            fetch('/api/item/data')
                 .then(response => response.json())
-                .then(users => {
-                    // console.log(users)
+                .then(items => {
                     const resultDiv = document.getElementById('result');
                     const pageDiv = document.getElementById('paging');
                     resultDiv.innerHTML = ""; // 기존 데이터 제거
                     pageDiv.innerHTML = ""; // 기존 데이터 제거
 
-                    if (users.users.length === 0) {
+                    if (items.items.length === 0) {
                         const new_p = document.createElement('p')
                         new_p.textContent = "검색 결과가 없습니다."
                         resultDiv.appendChild(new_p)
-                        // resultDiv.innerHTML = "<p>검색 결과가 없습니다.</p>"
                         return;
                     }
 
-                    // for 문으로 했을 때
-                    // for ( let i = 0; i < users.users.length; i++ ) {
-                    //     console.log(users.users[i])
-                    // }
-
                     const new_table = document.createElement('table');
-                    new_table.setAttribute('id', 'user_table');
+                    new_table.setAttribute('id', 'item_table');
                     const new_tr = document.createElement('tr')
 
                     const new_th1 = document.createElement('th')
                     new_th1.textContent = "ID"
 
                     const new_th2 = document.createElement('th')
-                    new_th2.textContent = "NAME"
+                    new_th2.textContent = "TYPE"
 
                     const new_th3 = document.createElement('th')
-                    new_th3.textContent = "GENDER"
+                    new_th3.textContent = "NAME"
 
                     const new_th4 = document.createElement('th')
-                    new_th4.textContent = "AGE"
-
-                    const new_th5 = document.createElement('th')
-                    new_th5.textContent = "BIRTHDAY"
+                    new_th4.textContent = "UNIT_PRICE"
 
                     new_tr.appendChild(new_th1)
                     new_tr.appendChild(new_th2)
                     new_tr.appendChild(new_th3)
                     new_tr.appendChild(new_th4)
-                    new_tr.appendChild(new_th5)
                     new_table.appendChild(new_tr)
                     resultDiv.appendChild(new_table)
+                
+                    items.items.forEach(item => {
 
-                    // forEach 문으로 했을 때
-                    users.users.forEach(user => {
-                        // console.log(user)
-
-                        const user_table = document.getElementById('user_table');
+                        const item_table = document.getElementById('item_table');
                         const new_tr = document.createElement('tr')
 
                         const new_td1 = document.createElement('td')
-                        // new_td1.setAttribute('id', 'id')
                         
-                        // const a = document.getElementById('id')
                         const td1_a = document.createElement('a')
-                        td1_a.setAttribute('href', `/api/user/${user.Id}`)
-                        td1_a.textContent = user.Id
-                        // <a href="/"></a>
+                        td1_a.setAttribute('href', `/api/item/${item.Id}`)
+                        td1_a.textContent = item.Id
 
                         const new_td2 = document.createElement('td')
-                        new_td2.textContent = user.Name
+                        new_td2.textContent = item.Type
 
                         const new_td3 = document.createElement('td')
-                        new_td3.textContent = user.Gender
+                        new_td3.textContent = item.Name
 
                         const new_td4 = document.createElement('td')
-                        new_td4.textContent = user.Age
-
-                        const new_td5 = document.createElement('td')
-                        new_td5.textContent = user.Birthdate
+                        new_td4.textContent = item.UnitPrice
 
                         new_td1.appendChild(td1_a)
                         new_tr.appendChild(new_td1)
                         new_tr.appendChild(new_td2)
                         new_tr.appendChild(new_td3)
                         new_tr.appendChild(new_td4)
-                        new_tr.appendChild(new_td5)
-                        user_table.appendChild(new_tr)
+                        item_table.appendChild(new_tr)
 
                     });
 
-                    // console.log(users.total_page)
                     const previous = document.createElement('a')
-                    previous.setAttribute('href', `/api/user/${parseInt(url.page) - 1}`)
+                    previous.setAttribute('href', `/api/item/${parseInt(url.page) - 1}`)
                     previous.textContent = "Previous"
                     pageDiv.appendChild(previous)
                     
-                    for ( let i = 1; i <= users.total_page; i++ ) {
-                        // console.log(i)
+                    for ( let i = 1; i <= items.total_page; i++ ) {
                         const a = document.createElement('a')
-                        a.setAttribute('href', `/api/user/${i}`)
+                        a.setAttribute('href', `/api/item/${i}`)
                         a.textContent = i
                         pageDiv.appendChild(a)
                     }
 
                     const next = document.createElement('a')
-                    next.setAttribute('href', `/api/user/${parseInt(url.page) + 1}`)
+                    next.setAttribute('href', `/api/item/${parseInt(url.page) + 1}`)
                     next.textContent = "Next"
                     pageDiv.appendChild(next)
-
-                })
+                    
+                    });
         }
 
-        function get_users_by_page() {
+        function get_items_by_page() {
             const url = get_page_by_url()
-            console.log(url.page)
-            fetch(`/api/user/page/${url.page}`)
+            fetch(`/api/item/page/data/${url.page}`)
                 .then(response => response.json())
-                .then(users => {
-                    // console.log(users)
+                .then(items => {
                     const resultDiv = document.getElementById('result');
                     const pageDiv = document.getElementById('paging');
                     resultDiv.innerHTML = ""; // 기존 데이터 제거
                     pageDiv.innerHTML = ""; // 기존 데이터 제거
 
-                    if (users.users.length === 0) {
+                    if (items.items.length === 0) {
                         const new_p = document.createElement('p')
                         new_p.textContent = "검색 결과가 없습니다."
                         resultDiv.appendChild(new_p)
-                        // resultDiv.innerHTML = "<p>검색 결과가 없습니다.</p>"
                         return;
                     }
 
-                    // for 문으로 했을 때
-                    // for ( let i = 0; i < users.users.length; i++ ) {
-                    //     console.log(users.users[i])
-                    // }
-
                     const new_table = document.createElement('table');
-                    new_table.setAttribute('id', 'user_table');
+                    new_table.setAttribute('id', 'item_table');
                     const new_tr = document.createElement('tr')
 
                     const new_th1 = document.createElement('th')
                     new_th1.textContent = "ID"
 
                     const new_th2 = document.createElement('th')
-                    new_th2.textContent = "NAME"
+                    new_th2.textContent = "TYPE"
 
                     const new_th3 = document.createElement('th')
-                    new_th3.textContent = "GENDER"
+                    new_th3.textContent = "NAME"
 
                     const new_th4 = document.createElement('th')
-                    new_th4.textContent = "AGE"
-
-                    const new_th5 = document.createElement('th')
-                    new_th5.textContent = "BIRTHDAY"
+                    new_th4.textContent = "UNIT_PRICE"
 
                     new_tr.appendChild(new_th1)
                     new_tr.appendChild(new_th2)
                     new_tr.appendChild(new_th3)
                     new_tr.appendChild(new_th4)
-                    new_tr.appendChild(new_th5)
                     new_table.appendChild(new_tr)
                     resultDiv.appendChild(new_table)
+                
+                    items.items.forEach(item => {
 
-                    // forEach 문으로 했을 때
-                    users.users.forEach(user => {
-                        // console.log(user)
-
-                        const user_table = document.getElementById('user_table');
+                        const item_table = document.getElementById('item_table');
                         const new_tr = document.createElement('tr')
 
                         const new_td1 = document.createElement('td')
-                        // new_td1.setAttribute('id', 'id')
                         
-                        // const a = document.getElementById('id')
                         const td1_a = document.createElement('a')
-                        td1_a.setAttribute('href', `/api/user/${user.Id}`)
-                        td1_a.textContent = user.Id
-                        // <a href="/"></a>
+                        td1_a.setAttribute('href', `/api/item/${item.Id}`)
+                        td1_a.textContent = item.Id
 
                         const new_td2 = document.createElement('td')
-                        new_td2.textContent = user.Name
+                        new_td2.textContent = item.Type
 
                         const new_td3 = document.createElement('td')
-                        new_td3.textContent = user.Gender
+                        new_td3.textContent = item.Name
 
                         const new_td4 = document.createElement('td')
-                        new_td4.textContent = user.Age
-
-                        const new_td5 = document.createElement('td')
-                        new_td5.textContent = user.Birthdate
+                        new_td4.textContent = item.UnitPrice
 
                         new_td1.appendChild(td1_a)
                         new_tr.appendChild(new_td1)
                         new_tr.appendChild(new_td2)
                         new_tr.appendChild(new_td3)
                         new_tr.appendChild(new_td4)
-                        new_tr.appendChild(new_td5)
-                        user_table.appendChild(new_tr)
+                        item_table.appendChild(new_tr)
 
                     });
 
                     const previous = document.createElement('a')
-                    previous.setAttribute('href', `/api/user/${parseInt(url.page) - 1}`)
+                    previous.setAttribute('href', `/api/item/${parseInt(url.page) - 1}`)
                     previous.textContent = "Previous"
                     pageDiv.appendChild(previous)
                     
-                    for ( let i = 1; i <= users.total_page; i++ ) {
-                        // console.log(i)
+                    for ( let i = 1; i <= items.total_page; i++ ) {
                         const a = document.createElement('a')
-                        a.setAttribute('href', `/api/user/${i}`)
+                        a.setAttribute('href', `/api/item/${i}`)
                         a.textContent = i
                         pageDiv.appendChild(a)
                     }
 
                     const next = document.createElement('a')
-                    next.setAttribute('href', `/api/user/${parseInt(url.page) + 1}`)
+                    next.setAttribute('href', `/api/item/${parseInt(url.page) + 1}`)
                     next.textContent = "Next"
                     pageDiv.appendChild(next)
-
-                })
+                    
+                    });
         }
 
-        function search_users() {
-            // 검색 시 api 연결
-            // const page = get_page_by_url()
+        function search_items() {
+            const url = get_page_by_url()
 
-            const name = document.querySelector('input[name="name"]').value;
-            const gender = document.querySelector('select[name="gender"]').value;
+            const type = document.querySelector('select[name="type"]').value;
 
-            fetch(`/api/user/search?name=${name}&gender=${gender}`)
+            fetch(`/api/item/search?type=${type}`)
                 .then(response => response.json())
-                .then(users => {
-                    // console.log(users)
+                .then(items => {
                     const resultDiv = document.getElementById('result');
                     const pageDiv = document.getElementById('paging');
                     resultDiv.innerHTML = ""; // 기존 데이터 제거
                     pageDiv.innerHTML = ""; // 기존 데이터 제거
 
-                    if (users.users.length === 0) {
+                    if (items.items.length === 0) {
                         const new_p = document.createElement('p')
                         new_p.textContent = "검색 결과가 없습니다."
                         resultDiv.appendChild(new_p)
-                        // resultDiv.innerHTML = "<p>검색 결과가 없습니다.</p>"
                         return;
                     }
 
                     const new_table = document.createElement('table');
-                    new_table.setAttribute('id', 'user_table');
+                    new_table.setAttribute('id', 'item_table');
                     const new_tr = document.createElement('tr')
 
                     const new_th1 = document.createElement('th')
                     new_th1.textContent = "ID"
 
                     const new_th2 = document.createElement('th')
-                    new_th2.textContent = "NAME"
+                    new_th2.textContent = "TYPE"
 
                     const new_th3 = document.createElement('th')
-                    new_th3.textContent = "GENDER"
+                    new_th3.textContent = "NAME"
 
                     const new_th4 = document.createElement('th')
-                    new_th4.textContent = "AGE"
-
-                    const new_th5 = document.createElement('th')
-                    new_th5.textContent = "BIRTHDAY"
+                    new_th4.textContent = "UNIT_PRICE"
 
                     new_tr.appendChild(new_th1)
                     new_tr.appendChild(new_th2)
                     new_tr.appendChild(new_th3)
                     new_tr.appendChild(new_th4)
-                    new_tr.appendChild(new_th5)
                     new_table.appendChild(new_tr)
                     resultDiv.appendChild(new_table)
+                
+                    items.items.forEach(item => {
 
-                    // forEach 문으로 했을 때
-                    users.users.forEach(user => {
-                        // console.log(user)
-
-                        const user_table = document.getElementById('user_table');
+                        const item_table = document.getElementById('item_table');
                         const new_tr = document.createElement('tr')
 
                         const new_td1 = document.createElement('td')
                         
                         const td1_a = document.createElement('a')
-                        td1_a.setAttribute('href', `/api/user/${user.Id}`)
-                        td1_a.textContent = user.Id
+                        td1_a.setAttribute('href', `/api/item/${item.Id}`)
+                        td1_a.textContent = item.Id
 
                         const new_td2 = document.createElement('td')
-                        new_td2.textContent = user.Name
+                        new_td2.textContent = item.Type
 
                         const new_td3 = document.createElement('td')
-                        new_td3.textContent = user.Gender
+                        new_td3.textContent = item.Name
 
                         const new_td4 = document.createElement('td')
-                        new_td4.textContent = user.Age
-
-                        const new_td5 = document.createElement('td')
-                        new_td5.textContent = user.Birthdate
+                        new_td4.textContent = item.UnitPrice
 
                         new_td1.appendChild(td1_a)
                         new_tr.appendChild(new_td1)
                         new_tr.appendChild(new_td2)
                         new_tr.appendChild(new_td3)
                         new_tr.appendChild(new_td4)
-                        new_tr.appendChild(new_td5)
-                        user_table.appendChild(new_tr)
+                        item_table.appendChild(new_tr)
 
                     });
 
                     // 쿼리 스트링 생성
                     const queryParam = new URLSearchParams();
-                    if (name) {
-                        queryParam.append('name', name);
-                    }
-                    if (gender) {
-                        queryParam.append('gender', gender)
+                    if (type) {
+                        queryParam.append('type', type)
                     }
                     const queryString = queryParam.toString();
 
                     // 나중에 삭제 필요
                     const previous = document.createElement('a')
-                    previous.setAttribute('href', `/api/user/search/page/1?${queryString}`)
+                    previous.setAttribute('href', `/api/item/search/1?${queryString}`)
                     previous.textContent = "Previous"
                     pageDiv.appendChild(previous)
                     
-                    for ( let i = 1; i <= users.total_page; i++ ) {
-                        // console.log(i)
+                    for ( let i = 1; i <= items.total_page; i++ ) {
                         const a = document.createElement('a')
-                        a.setAttribute('href', `/api/user/search/page/${i}?${queryString}`) // 
+                        a.setAttribute('href', `/api/item/search/${i}?${queryString}`)
                         a.textContent = i
                         pageDiv.appendChild(a)
                     }
 
                     const next = document.createElement('a')
-                    next.setAttribute('href', `/api/user/search/page/2?${queryString}`)
+                    next.setAttribute('href', `/api/item/search/2?${queryString}`)
                     next.textContent = "Next"
                     pageDiv.appendChild(next)
-
                 })
         }
 
-        function search_users_paging() {
+        function search_items_paging() {
             const url = get_page_by_url()
-            console.log(url.page)
-            const searchParams = get_search_param(); // 쿼리 파라미터 받아오기
+
+            // 쿼리 스트링 생성
+            const searchParams = get_search_param()
 
             // null이나 빈 값 필터링
             const filteredParams = new URLSearchParams();
-            
-            if (searchParams.name && searchParams.name !== "null") {
-                filteredParams.append('name', searchParams.name);
-            }
-            if (searchParams.gender && searchParams.gender !== "null") {
-                filteredParams.append('gender', searchParams.gender);
+
+            if (searchParams.type && searchParams.type !== "null") {
+                filteredParams.append('type', searchParams.type)
             }
 
-            const queryString = filteredParams.toString(); // 쿼리 파라미터 문자열로 출력
+            const queryString = filteredParams.toString();
 
-            fetch(`/api/user/search/${url.page}?${queryString}`)
+            fetch(`/api/item/search/page/${url.page}?${queryString}`)
                 .then(response => response.json())
-                .then(users => {
-                    console.log(users)
+                .then(items => {
                     const resultDiv = document.getElementById('result');
                     const pageDiv = document.getElementById('paging');
                     resultDiv.innerHTML = ""; // 기존 데이터 제거
                     pageDiv.innerHTML = ""; // 기존 데이터 제거
 
-                    if (users.users.length === 0) {
+                    if (items.items.length === 0) {
                         const new_p = document.createElement('p')
                         new_p.textContent = "검색 결과가 없습니다."
                         resultDiv.appendChild(new_p)
-                        // resultDiv.innerHTML = "<p>검색 결과가 없습니다.</p>"
                         return;
                     }
 
-                    // 검색값 유지
-                    const name = document.getElementById('name');
-                    name.setAttribute('value', users.search_name)
-                    const gender = document.getElementById('gender');
-                    gender.value = users.search_gender;
+                    const type = document.getElementById('type')
+                    type.setAttribute('value', items.search_name)
 
                     const new_table = document.createElement('table');
-                    new_table.setAttribute('id', 'user_table');
+                    new_table.setAttribute('id', 'item_table');
                     const new_tr = document.createElement('tr')
 
                     const new_th1 = document.createElement('th')
                     new_th1.textContent = "ID"
 
                     const new_th2 = document.createElement('th')
-                    new_th2.textContent = "NAME"
+                    new_th2.textContent = "TYPE"
 
                     const new_th3 = document.createElement('th')
-                    new_th3.textContent = "GENDER"
+                    new_th3.textContent = "NAME"
 
                     const new_th4 = document.createElement('th')
-                    new_th4.textContent = "AGE"
-
-                    const new_th5 = document.createElement('th')
-                    new_th5.textContent = "BIRTHDAY"
+                    new_th4.textContent = "UNIT_PRICE"
 
                     new_tr.appendChild(new_th1)
                     new_tr.appendChild(new_th2)
                     new_tr.appendChild(new_th3)
                     new_tr.appendChild(new_th4)
-                    new_tr.appendChild(new_th5)
                     new_table.appendChild(new_tr)
                     resultDiv.appendChild(new_table)
+                
+                    items.items.forEach(item => {
 
-                    // forEach 문으로 했을 때
-                    users.users.forEach(user => {
-                        // console.log(user)
-
-                        const user_table = document.getElementById('user_table');
+                        const item_table = document.getElementById('item_table');
                         const new_tr = document.createElement('tr')
 
                         const new_td1 = document.createElement('td')
                         
                         const td1_a = document.createElement('a')
-                        td1_a.setAttribute('href', `/api/user/${user.Id}`)
-                        td1_a.textContent = user.Id
+                        td1_a.setAttribute('href', `/api/item/${item.Id}`)
+                        td1_a.textContent = item.Id
 
                         const new_td2 = document.createElement('td')
-                        new_td2.textContent = user.Name
+                        new_td2.textContent = item.Type
 
                         const new_td3 = document.createElement('td')
-                        new_td3.textContent = user.Gender
+                        new_td3.textContent = item.Name
 
                         const new_td4 = document.createElement('td')
-                        new_td4.textContent = user.Age
-
-                        const new_td5 = document.createElement('td')
-                        new_td5.textContent = user.Birthdate
+                        new_td4.textContent = item.UnitPrice
 
                         new_td1.appendChild(td1_a)
                         new_tr.appendChild(new_td1)
                         new_tr.appendChild(new_td2)
                         new_tr.appendChild(new_td3)
                         new_tr.appendChild(new_td4)
-                        new_tr.appendChild(new_td5)
-                        user_table.appendChild(new_tr)
+                        item_table.appendChild(new_tr)
 
                     });
-                    
+
                     const previous = document.createElement('a')
-                    previous.setAttribute('href', `/api/user/search/page/${parseInt(url.page) - 1}?${queryString}`)
+                    previous.setAttribute('href', `/api/item/search/${parseInt(url.page) - 1}?${queryString}`)
                     previous.textContent = "Previous"
                     pageDiv.appendChild(previous)
                     
-                    for ( let i = 1; i <= users.total_page; i++ ) {
-                        // console.log(i)
+                    for ( let i = 1; i <= items.total_page; i++ ) {
                         const a = document.createElement('a')
-                        a.setAttribute('href', `/api/user/search/page/${i}?${queryString}`) // 
+                        a.setAttribute('href', `/api/item/search/${i}?${queryString}`)
                         a.textContent = i
                         pageDiv.appendChild(a)
                     }
 
                     const next = document.createElement('a')
-                    next.setAttribute('href', `/api/user/search/page/${parseInt(url.page) + 1}?${queryString}`)
+                    next.setAttribute('href', `/api/item/search/${parseInt(url.page) + 1}?${queryString}`)
                     next.textContent = "Next"
                     pageDiv.appendChild(next)
 
@@ -543,26 +459,18 @@
 
         document.addEventListener('DOMContentLoaded', () => {
             const url = get_page_by_url()
-
             if (url.type === 'search') {
-                search_users_paging()
+                search_items_paging()
             } else if (url.page == 1) {
-                get_users()
+                get_items()
             } else {
-                get_users_by_page()
+                get_items_by_page()
             }
-
-            // if (get_page_by_url() == 1) {
-            //     get_users()
-            // } else {
-            //     get_users_by_page()
-            // }
         })
 
         document.getElementById('search_form').addEventListener('submit', (e) => {
-            // search 버튼 클릭 시 행동 구현
-            e.preventDefault(); // form의 기본 submit 동작 방지
-            search_users()
+            e.preventDefault();
+            search_items()
         })
     </script>
 </body>
