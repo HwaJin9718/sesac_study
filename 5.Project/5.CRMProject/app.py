@@ -1,10 +1,12 @@
 from flask import Flask, send_from_directory, request, jsonify, redirect, url_for
 from backend.api.user_api import user_api
+from backend.api.store_api import store_api
 
 app = Flask(__name__)
 
 # blueprint 등록
 app.register_blueprint(user_api, url_prefix="/api/user")
+app.register_blueprint(store_api, url_prefix="/api/store")
 
 @app.route('/')
 def index():
