@@ -1,4 +1,4 @@
-from flask import Blueprint, jsonify, send_from_directory, request
+from flask import Blueprint, jsonify, send_from_directory
 import backend.database.order_db as db
 
 order_api = Blueprint('order', __name__, static_folder='../../static/pages/order/')
@@ -38,7 +38,7 @@ def get_orders_paging(page):
 
 # 페이징 처리 및 order 데이터 전달
 @order_api.route('/page/data/<int:page>')
-def get_stores_paging_data(page):
+def get_orders_paging_data(page):
 
     # 페이징 처리
     current_page = page # 현재 페이지

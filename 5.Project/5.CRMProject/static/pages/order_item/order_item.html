@@ -70,17 +70,17 @@
             
         // }
 
-        function get_orders() {
+        function get_order_items() {
             const url = get_page_by_url()
-            fetch('/api/order/data')
+            fetch('/api/order_item/data')
                 .then(response => response.json())
-                .then(orders => {
+                .then(order_items => {
                     const resultDiv = document.getElementById('result');
                     const pageDiv = document.getElementById('paging');
                     resultDiv.innerHTML = ""; // 기존 데이터 제거
                     pageDiv.innerHTML = ""; // 기존 데이터 제거
 
-                    if (orders.orders.length === 0) {
+                    if (order_items.order_items.length === 0) {
                         const new_p = document.createElement('p')
                         new_p.textContent = "검색 결과가 없습니다."
                         resultDiv.appendChild(new_p)
@@ -88,88 +88,84 @@
                     }
 
                     const new_table = document.createElement('table');
-                    new_table.setAttribute('id', 'order_table');
+                    new_table.setAttribute('id', 'order_item_table');
                     const new_tr = document.createElement('tr')
 
                     const new_th1 = document.createElement('th')
                     new_th1.textContent = "ID"
 
                     const new_th2 = document.createElement('th')
-                    new_th2.textContent = "ORDER_AT"
+                    new_th2.textContent = "ORDER_ID"
 
                     const new_th3 = document.createElement('th')
-                    new_th3.textContent = "STORE_ID"
-
-                    const new_th4 = document.createElement('th')
-                    new_th4.textContent = "USER_ID"
+                    new_th3.textContent = "ITEM_ID"
 
                     new_tr.appendChild(new_th1)
                     new_tr.appendChild(new_th2)
                     new_tr.appendChild(new_th3)
-                    new_tr.appendChild(new_th4)
                     new_table.appendChild(new_tr)
                     resultDiv.appendChild(new_table)
                 
-                    orders.orders.forEach(order => {
+                    order_items.order_items.forEach(order_item => {
 
-                        const order_table = document.getElementById('order_table');
+                        const order_item_table = document.getElementById('order_item_table');
                         const new_tr = document.createElement('tr')
 
                         const new_td1 = document.createElement('td')
-                        
-                        const td1_a = document.createElement('a')
-                        td1_a.setAttribute('href', `/api/order_item/${order.Id}`)
-                        td1_a.textContent = order.Id
+                        new_td1.textContent = order_item.Id
 
                         const new_td2 = document.createElement('td')
-                        new_td2.textContent = order.OrderAt
+
+                        const td2_a = document.createElement('a')
+                        td2_a.setAttribute('href', `/api/order/${order_item.OrderId}`)
+                        td2_a.textContent = order_item.OrderId
 
                         const new_td3 = document.createElement('td')
-                        new_td3.textContent = order.StoreId
 
-                        const new_td4 = document.createElement('td')
-                        new_td4.textContent = order.UserId
+                        const td3_a = document.createElement('a')
+                        td3_a.setAttribute('href', `/api/item/${order_item.ItemId}`)
+                        td3_a.textContent = order_item.ItemId
 
-                        new_td1.appendChild(td1_a)
+                        new_td2.appendChild(td2_a)
+                        new_td3.appendChild(td3_a)
                         new_tr.appendChild(new_td1)
                         new_tr.appendChild(new_td2)
                         new_tr.appendChild(new_td3)
-                        new_tr.appendChild(new_td4)
-                        order_table.appendChild(new_tr)
+                        order_item_table.appendChild(new_tr)
 
                     });
 
                     const previous = document.createElement('a')
-                    previous.setAttribute('href', `/api/order/${parseInt(url.page) - 1}`)
+                    previous.setAttribute('href', `/api/order_item/${parseInt(url.page) - 1}`)
                     previous.textContent = "Previous"
                     pageDiv.appendChild(previous)
                     
-                    for ( let i = 1; i <= orders.total_page; i++ ) {
+                    for ( let i = 1; i <= order_items.total_page; i++ ) {
                         const a = document.createElement('a')
-                        a.setAttribute('href', `/api/order/${i}`)
+                        a.setAttribute('href', `/api/order_item/${i}`)
                         a.textContent = i
                         pageDiv.appendChild(a)
                     }
 
                     const next = document.createElement('a')
-                    next.setAttribute('href', `/api/order/${parseInt(url.page) + 1}`)
+                    next.setAttribute('href', `/api/order_item/${parseInt(url.page) + 1}`)
                     next.textContent = "Next"
                     pageDiv.appendChild(next)
                     
                     });
         }
 
-        function get_orders_by_page() {
+        function get_order_items_by_page() {
             const url = get_page_by_url()
-            fetch(`/api/order/page/data/${url.page}`)
+            fetch(`/api/order_item/page/data/${url.page}`)
                 .then(response => response.json())
-                .then(orders => {
+                .then(order_items => {
                     const resultDiv = document.getElementById('result');
                     const pageDiv = document.getElementById('paging');
                     resultDiv.innerHTML = ""; // 기존 데이터 제거
                     pageDiv.innerHTML = ""; // 기존 데이터 제거
 
-                    if (orders.orders.length === 0) {
+                    if (order_items.order_items.length === 0) {
                         const new_p = document.createElement('p')
                         new_p.textContent = "검색 결과가 없습니다."
                         resultDiv.appendChild(new_p)
@@ -177,71 +173,67 @@
                     }
 
                     const new_table = document.createElement('table');
-                    new_table.setAttribute('id', 'order_table');
+                    new_table.setAttribute('id', 'order_item_table');
                     const new_tr = document.createElement('tr')
 
                     const new_th1 = document.createElement('th')
                     new_th1.textContent = "ID"
 
                     const new_th2 = document.createElement('th')
-                    new_th2.textContent = "ORDER_AT"
+                    new_th2.textContent = "ORDER_ID"
 
                     const new_th3 = document.createElement('th')
-                    new_th3.textContent = "STORE_ID"
-
-                    const new_th4 = document.createElement('th')
-                    new_th4.textContent = "USER_ID"
+                    new_th3.textContent = "ITEM_ID"
 
                     new_tr.appendChild(new_th1)
                     new_tr.appendChild(new_th2)
                     new_tr.appendChild(new_th3)
-                    new_tr.appendChild(new_th4)
                     new_table.appendChild(new_tr)
                     resultDiv.appendChild(new_table)
                 
-                    orders.orders.forEach(order => {
+                    order_items.order_items.forEach(order_item => {
 
-                        const order_table = document.getElementById('order_table');
+                        const order_item_table = document.getElementById('order_item_table');
                         const new_tr = document.createElement('tr')
 
                         const new_td1 = document.createElement('td')
-                        
-                        const td1_a = document.createElement('a')
-                        td1_a.setAttribute('href', `/api/order_item/${order.Id}`)
-                        td1_a.textContent = order.Id
+                        new_td1.textContent = order_item.Id
 
                         const new_td2 = document.createElement('td')
-                        new_td2.textContent = order.OrderAt
+
+                        const td2_a = document.createElement('a')
+                        td2_a.setAttribute('href', `/api/order/${order_item.OrderId}`)
+                        td2_a.textContent = order_item.OrderId
 
                         const new_td3 = document.createElement('td')
-                        new_td3.textContent = order.StoreId
 
-                        const new_td4 = document.createElement('td')
-                        new_td4.textContent = order.UserId
+                        const td3_a = document.createElement('a')
+                        td3_a.setAttribute('href', `/api/item/${order_item.ItemId}`)
+                        td3_a.textContent = order_item.ItemId
 
-                        new_td1.appendChild(td1_a)
+                        new_td2.appendChild(td2_a)
+                        new_td3.appendChild(td3_a)
                         new_tr.appendChild(new_td1)
                         new_tr.appendChild(new_td2)
                         new_tr.appendChild(new_td3)
-                        new_tr.appendChild(new_td4)
-                        order_table.appendChild(new_tr)
+                        order_item_table.appendChild(new_tr)
 
                     });
 
                     const previous = document.createElement('a')
-                    previous.setAttribute('href', `/api/order/${parseInt(url.page) - 1}`)
+                    previous.setAttribute('href', `/api/order_item/${parseInt(url.page) - 1}`)
                     previous.textContent = "Previous"
                     pageDiv.appendChild(previous)
                     
-                    for ( let i = 1; i <= orders.total_page; i++ ) {
+                    for ( let i = 1; i <= order_items.total_page; i++ ) {
                         const a = document.createElement('a')
-                        a.setAttribute('href', `/api/order/${i}`)
+                        a.setAttribute('href', `/api/order_item/${i}`)
                         a.textContent = i
                         pageDiv.appendChild(a)
                     }
 
                     const next = document.createElement('a')
-                    next.setAttribute('href', `/api/order/${parseInt(url.page) + 1}`)
+                    next.setAttribute('href', `/api/order_item/${parseInt(url.page) + 1}`)
                     next.textContent = "Next"
                     pageDiv.appendChild(next)
                     
@@ -459,9 +451,9 @@
             if (url.type === 'search') {
                 // search_stores_paging()
             } else if (url.page == 1) {
-                get_orders()
+                get_order_items()
             } else {
-                get_orders_by_page()
+                get_order_items_by_page()
             }
         })
 
