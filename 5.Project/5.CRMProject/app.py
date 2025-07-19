@@ -2,6 +2,7 @@ from flask import Flask, send_from_directory, request, jsonify, redirect, url_fo
 from backend.api.user_api import user_api
 from backend.api.store_api import store_api
 from backend.api.item_api import item_api
+from backend.api.order_api import order_api
 
 app = Flask(__name__)
 
@@ -9,6 +10,7 @@ app = Flask(__name__)
 app.register_blueprint(user_api, url_prefix="/api/user")
 app.register_blueprint(store_api, url_prefix="/api/store")
 app.register_blueprint(item_api, url_prefix="/api/item")
+app.register_blueprint(order_api, url_prefix="/api/order")
 
 @app.route('/')
 def index():

@@ -1,0 +1,474 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <h2>CRM</h2>
+    <nav>
+        <a href="/">User</a> |
+        <a href="/api/order">Order</a> |
+        <a href="/">Order Item</a> |
+        <a href="/api/item">Item</a> |
+        <a href="/api/store">Store</a> 
+    </nav>
+    <div>
+        <div id="search">
+            <!-- 검색 - 어떤 페이지인지 따라 달라짐 -->
+             <!-- <form id="search_form">
+                <label for="name">Name</label>
+                <input type="text" name="name" id="name"/>
+                <button id="search_btn" type="submit">Search</button>
+             </form> -->
+        </div>
+        <div id="result">
+             <!-- User Store Item Order OrderItem  페이지 출력 -->
+         </div>
+         <div id="paging">
+            <!-- 페이징 처리 - 공통 -->
+         </div>
+    </div>
+    <script>
+        // JS 영역
+        function get_page_by_url() {
+            // url 파라미터 확인
+            const url_path = window.location.pathname.split('/') // /를 기준으로 나눠서 url 파라미터 추출
+
+            // 검색(search) 페이지 여부 확인
+            // if (url_path.includes('search')) {
+            //     return {
+            //         type : 'search',
+            //         page : url_path[url_path.length - 1] // || 1 추출된 리스트의 마지막 값 (현재 페이지) 리턴
+            //     }
+            // }
+
+            let page_num = 0
+
+            if (url_path[url_path.length - 1] == 0) {
+                page_num = 1
+            } else {
+                page_num = url_path[url_path.length - 1] 
+            }
+            
+            return {
+                type : 'normal',
+                page : page_num
+            }
+            
+        }
+
+        // function get_search_param() {
+        //     const params = new URLSearchParams(window.location.search)
+        //     const name = params.get('name')
+
+        //     return {
+        //         // 삼항 연산자 처리
+        //         name: name === "null" || name === null ? null : name
+        //     }
+            
+        // }
+
+        function get_orders() {
+            const url = get_page_by_url()
+            fetch('/api/order/data')
+                .then(response => response.json())
+                .then(orders => {
+                    const resultDiv = document.getElementById('result');
+                    const pageDiv = document.getElementById('paging');
+                    resultDiv.innerHTML = ""; // 기존 데이터 제거
+                    pageDiv.innerHTML = ""; // 기존 데이터 제거
+
+                    if (orders.orders.length === 0) {
+                        const new_p = document.createElement('p')
+                        new_p.textContent = "검색 결과가 없습니다."
+                        resultDiv.appendChild(new_p)
+                        return;
+                    }
+
+                    const new_table = document.createElement('table');
+                    new_table.setAttribute('id', 'order_table');
+                    const new_tr = document.createElement('tr')
+
+                    const new_th1 = document.createElement('th')
+                    new_th1.textContent = "ID"
+
+                    const new_th2 = document.createElement('th')
+                    new_th2.textContent = "ORDER_AT"
+
+                    const new_th3 = document.createElement('th')
+                    new_th3.textContent = "STORE_ID"
+
+                    const new_th4 = document.createElement('th')
+                    new_th4.textContent = "USER_ID"
+
+                    new_tr.appendChild(new_th1)
+                    new_tr.appendChild(new_th2)
+                    new_tr.appendChild(new_th3)
+                    new_tr.appendChild(new_th4)
+                    new_table.appendChild(new_tr)
+                    resultDiv.appendChild(new_table)
+                
+                    orders.orders.forEach(order => {
+
+                        const order_table = document.getElementById('order_table');
+                        const new_tr = document.createElement('tr')
+
+                        const new_td1 = document.createElement('td')
+                        
+                        const td1_a = document.createElement('a')
+                        td1_a.setAttribute('href', `/api/order/${order.Id}`)
+                        td1_a.textContent = order.Id
+
+                        const new_td2 = document.createElement('td')
+                        new_td2.textContent = order.OrderAt
+
+                        const new_td3 = document.createElement('td')
+                        new_td3.textContent = order.StoreId
+
+                        const new_td4 = document.createElement('td')
+                        new_td4.textContent = order.UserId
+
+                        new_td1.appendChild(td1_a)
+                        new_tr.appendChild(new_td1)
+                        new_tr.appendChild(new_td2)
+                        new_tr.appendChild(new_td3)
+                        new_tr.appendChild(new_td4)
+                        order_table.appendChild(new_tr)
+
+                    });
+
+                    const previous = document.createElement('a')
+                    previous.setAttribute('href', `/api/order/${parseInt(url.page) - 1}`)
+                    previous.textContent = "Previous"
+                    pageDiv.appendChild(previous)
+                    
+                    for ( let i = 1; i <= orders.total_page; i++ ) {
+                        const a = document.createElement('a')
+                        a.setAttribute('href', `/api/order/${i}`)
+                        a.textContent = i
+                        pageDiv.appendChild(a)
+                    }
+
+                    const next = document.createElement('a')
+                    next.setAttribute('href', `/api/order/${parseInt(url.page) + 1}`)
+                    next.textContent = "Next"
+                    pageDiv.appendChild(next)
+                    
+                    });
+        }
+
+        function get_orders_by_page() {
+            const url = get_page_by_url()
+            fetch(`/api/order/page/data/${url.page}`)
+                .then(response => response.json())
+                .then(orders => {
+                    const resultDiv = document.getElementById('result');
+                    const pageDiv = document.getElementById('paging');
+                    resultDiv.innerHTML = ""; // 기존 데이터 제거
+                    pageDiv.innerHTML = ""; // 기존 데이터 제거
+
+                    if (orders.orders.length === 0) {
+                        const new_p = document.createElement('p')
+                        new_p.textContent = "검색 결과가 없습니다."
+                        resultDiv.appendChild(new_p)
+                        return;
+                    }
+
+                    const new_table = document.createElement('table');
+                    new_table.setAttribute('id', 'order_table');
+                    const new_tr = document.createElement('tr')
+
+                    const new_th1 = document.createElement('th')
+                    new_th1.textContent = "ID"
+
+                    const new_th2 = document.createElement('th')
+                    new_th2.textContent = "ORDER_AT"
+
+                    const new_th3 = document.createElement('th')
+                    new_th3.textContent = "STORE_ID"
+
+                    const new_th4 = document.createElement('th')
+                    new_th4.textContent = "USER_ID"
+
+                    new_tr.appendChild(new_th1)
+                    new_tr.appendChild(new_th2)
+                    new_tr.appendChild(new_th3)
+                    new_tr.appendChild(new_th4)
+                    new_table.appendChild(new_tr)
+                    resultDiv.appendChild(new_table)
+                
+                    orders.orders.forEach(order => {
+
+                        const order_table = document.getElementById('order_table');
+                        const new_tr = document.createElement('tr')
+
+                        const new_td1 = document.createElement('td')
+                        
+                        const td1_a = document.createElement('a')
+                        td1_a.setAttribute('href', `/api/order/${order.Id}`)
+                        td1_a.textContent = order.Id
+
+                        const new_td2 = document.createElement('td')
+                        new_td2.textContent = order.OrderAt
+
+                        const new_td3 = document.createElement('td')
+                        new_td3.textContent = order.StoreId
+
+                        const new_td4 = document.createElement('td')
+                        new_td4.textContent = order.UserId
+
+                        new_td1.appendChild(td1_a)
+                        new_tr.appendChild(new_td1)
+                        new_tr.appendChild(new_td2)
+                        new_tr.appendChild(new_td3)
+                        new_tr.appendChild(new_td4)
+                        order_table.appendChild(new_tr)
+
+                    });
+
+                    const previous = document.createElement('a')
+                    previous.setAttribute('href', `/api/order/${parseInt(url.page) - 1}`)
+                    previous.textContent = "Previous"
+                    pageDiv.appendChild(previous)
+                    
+                    for ( let i = 1; i <= orders.total_page; i++ ) {
+                        const a = document.createElement('a')
+                        a.setAttribute('href', `/api/order/${i}`)
+                        a.textContent = i
+                        pageDiv.appendChild(a)
+                    }
+
+                    const next = document.createElement('a')
+                    next.setAttribute('href', `/api/order/${parseInt(url.page) + 1}`)
+                    next.textContent = "Next"
+                    pageDiv.appendChild(next)
+                    
+                    });
+        }
+
+        // function search_stores() {
+        //     const url = get_page_by_url()
+
+        //     const name = document.querySelector('input[name="name"]').value;
+
+        //     fetch(`/api/store/search?name=${name}`)
+        //         .then(response => response.json())
+        //         .then(stores => {
+        //             const resultDiv = document.getElementById('result');
+        //             const pageDiv = document.getElementById('paging');
+        //             resultDiv.innerHTML = ""; // 기존 데이터 제거
+        //             pageDiv.innerHTML = ""; // 기존 데이터 제거
+
+        //             if (stores.stores.length === 0) {
+        //                 const new_p = document.createElement('p')
+        //                 new_p.textContent = "검색 결과가 없습니다."
+        //                 resultDiv.appendChild(new_p)
+        //                 return;
+        //             }
+
+        //             const new_table = document.createElement('table');
+        //             new_table.setAttribute('id', 'store_table');
+        //             const new_tr = document.createElement('tr')
+
+        //             const new_th1 = document.createElement('th')
+        //             new_th1.textContent = "ID"
+
+        //             const new_th2 = document.createElement('th')
+        //             new_th2.textContent = "TYPE"
+
+        //             const new_th3 = document.createElement('th')
+        //             new_th3.textContent = "NAME"
+
+        //             const new_th4 = document.createElement('th')
+        //             new_th4.textContent = "ADDRESS"
+
+        //             new_tr.appendChild(new_th1)
+        //             new_tr.appendChild(new_th2)
+        //             new_tr.appendChild(new_th3)
+        //             new_tr.appendChild(new_th4)
+        //             new_table.appendChild(new_tr)
+        //             resultDiv.appendChild(new_table)
+                
+        //             stores.stores.forEach(store => {
+        //                 // console.log(store)
+
+        //                 const store_table = document.getElementById('store_table');
+        //                 const new_tr = document.createElement('tr')
+
+        //                 const new_td1 = document.createElement('td')
+                        
+        //                 const td1_a = document.createElement('a')
+        //                 td1_a.setAttribute('href', `/api/store/${store.Id}`)
+        //                 td1_a.textContent = store.Id
+
+        //                 const new_td2 = document.createElement('td')
+        //                 new_td2.textContent = store.Type
+
+        //                 const new_td3 = document.createElement('td')
+        //                 new_td3.textContent = store.Name
+
+        //                 const new_td4 = document.createElement('td')
+        //                 new_td4.textContent = store.Address
+
+        //                 new_td1.appendChild(td1_a)
+        //                 new_tr.appendChild(new_td1)
+        //                 new_tr.appendChild(new_td2)
+        //                 new_tr.appendChild(new_td3)
+        //                 new_tr.appendChild(new_td4)
+        //                 store_table.appendChild(new_tr)
+
+        //             });
+
+        //             // 쿼리 스트링 생성
+        //             const queryParam = new URLSearchParams();
+        //             if (name) {
+        //                 queryParam.append('name', name)
+        //             }
+        //             const queryString = queryParam.toString();
+
+        //             // 나중에 삭제 필요
+        //             const previous = document.createElement('a')
+        //             previous.setAttribute('href', `/api/store/search/1?${queryString}`)
+        //             previous.textContent = "Previous"
+        //             pageDiv.appendChild(previous)
+                    
+        //             for ( let i = 1; i <= stores.total_page; i++ ) {
+        //                 const a = document.createElement('a')
+        //                 a.setAttribute('href', `/api/store/search/${i}?${queryString}`)
+        //                 a.textContent = i
+        //                 pageDiv.appendChild(a)
+        //             }
+
+        //             const next = document.createElement('a')
+        //             next.setAttribute('href', `/api/store/search/2?${queryString}`)
+        //             next.textContent = "Next"
+        //             pageDiv.appendChild(next)
+        //         })
+        // }
+
+        // function search_stores_paging() {
+        //     const url = get_page_by_url()
+
+        //     // 쿼리 스트링 생성
+        //     const searchParams = get_search_param()
+
+        //     // null이나 빈 값 필터링
+        //     const filteredParams = new URLSearchParams();
+
+        //     if (searchParams.name && searchParams.name !== "null") {
+        //         filteredParams.append('name', searchParams.name)
+        //     }
+
+        //     const queryString = filteredParams.toString();
+
+        //     fetch(`/api/store/search/page/${url.page}?${queryString}`)
+        //         .then(response => response.json())
+        //         .then(stores => {
+        //             const resultDiv = document.getElementById('result');
+        //             const pageDiv = document.getElementById('paging');
+        //             resultDiv.innerHTML = ""; // 기존 데이터 제거
+        //             pageDiv.innerHTML = ""; // 기존 데이터 제거
+
+        //             if (stores.stores.length === 0) {
+        //                 const new_p = document.createElement('p')
+        //                 new_p.textContent = "검색 결과가 없습니다."
+        //                 resultDiv.appendChild(new_p)
+        //                 return;
+        //             }
+
+        //             const name = document.getElementById('name')
+        //             name.setAttribute('value', stores.search_name)
+
+        //             const new_table = document.createElement('table');
+        //             new_table.setAttribute('id', 'store_table');
+        //             const new_tr = document.createElement('tr')
+
+        //             const new_th1 = document.createElement('th')
+        //             new_th1.textContent = "ID"
+
+        //             const new_th2 = document.createElement('th')
+        //             new_th2.textContent = "TYPE"
+
+        //             const new_th3 = document.createElement('th')
+        //             new_th3.textContent = "NAME"
+
+        //             const new_th4 = document.createElement('th')
+        //             new_th4.textContent = "ADDRESS"
+
+        //             new_tr.appendChild(new_th1)
+        //             new_tr.appendChild(new_th2)
+        //             new_tr.appendChild(new_th3)
+        //             new_tr.appendChild(new_th4)
+        //             new_table.appendChild(new_tr)
+        //             resultDiv.appendChild(new_table)
+                
+        //             stores.stores.forEach(store => {
+        //                 // console.log(store)
+
+        //                 const store_table = document.getElementById('store_table');
+        //                 const new_tr = document.createElement('tr')
+
+        //                 const new_td1 = document.createElement('td')
+                        
+        //                 const td1_a = document.createElement('a')
+        //                 td1_a.setAttribute('href', `/api/store/${store.Id}`)
+        //                 td1_a.textContent = store.Id
+
+        //                 const new_td2 = document.createElement('td')
+        //                 new_td2.textContent = store.Type
+
+        //                 const new_td3 = document.createElement('td')
+        //                 new_td3.textContent = store.Name
+
+        //                 const new_td4 = document.createElement('td')
+        //                 new_td4.textContent = store.Address
+
+        //                 new_td1.appendChild(td1_a)
+        //                 new_tr.appendChild(new_td1)
+        //                 new_tr.appendChild(new_td2)
+        //                 new_tr.appendChild(new_td3)
+        //                 new_tr.appendChild(new_td4)
+        //                 store_table.appendChild(new_tr)
+
+        //             });
+
+        //             const previous = document.createElement('a')
+        //             previous.setAttribute('href', `/api/store/search/${parseInt(url.page) - 1}?${queryString}`)
+        //             previous.textContent = "Previous"
+        //             pageDiv.appendChild(previous)
+                    
+        //             for ( let i = 1; i <= stores.total_page; i++ ) {
+        //                 const a = document.createElement('a')
+        //                 a.setAttribute('href', `/api/store/search/${i}?${queryString}`)
+        //                 a.textContent = i
+        //                 pageDiv.appendChild(a)
+        //             }
+
+        //             const next = document.createElement('a')
+        //             next.setAttribute('href', `/api/store/search/${parseInt(url.page) + 1}?${queryString}`)
+        //             next.textContent = "Next"
+        //             pageDiv.appendChild(next)
+
+        //         })
+        // }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            const url = get_page_by_url()
+            if (url.type === 'search') {
+                // search_stores_paging()
+            } else if (url.page == 1) {
+                get_orders()
+            } else {
+                get_orders_by_page()
+            }
+        })
+
+        // document.getElementById('search_form').addEventListener('submit', (e) => {
+        //     e.preventDefault();
+        //     search_stores()
+        // })
+    </script>
+</body>
+</html>

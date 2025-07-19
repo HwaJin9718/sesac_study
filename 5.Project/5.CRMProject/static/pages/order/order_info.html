@@ -6,7 +6,7 @@
     <title>Document</title>
 </head>
 <body>
-    <h2>고객 상세 정보</h2>
+    <h2>주문 상세 정보</h2>
     <nav>
         <a href="/">User</a> |
         <a href="/api/order">Order</a> |
@@ -15,9 +15,9 @@
         <a href="/api/store">Store</a> 
     </nav>
     <div>
-        <p>고객 정보</p>
-        <div id="user_result">
-            <!-- User Info 출력 -->
+        <p>주문 상품 정보</p>
+        <div id="order_result">
+            <!-- Store Info 출력 -->
         </div>
     </div>
 
@@ -29,74 +29,65 @@
             return url_path[url_path.length - 1] // 추출된 리스트의 마지막 값 리턴
         }
 
-        function get_user_by_id() {
+        function get_order_by_id() {
 
             const id = get_url_by_id();
 
-            fetch(`/api/user/info/${id}`)
+            fetch(`/api/order/info/${id}`)
                 .then(response => response.json())
-                .then(user => {
-                    // console.log(user.user)
+                .then(order => {
 
-                    const userResultDiv = document.getElementById('user_result');
-                    userResultDiv.innerHTML = ""; // 기존 데이터 제거
+                    const orderResultDiv = document.getElementById('order_result');
+                    orderResultDiv.innerHTML = ""; // 기존 데이터 제거
 
                     const new_table = document.createElement('table');
-                    new_table.setAttribute('id', 'user_table');
+                    new_table.setAttribute('id', 'order_table');
                     const new_th_tr = document.createElement('tr')
 
                     const new_th1 = document.createElement('th')
-                    new_th1.textContent = "NAME"
+                    new_th1.textContent = "ID"
 
                     const new_th2 = document.createElement('th')
-                    new_th2.textContent = "GENDER"
+                    new_th2.textContent = "ORDERED_AT"
 
                     const new_th3 = document.createElement('th')
-                    new_th3.textContent = "AGE"
+                    new_th3.textContent = "STORE_ID"
 
                     const new_th4 = document.createElement('th')
-                    new_th4.textContent = "BIRTHDAY"
-
-                    const new_th5 = document.createElement('th')
-                    new_th5.textContent = "ADDRESS"
+                    new_th4.textContent = "USER_ID"
 
                     new_th_tr.appendChild(new_th1)
                     new_th_tr.appendChild(new_th2)
                     new_th_tr.appendChild(new_th3)
                     new_th_tr.appendChild(new_th4)
-                    new_th_tr.appendChild(new_th5)
                     new_table.appendChild(new_th_tr)
-                    userResultDiv.appendChild(new_table)
+                    orderResultDiv.appendChild(new_table)
 
-                    const user_table = document.getElementById('user_table');
+                    const order_table = document.getElementById('order_table');
                     const new_tb_tr = document.createElement('tr')
 
                     const new_td1 = document.createElement('td')
-                    new_td1.textContent = user.user.Name
+                    new_td1.textContent = order.order.Id
 
                     const new_td2 = document.createElement('td')
-                    new_td2.textContent = user.user.Gender
+                    new_td2.textContent = order.order.OrderAt
 
                     const new_td3 = document.createElement('td')
-                    new_td3.textContent = user.user.Age
+                    new_td3.textContent = order.order.StoreId
 
                     const new_td4 = document.createElement('td')
-                    new_td4.textContent = user.user.Birthdate
-
-                    const new_td5 = document.createElement('td')
-                    new_td5.textContent = user.user.Address
+                    new_td4.textContent = order.order.UserId
 
                     new_tb_tr.appendChild(new_td1)
                     new_tb_tr.appendChild(new_td2)
                     new_tb_tr.appendChild(new_td3)
                     new_tb_tr.appendChild(new_td4)
-                    new_tb_tr.appendChild(new_td5)
-                    user_table.appendChild(new_tb_tr)
+                    order_table.appendChild(new_tb_tr)
 
                 })
         }
         document.addEventListener('DOMContentLoaded', () => {
-            get_user_by_id()
+            get_order_by_id()
         })
     </script>
 </body>
