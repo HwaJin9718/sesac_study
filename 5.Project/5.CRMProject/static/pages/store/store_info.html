@@ -157,7 +157,7 @@
                     revenueResultDiv.innerHTML = ""; // 기존 데이터 제거
 
                     const back = document.createElement('a')
-                    back.setAttribute('href', `/api/store/info/month/revenue/${id}`)
+                    back.setAttribute('href', `/api/store/${id}`)
                     back.textContent = "월간 매출액 보기"
 
                     const new_p = document.createElement('p')
@@ -218,9 +218,8 @@
             if (e.target.tagName === 'A') {
                 const href = e.target.getAttribute('href')
 
-                // a 태그가 월간 매출액 보기 일 경우 월간 매출액 다시 로드
+                // a 태그가 월간 매출액 보기 일 경우 store_info 페이지 다시 로드
                 if (href.includes('/month/revenue/')) {
-                    get_store_month_revenue_by_id()
                     return;
                 }
 
@@ -229,7 +228,7 @@
                     e.preventDefault()
                     const urlParams = new URLSearchParams(href.split('?')[1])
                     const month = urlParams.get('month')
-                    
+
                     get_store_day_revenue_by_month(month)
                 }
 

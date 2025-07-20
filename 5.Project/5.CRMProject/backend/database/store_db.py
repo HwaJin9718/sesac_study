@@ -114,8 +114,8 @@ def get_store_day_revenue_by_id_and_month(id, month):
     cursor.execute(r'''
                     select strftime('%Y-%m-%d', O.OrderAt) as Month, sum(I.UnitPrice) as Revenue, count(I.Id) as Count
                     from orders O
-                            left join orderitems OI on O.Id = OI.OrderId
-                            left join items I on OI.ItemId = I.Id
+                            inner join orderitems OI on O.Id = OI.OrderId
+                            inner join items I on OI.ItemId = I.Id
                     where O.StoreId = ?
                     and strftime('%Y-%m', O.OrderAt) = strftime(?, O.OrderAt)
                     group by strftime('%Y-%m-%d', O.OrderAt)
