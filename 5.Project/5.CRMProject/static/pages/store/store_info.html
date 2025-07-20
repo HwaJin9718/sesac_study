@@ -22,6 +22,10 @@
         <div id="store_revenue">
             <!-- 해당 매장의 월간 매출액 -->
         </div>
+        <p>단골 고객</p>
+        <div id="user_result">
+            <!-- 해당 매장의 단골 고객 -->
+        </div>
     </div>
 
     
@@ -208,9 +212,66 @@
                 })
         }
 
+        function get_user_by_user_id() {
+            const id = get_url_by_id();
+
+            fetch(`/api/store/info/user/${id}`)
+                .then(response => response.json())
+                .then(users => {
+                    // console.log(users.users)
+
+                    const userResultDiv = document.getElementById('user_result');
+                    userResultDiv.innerHTML = ""; // 기존 데이터 제거
+
+                    const new_table = document.createElement('table');
+                    new_table.setAttribute('id', 'user_table');
+                    const new_th_tr = document.createElement('tr')
+
+                    const new_th1 = document.createElement('th')
+                    new_th1.textContent = "USER_ID"
+
+                    const new_th2 = document.createElement('th')
+                    new_th2.textContent = "NAME"
+
+                    const new_th3 = document.createElement('th')
+                    new_th3.textContent = "FREQUENCY"
+
+                    new_th_tr.appendChild(new_th1)
+                    new_th_tr.appendChild(new_th2)
+                    new_th_tr.appendChild(new_th3)
+                    new_table.appendChild(new_th_tr)
+                    userResultDiv.appendChild(new_table)
+
+                    users.users.forEach(user => {
+
+                        const user_table = document.getElementById('user_table');
+                        const new_tb_tr = document.createElement('tr')
+
+                        const new_td1 = document.createElement('td')
+                        const td1_a = document.createElement('a')
+                        td1_a.setAttribute('href', `/api/user/${user.Id}`)
+                        td1_a.textContent = user.Id
+
+                        const new_td2 = document.createElement('td')
+                        new_td2.textContent = user.Name
+
+                        const new_td3 = document.createElement('td')
+                        new_td3.textContent = user.Count
+
+                        new_td1.appendChild(td1_a)
+                        new_tb_tr.appendChild(new_td1)
+                        new_tb_tr.appendChild(new_td2)
+                        new_tb_tr.appendChild(new_td3)
+                        user_table.appendChild(new_tb_tr)
+
+                    })
+                })
+        }
+
         document.addEventListener('DOMContentLoaded', () => {
             get_store_by_id()
             get_store_month_revenue_by_id()
+            get_user_by_user_id()
         })
 
         document.getElementById('store_revenue').addEventListener('click', (e) => {

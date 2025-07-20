@@ -138,3 +138,11 @@ def get_store_day_revenue_by_id_data(id):
     # print('검색한 달 :', search_month)
     store_revenues = db.get_store_day_revenue_by_id_and_month(id, search_month)
     return jsonify({'store_revenues' : store_revenues})
+
+
+# 상세 페이지의 user 데이터 전달
+@store_api.route('/info/user/<id>')
+def get_users_by_id_data(id):
+    users = db.get_users_visit_top10_by_id(id)
+    return jsonify({'users' : users})
+

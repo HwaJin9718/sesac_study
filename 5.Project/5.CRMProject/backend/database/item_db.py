@@ -97,7 +97,7 @@ def get_item_month_revenue_by_id(id):
                             left join orderitems OI on O.Id = OI.OrderId
                             left join items I on OI.ItemId = I.Id
                     where I.Id = ?
-                    group by strftime('%Y-%m', O.OrderAt);
+                    group by strftime('%Y-%m', O.OrderAt)
                     ''', (id, ))
     month_revenues = cursor.fetchall()
     conn.close()

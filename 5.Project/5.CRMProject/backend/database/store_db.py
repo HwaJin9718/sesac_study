@@ -127,3 +127,25 @@ def get_store_day_revenue_by_id_and_month(id, month):
 
     return store_revenues
 
+
+# store id로 많이 방문한 user 조회
+def get_users_visit_top10_by_id(id):
+    conn = get_connection()
+    cursor = conn.cursor()
+    cursor.execute('''
+                    select U.Id as Id, U.Name as Name, count(U.Id) as Count
+                    from stores S
+                            left join orders O on S.Id = O.StoreId
+                            left join users U on O.UserId = U.Id
+                    where S.Id = ?
+                    group by U.Id
+                    order by Count DESC, U.Id
+                    limit 10
+                    ''', (id, ))
+    users = cursor.fetchall()
+    conn.close()
+
+    users = [dict(u) for u in users]
+
+    return users
+

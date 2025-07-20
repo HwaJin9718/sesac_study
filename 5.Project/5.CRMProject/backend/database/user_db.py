@@ -183,7 +183,7 @@ def get_item_top5_by_user_id(id):
                     where U.Id = ?
                     group by I.Id
                     order by Count DESC, I.Id
-                    limit 5;
+                    limit 5
                     ''', (id, ))
     items = cursor.fetchall()
     conn.close()
