@@ -92,12 +92,12 @@ def get_store_month_revenue_by_id(id):
     conn = get_connection()
     cursor = conn.cursor()
     cursor.execute('''
-                    select strftime('%Y-%m', O.OrderAt) as Month, sum(I.UnitPrice) as Revenue, count(I.Id) as Count
+                    select O.StoreId as Id, strftime('%Y-%m', O.OrderAt) as Month, sum(I.UnitPrice) as Revenue, count(I.Id) as Count
                     from orders O
                             left join orderitems OI on O.Id = OI.OrderId
                             left join items I on OI.ItemId = I.Id
                     where O.StoreId = ?
-                    group by strftime('%Y-%m', O.OrderAt);
+                    group by strftime('%Y-%m', O.OrderAt)
                     ''', (id, ))
     month_revenues = cursor.fetchall()
     conn.close()
@@ -106,4 +106,24 @@ def get_store_month_revenue_by_id(id):
 
     return store_revenues
 
+
+# month로 store의 해당 월의 일별 매출액 조회
+def get_store_day_revenue_by_id_and_month(id, month):
+    conn = get_connection()
+    cursor = conn.cursor()
+    cursor.execute(r'''
+                    select strftime('%Y-%m-%d', O.OrderAt) as Month, sum(I.UnitPrice) as Revenue, count(I.Id) as Count
+                    from orders O
+                            left join orderitems OI on O.Id = OI.OrderId
+                            left join items I on OI.ItemId = I.Id
+                    where O.StoreId = ?
+                    and strftime('%Y-%m', O.OrderAt) = strftime(?, O.OrderAt)
+                    group by strftime('%Y-%m-%d', O.OrderAt)
+                    ''', (id, month))
+    month_revenues = cursor.fetchall()
+    conn.close()
+
+    store_revenues = [dict(r) for r in month_revenues]
+
+    return store_revenues
 

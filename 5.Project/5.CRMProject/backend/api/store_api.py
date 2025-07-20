@@ -130,3 +130,11 @@ def get_store_month_revenue_by_id_data(id):
     store_revenues = db.get_store_month_revenue_by_id(id)
     return jsonify({'store_revenues' : store_revenues})
 
+
+# 상세페이지 특정 월의 일간 매출액 데이터 전달
+@store_api.route('/info/day/revenue/<id>')
+def get_store_day_revenue_by_id_data(id):
+    search_month = request.args.get('month')
+    # print('검색한 달 :', search_month)
+    store_revenues = db.get_store_day_revenue_by_id_and_month(id, search_month)
+    return jsonify({'store_revenues' : store_revenues})
