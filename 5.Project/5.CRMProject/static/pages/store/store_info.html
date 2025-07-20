@@ -218,11 +218,6 @@
             if (e.target.tagName === 'A') {
                 const href = e.target.getAttribute('href')
 
-                // a 태그가 월간 매출액 보기 일 경우 store_info 페이지 다시 로드
-                if (href.includes('/month/revenue/')) {
-                    return;
-                }
-
                 // a 태그의 href에서 ? 를 기준으로 나눠서 ? 뒤의 값 중 month를 추출
                 if (href.includes('?month=')) {
                     e.preventDefault()
