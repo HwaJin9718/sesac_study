@@ -147,9 +147,12 @@
                         new_td2.textContent = order.OrderAt
 
                         const new_td3 = document.createElement('td')
-                        new_td3.textContent = order.StoreId
+                        const td3_a = document.createElement('a')
+                        td3_a.setAttribute('href', `/api/store/${order.StoreId}`)
+                        td3_a.textContent = order.StoreId
 
                         new_td1.appendChild(td1_a)
+                        new_td3.appendChild(td3_a)
                         new_tb_tr.appendChild(new_td1)
                         new_tb_tr.appendChild(new_td2)
                         new_tb_tr.appendChild(new_td3)
