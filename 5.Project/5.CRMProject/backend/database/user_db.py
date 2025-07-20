@@ -135,3 +135,15 @@ def get_user_by_name_and_gender_count(name, gender):
 
     return user_count
 
+
+def get_order_by_user_id(id):
+    conn = get_connection()
+    cursor = conn.cursor()
+    cursor.execute("SELECT * FROM orders WHERE UserId=?", (id, ))
+    orders = cursor.fetchall()
+    conn.close()
+
+    orders = [dict(o) for o in orders]
+
+    return orders
+

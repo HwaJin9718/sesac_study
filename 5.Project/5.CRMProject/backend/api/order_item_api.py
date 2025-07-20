@@ -66,5 +66,5 @@ def order_item_info_page(id):
 # 상세페이지 order_item 데이터 전달
 @order_item_api.route('/info/<id>')
 def get_order_item_by_id_date(id):
-    order_item = db.get_order_item_by_id(id)
-    return jsonify({'order_item' : order_item})
+    order_items = db.get_order_item_by_id(id)
+    return jsonify({'order_items' : order_items})

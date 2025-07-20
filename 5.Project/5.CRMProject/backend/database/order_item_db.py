@@ -60,12 +60,12 @@ def get_order_item_by_id(id):
                    from orderitems OI
                             left join items I on OI.ItemId = I.Id
                    WHERE OI.OrderId = ?''', (id,))
-    orderitem = cursor.fetchone()
+    orderitems = cursor.fetchall()
     conn.close()
 
-    orderitem = dict(orderitem)
+    orderitems = [dict(o) for o in orderitems]
 
-    return orderitem
+    return orderitems
 
 
 # order_item 에서 order_id 클릭하고 들어가

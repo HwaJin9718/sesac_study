@@ -35,7 +35,7 @@
 
             fetch(`/api/order_item/info/${id}`)
                 .then(response => response.json())
-                .then(order_item => {
+                .then(order_items => {
 
                     const orderItemResultDiv = document.getElementById('order_item_result');
                     orderItemResultDiv.innerHTML = ""; // 기존 데이터 제거
@@ -63,26 +63,30 @@
                     new_table.appendChild(new_th_tr)
                     orderItemResultDiv.appendChild(new_table)
 
-                    const order_item_table = document.getElementById('order_item_table');
-                    const new_tb_tr = document.createElement('tr')
+                    order_items.order_items.forEach(order_item => {
 
-                    const new_td1 = document.createElement('td')
-                    new_td1.textContent = order_item.order_item.Id
+                        const order_item_table = document.getElementById('order_item_table');
+                        const new_tb_tr = document.createElement('tr')
 
-                    const new_td2 = document.createElement('td')
-                    new_td2.textContent = order_item.order_item.OrderId
+                        const new_td1 = document.createElement('td')
+                        new_td1.textContent = order_item.Id
 
-                    const new_td3 = document.createElement('td')
-                    new_td3.textContent = order_item.order_item.ItemId
+                        const new_td2 = document.createElement('td')
+                        new_td2.textContent = order_item.OrderId
 
-                    const new_td4 = document.createElement('td')
-                    new_td4.textContent = order_item.order_item.Name
+                        const new_td3 = document.createElement('td')
+                        new_td3.textContent = order_item.ItemId
 
-                    new_tb_tr.appendChild(new_td1)
-                    new_tb_tr.appendChild(new_td2)
-                    new_tb_tr.appendChild(new_td3)
-                    new_tb_tr.appendChild(new_td4)
-                    order_item_table.appendChild(new_tb_tr)
+                        const new_td4 = document.createElement('td')
+                        new_td4.textContent = order_item.Name
+
+                        new_tb_tr.appendChild(new_td1)
+                        new_tb_tr.appendChild(new_td2)
+                        new_tb_tr.appendChild(new_td3)
+                        new_tb_tr.appendChild(new_td4)
+                        order_item_table.appendChild(new_tb_tr)
+                        
+                    });
 
                 })
         }

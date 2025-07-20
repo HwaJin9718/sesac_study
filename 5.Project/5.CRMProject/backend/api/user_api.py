@@ -136,3 +136,10 @@ def get_user_by_id_date(id):
     # print(user)
     return jsonify({'user' : user})
 
+
+# 상세 페이지의 order 데이터 전달
+@user_api.route('/info/order/<id>')
+def get_order_by_user_id_data(id):
+    orders = db.get_order_by_user_id(id)
+    return jsonify({'orders' : orders})
+
