@@ -77,7 +77,7 @@ def get_item_by_type(type, current_page, items_per_page):
 
 
 # type으로 조회된 item의 count 
-def get_store_by_name_count(type):
+def get_item_by_name_count(type):
     conn = get_connection()
     cursor = conn.cursor()
     cursor.execute("SELECT COUNT(*) FROM items WHERE Type=?", (type,))
@@ -85,4 +85,24 @@ def get_store_by_name_count(type):
     conn.close()
 
     return item_count
+
+
+# item id로 해당 item의 월간 매출액 조회
+def get_item_month_revenue_by_id(id):
+    conn = get_connection()
+    cursor = conn.cursor()
+    cursor.execute('''
+                    select strftime('%Y-%m', O.OrderAt) as Month, sum(I.UnitPrice) as Revenue, count(I.Id) as Count
+                    from orders O
+                            left join orderitems OI on O.Id = OI.OrderId
+                            left join items I on OI.ItemId = I.Id
+                    where I.Id = ?
+                    group by strftime('%Y-%m', O.OrderAt);
+                    ''', (id, ))
+    month_revenues = cursor.fetchall()
+    conn.close()
+
+    item_revenues = [dict(r) for r in month_revenues]
+
+    return item_revenues
 

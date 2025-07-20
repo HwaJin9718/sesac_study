@@ -122,3 +122,10 @@ def item_info_page(id):
 def get_item_by_id_date(id):
     item = db.get_item_by_id(id)
     return jsonify({'item' : item})
+
+
+# 상세페이지 월간 매출액 데이터 전달
+@item_api.route('/info/month/revenue/<id>')
+def get_store_month_revenue_by_id_data(id):
+    item_revenues = db.get_item_month_revenue_by_id(id)
+    return jsonify({'item_revenues' : item_revenues})
