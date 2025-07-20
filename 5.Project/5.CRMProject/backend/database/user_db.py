@@ -136,6 +136,7 @@ def get_user_by_name_and_gender_count(name, gender):
     return user_count
 
 
+# user id로 조회된 주문내역 
 def get_order_by_user_id(id):
     conn = get_connection()
     cursor = conn.cursor()
@@ -146,4 +147,48 @@ def get_order_by_user_id(id):
     orders = [dict(o) for o in orders]
 
     return orders
+
+
+# user id로 조회한 매장 top 5
+def get_store_top5_by_user_id(id):
+    conn = get_connection()
+    cursor = conn.cursor()
+    cursor.execute('''
+                    select S.Name as Name, count(S.Name) as Count
+                    from users U
+                            left join orders O on U.Id = O.UserId
+                            left join stores S on O.StoreId = S.Id
+                    where U.Id = ?
+                    group by S.Id
+                    order by Count DESC, S.Id limit 5
+                    ''', (id, ))
+    stores = cursor.fetchall()
+    conn.close()
+
+    stores = [dict(s) for s in stores]
+
+    return stores
+
+
+# user id로 조회한 주문 상품명 top 5
+def get_item_top5_by_user_id(id):
+    conn = get_connection()
+    cursor = conn.cursor()
+    cursor.execute('''
+                    select I.Name as Name, count(I.Name) as Count
+                    from users U
+                            left join orders O on U.Id = O.UserId
+                            left join orderitems OI on O.Id = OI.OrderId
+                            left join items I on OI.ItemId = I.Id
+                    where U.Id = ?
+                    group by I.Id
+                    order by Count DESC, I.Id
+                    limit 5;
+                    ''', (id, ))
+    items = cursor.fetchall()
+    conn.close()
+
+    items = [dict(i) for i in items]
+
+    return items
 

@@ -23,6 +23,16 @@
         <div id="order_result">
             <!-- 특정 고객에 대한 주문 정보 -->
         </div>
+        <div>
+            <p>자주 방문한 매장 Top 5</p>
+            <div id="store_result">
+                <!-- 특정 고객에 대한 주문 정보 -->
+            </div>
+            <p>자주 주문한 상품명 Top 5</p>
+            <div id="item_result">
+                <!-- 특정 고객에 대한 주문 정보 -->
+            </div>
+        </div>
     </div>
 
     
@@ -101,15 +111,12 @@
         }
 
         function get_order_by_user_id() {
-            // 주문건 확인 후 출력
-            // order_id 클릭 시 해당 id로 주문된 order_item 내역 출력 필요
-            // 주문 날짜
-            // store_id 클릭 시 해당 매장 정보 조회 필요
             const id = get_url_by_id();
+
             fetch(`/api/user/info/order/${id}`)
                 .then(response => response.json())
                 .then(orders => {
-                    console.log(orders.orders)
+                    // console.log(orders.orders)
 
                     const orderResultDiv = document.getElementById('order_result');
                     orderResultDiv.innerHTML = ""; // 기존 데이터 제거
@@ -163,9 +170,53 @@
                 })
         }
 
+        function get_store_by_user_id() {
+            const id = get_url_by_id();
+
+            fetch(`/api/user/info/store/${id}`)
+                .then(response => response.json())
+                .then(stores => {
+                    // console.log(stores.stores)
+                    stores.stores.forEach(store => {
+                        // console.log(store)
+                        const storeResultDiv = document.getElementById('store_result');
+
+                        const new_ul = document.createElement('ul')
+                        const new_li = document.createElement('li')
+                        new_li.textContent = `${store.Name} (${store.Count}번 방문)`
+
+                        new_ul.appendChild(new_li)
+                        storeResultDiv.appendChild(new_ul)
+                    })
+                })
+        }
+
+        function get_item_by_user_id() {
+            const id = get_url_by_id();
+
+            fetch(`/api/user/info/item/${id}`)
+                .then(response => response.json())
+                .then(items => {
+                    console.log(items.items)
+                    items.items.forEach(item => {
+                        // console.log(item)
+                        const itemResultDiv = document.getElementById('item_result');
+
+                        const new_ul = document.createElement('ul')
+                        const new_li = document.createElement('li')
+                        new_li.textContent = `${item.Name} (${item.Count}번 주문)`
+
+                        new_ul.appendChild(new_li)
+                        itemResultDiv.appendChild(new_ul)
+                    })
+                })
+        }
+
         document.addEventListener('DOMContentLoaded', () => {
             get_user_by_id()
             get_order_by_user_id()
+            get_store_by_user_id()
+            get_item_by_user_id()
         })
     </script>
 </body>

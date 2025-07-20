@@ -143,3 +143,17 @@ def get_order_by_user_id_data(id):
     orders = db.get_order_by_user_id(id)
     return jsonify({'orders' : orders})
 
+
+# 상세 페이지의 store 데이터 전달
+@user_api.route('/info/store/<id>')
+def get_store_by_user_id_data(id):
+    stores = db.get_store_top5_by_user_id(id)
+    return jsonify({'stores' : stores})
+
+
+# 상세 페이지의 item 데이터 전달
+@user_api.route('/info/item/<id>')
+def get_item_by_user_id_data(id):
+    items = db.get_item_top5_by_user_id(id)
+    return jsonify({'items' : items})
+
