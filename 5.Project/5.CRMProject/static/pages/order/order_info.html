@@ -73,11 +73,17 @@
                     new_td2.textContent = order.order.OrderAt
 
                     const new_td3 = document.createElement('td')
-                    new_td3.textContent = order.order.StoreId
+                    const td3_a = document.createElement('a')
+                    td3_a.setAttribute('href', `/api/store/${order.order.StoreId}`)
+                    td3_a.textContent = order.order.StoreId
 
                     const new_td4 = document.createElement('td')
-                    new_td4.textContent = order.order.UserId
+                    const td4_a = document.createElement('a')
+                    td4_a.setAttribute('href', `/api/user/${order.order.UserId}`)
+                    td4_a.textContent = order.order.UserId
 
+                    new_td3.appendChild(td3_a)
+                    new_td4.appendChild(td4_a)
                     new_tb_tr.appendChild(new_td1)
                     new_tb_tr.appendChild(new_td2)
                     new_tb_tr.appendChild(new_td3)

@@ -122,3 +122,11 @@ def store_info_page(id):
 def get_store_by_id_date(id):
     store = db.get_store_by_id(id)
     return jsonify({'store' : store})
+
+
+# 상세페이지 월간 매출액 데이터 전달
+@store_api.route('/info/month/revenue/<id>')
+def get_store_month_revenue_by_id_data(id):
+    store_revenues = db.get_store_month_revenue_by_id(id)
+    return jsonify({'store_revenues' : store_revenues})
+

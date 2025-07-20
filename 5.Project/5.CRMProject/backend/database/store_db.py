@@ -86,3 +86,24 @@ def get_store_by_name_count(name):
 
     return store_count
 
+
+# store id로 store의 월간 매출액 조회
+def get_store_month_revenue_by_id(id):
+    conn = get_connection()
+    cursor = conn.cursor()
+    cursor.execute('''
+                    select strftime('%Y-%m', O.OrderAt) as Month, sum(I.UnitPrice) as Revenue, count(I.Id) as Count
+                    from orders O
+                            left join orderitems OI on O.Id = OI.OrderId
+                            left join items I on OI.ItemId = I.Id
+                    where O.StoreId = ?
+                    group by strftime('%Y-%m', O.OrderAt);
+                    ''', (id, ))
+    month_revenues = cursor.fetchall()
+    conn.close()
+
+    store_revenues = [dict(r) for r in month_revenues]
+
+    return store_revenues
+
+

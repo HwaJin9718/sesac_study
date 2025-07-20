@@ -19,6 +19,10 @@
         <div id="store_result">
             <!-- Store Info 출력 -->
         </div>
+        <p>월간 매출액</p>
+        <div id="store_revenue">
+            <!-- 해당 매장의 월간 매출액 -->
+        </div>
     </div>
 
     
@@ -78,8 +82,68 @@
 
                 })
         }
+
+        function get_store_month_revenue_by_id() {
+            
+            const id = get_url_by_id();
+
+            fetch(`/api/store/info/month/revenue/${id}`)
+                .then(response => response.json())
+                .then(store_revenues => {
+                    console.log(store_revenues.store_revenues)
+
+                    const revenueResultDiv = document.getElementById('store_revenue');
+                    revenueResultDiv.innerHTML = ""; // 기존 데이터 제거
+
+                    const new_table = document.createElement('table');
+                    new_table.setAttribute('id', 'revenue_table');
+                    const new_th_tr = document.createElement('tr')
+
+                    const new_th1 = document.createElement('th')
+                    new_th1.textContent = "MONTH"
+
+                    const new_th2 = document.createElement('th')
+                    new_th2.textContent = "REVENUE"
+
+                    const new_th3 = document.createElement('th')
+                    new_th3.textContent = "COUNT"
+
+                    new_th_tr.appendChild(new_th1)
+                    new_th_tr.appendChild(new_th2)
+                    new_th_tr.appendChild(new_th3)
+                    new_table.appendChild(new_th_tr)
+                    revenueResultDiv.appendChild(new_table)
+
+                    store_revenues.store_revenues.forEach(store_revenue => {
+                        
+                        const revenue_table = document.getElementById('revenue_table');
+                        const new_tb_tr = document.createElement('tr')
+
+                        const new_td1 = document.createElement('td')
+                        const td1_a = document.createElement('a')
+                        td1_a.setAttribute('href', `/api/store/day/revenue/${store_revenue.Id}?month=${store_revenue.Month}`)
+                        td1_a.textContent = store_revenue.Month
+
+                        const new_td2 = document.createElement('td')
+                        new_td2.textContent = store_revenue.Revenue
+
+                        const new_td3 = document.createElement('td')
+                        new_td3.textContent = store_revenue.Count
+
+                        new_td1.appendChild(td1_a)
+                        new_tb_tr.appendChild(new_td1)
+                        new_tb_tr.appendChild(new_td2)
+                        new_tb_tr.appendChild(new_td3)
+                        revenue_table.appendChild(new_tb_tr)
+                        
+                    });
+
+                })
+        }
+
         document.addEventListener('DOMContentLoaded', () => {
             get_store_by_id()
+            get_store_month_revenue_by_id()
         })
     </script>
 </body>

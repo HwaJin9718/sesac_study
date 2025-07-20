@@ -72,14 +72,20 @@
                         new_td1.textContent = order_item.Id
 
                         const new_td2 = document.createElement('td')
-                        new_td2.textContent = order_item.OrderId
+                        const td2_a = document.createElement('a')
+                        td2_a.setAttribute('href', `/api/order/${order_item.OrderId}`)
+                        td2_a.textContent = order_item.OrderId
 
                         const new_td3 = document.createElement('td')
-                        new_td3.textContent = order_item.ItemId
+                        const td3_a = document.createElement('a')
+                        td3_a.setAttribute('href', `/api/item/${order_item.ItemId}`)
+                        td3_a.textContent = order_item.ItemId
 
                         const new_td4 = document.createElement('td')
                         new_td4.textContent = order_item.Name
 
+                        new_td2.appendChild(td2_a)
+                        new_td3.appendChild(td3_a)
                         new_tb_tr.appendChild(new_td1)
                         new_tb_tr.appendChild(new_td2)
                         new_tb_tr.appendChild(new_td3)
