@@ -1,48 +1,43 @@
-D:.
-|   app.py
-|   mycrm.db
-|   folder_structure.txt
-|   
-+---static
-|   |   main.html
-|   |   
-|   +---pages
-|   |   +---user
-|   |   |       user_info.html
-|   |   |       
-|   |   +---store
-|   |   |       store.html
-|   |   |       store_info.html
-|   |   |       
-|   |   +---item
-|   |   |       item.html
-|   |   |       item_info.html
-|   |   |       
-|   |   +---order
-|   |   |       order_info.html
-|   |   |       order.html
-|   |   |       
-|   |   \---order_item
-|   |           order_item.html
-|   |           order_item_info.html
-|   |           
-|   \---css
-|           style.css
-|           
-+---backend
-|   |   
-|   +---database
-|   |   |   user_db.py
-|   |   |   __init__.py
-|   |   |   store_db.py
-|   |   |   item_db.py
-|   |   |   order_db.py
-|   |   |   order_item_db.py
-|   |           
-|   +---api
-|   |   |   user_api.py
-|   |   |   __init__.py
-|   |   |   store_api.py
-|   |   |   item_api.py
-|   |   |   order_api.py
-|   |   |   order_item_api.py
+📂 5.CRMProject 폴더 구조
+==================================================
+
+📁 5.CRMProject/
+├── 📁 backend
+│   ├── 📁 api
+│   │   ├── 🐍 __init__.py
+│   │   ├── 🐍 item_api.py
+│   │   ├── 🐍 order_api.py
+│   │   ├── 🐍 order_item_api.py
+│   │   ├── 🐍 store_api.py
+│   │   └── 🐍 user_api.py
+│   ├── 📁 database
+│   │   ├── 🐍 __init__.py
+│   │   ├── 🐍 item_db.py
+│   │   ├── 🐍 order_db.py
+│   │   ├── 🐍 order_item_db.py
+│   │   ├── 🐍 store_db.py
+│   │   └── 🐍 user_db.py
+│   └── 🐍 __init__.py
+├── 📁 static
+│   ├── 📁 css
+│   │   └── 🎨 style.css
+│   ├── 📁 pages
+│   │   ├── 📁 item
+│   │   │   ├── 🌐 item.html
+│   │   │   └── 🌐 item_info.html
+│   │   ├── 📁 order
+│   │   │   ├── 🌐 order.html
+│   │   │   └── 🌐 order_info.html
+│   │   ├── 📁 order_item
+│   │   │   ├── 🌐 order_item.html
+│   │   │   └── 🌐 order_item_info.html
+│   │   ├── 📁 store
+│   │   │   ├── 🌐 store.html
+│   │   │   └── 🌐 store_info.html
+│   │   └── 📁 user
+│   │       └── 🌐 user_info.html
+│   └── 🌐 main.html
+├── 🐍 app.py
+├── 🐍 folder_structure.py
+├── 📄 folder_structure.txt
+└── 🗄️ mycrm.db
