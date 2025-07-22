@@ -376,6 +376,24 @@ li:hover {
     transform: translateY(0);
 }
 
+/* Canvas 차트 스타일링 */
+.chart-container {
+    width: 100%;
+    height: 400px;
+    background-color: white;
+    border-radius: 10px;
+    padding: 20px;
+    margin-bottom: 25px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    position: relative;
+}
+
+/* Canvas 자체는 최소한의 스타일만 */
+canvas {
+    max-width: 100%;
+    height: auto;
+}
+
 /* 반응형 디자인 */
 @media (max-width: 768px) {
     body {
@@ -429,6 +447,12 @@ li:hover {
         padding: 8px 12px;
         margin: 2px;
         font-size: 0.85rem;
+    }
+
+    /* Canvas 반응형 */
+    .chart-container {
+        height: 300px;
+        padding: 15px;
     }
 }
 
