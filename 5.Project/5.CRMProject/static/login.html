@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CRM Login</title>
+    <link rel="stylesheet" href="/static/css/style.css">
+</head>
+<body class="login-page">
+    <div class="login-container">
+        <div class="login-card">
+            <h2 class="login-title">CRM LOGIN</h2>
+            <form id="login_form" class="login-form">
+                <div class="input-group">
+                    <label for="user_id">사용자 ID</label>
+                    <input type="text" name="user_id" id="user_id" placeholder="아이디를 입력하세요" required>
+                </div>
+                <div class="input-group">
+                    <label for="user_pw">비밀번호</label>
+                    <input type="password" name="user_pw" id="user_pw" placeholder="비밀번호를 입력하세요" required>
+                </div>
+                <button type="submit" class="login-button">로그인</button>
+            </form>
+        </div>
+    </div>
+    <script>
+        function login() {
+
+            const user_id = document.querySelector('input[name="user_id"]').value;
+            const user_pw = document.querySelector('input[name="user_pw"]').value;
+
+            fetch(`/api/login?user_id=${user_id}&user_pw=${user_pw}`)
+                .then(response => response.json())
+                .then(result => {
+                    // console.log(result.message)
+                    if (result.message === true) {
+                        window.location.href = '/api/user';
+                    }
+                })
+        }
+
+        document.getElementById('login_form').addEventListener('submit', (e) => {
+            // search 버튼 클릭 시 행동 구현
+            e.preventDefault(); // form의 기본 submit 동작 방지
+            login()
+        })
+    </script>
+</body>
+</html>

@@ -9,7 +9,7 @@
 <body>
     <h2>CRM</h2>
     <nav>
-        <a href="/">User</a> |
+        <a href="/api/user">User</a> |
         <a href="/api/order">Order</a> |
         <a href="/api/order_item">Order Item</a> |
         <a href="/api/item">Item</a> |
@@ -185,7 +185,7 @@
 
         function get_users() {
             const url = get_page_by_url()
-            fetch('/api/user/')
+            fetch('/api/user/data')
                 .then(response => response.json())
                 .then(users => {
                     // console.log(users)

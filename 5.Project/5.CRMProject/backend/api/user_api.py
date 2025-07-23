@@ -1,12 +1,15 @@
-from flask import Blueprint, jsonify, send_from_directory, request, current_app
-# current_app : main.html 접근을 위해 app에 있는 static 폴더로 접근 필요
-# from app import app 시 순환 참조 오류 발생, 현재 활성화된 app을 가져오기 위해 current_app 사용
+from flask import Blueprint, jsonify, send_from_directory, request
 import backend.database.user_db as db
 
 user_api = Blueprint('user', __name__, static_folder='../../static/pages/user/')
 
-#  처음 user 데이터 전달
+# 처음 user 페이지 이동
 @user_api.route('/')
+def get_user_page():
+    return send_from_directory(user_api.static_folder, 'user.html')
+
+# 처음 user 데이터 전달
+@user_api.route('/data')
 def get_users_data():
 
     # 페이징 처리
@@ -31,7 +34,7 @@ def get_users_data():
 @user_api.route('/<int:page>')
 def get_users_paging(page):
     # 다른 페이지로 이동시 페이징 처리된 main.html로 이동
-    return send_from_directory(current_app.static_folder, 'main.html')
+    return send_from_directory(user_api.static_folder, 'user.html')
 
 
 # 페이징 처리 시 user 데이터 전달
@@ -58,7 +61,7 @@ def get_users_paging_data(page):
 @user_api.route('/search/page/<int:page>')
 def get_users_search_paging(page):
     # 다른 페이지로 이동시 페이징 처리된 main.html로 이동
-    return send_from_directory(current_app.static_folder, 'main.html')
+    return send_from_directory(user_api.static_folder, 'user.html')
 
 
 # 검색 및 페이징 처리 시 user 데이터 전달
