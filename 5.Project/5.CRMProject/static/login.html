@@ -35,6 +35,8 @@
                     // console.log(result.message)
                     if (result.message === true) {
                         window.location.href = '/api/user';
+                    } else {
+                        alert('입력한 아이디/비밀번호가 맞지 않습니다.')
                     }
                 })
         }

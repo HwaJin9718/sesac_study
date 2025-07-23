@@ -57,7 +57,10 @@ def get_user_by_id(id):
     user = cursor.fetchone()
     conn.close()
 
-    user = dict(user)
+    if user:
+        user = dict(user)
+    else:
+        user = []
 
     return user
 

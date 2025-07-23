@@ -11,7 +11,9 @@ def login():
     user_pw = request.args.get('user_pw')
     # print(f"입력한 아이디: {user_id}, 입력한 비밀번호: {user_pw}")
 
-    if user_id and user_pw:
+    user = db.get_user_by_id(user_id)
+
+    if user and user_pw:
         login_result = True
 
     return jsonify({'message': login_result})
