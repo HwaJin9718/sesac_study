@@ -3,28 +3,46 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>CRM 회원가입</title>
+    <link rel="stylesheet" href="/static/css/style.css">
 </head>
-<body>
-    <h2>회원 가입</h2>
-    <form id="membership">
-        <label for="name">이름 : </label>
-        <input type="text" name="name" id="name" required>
+<body class="login-page">
+    <div class="login-container">
+        <div class="login-card">
+            <h2 class="login-title">회원 가입</h2>
+            <form id="membership" class="login-form">
+                <div class="input-group">
+                    <label for="name">이름</label>
+                    <input type="text" name="name" id="name" placeholder="이름을 입력하세요" required>
+                </div>
 
-        <label for="gender">성별 : </label>
-        <select name="gender" id="gender" required>
-            <option value="Female">Female</option>
-            <option value="Male">Male</option>
-        </select>
+                <div class="input-group">
+                    <label for="gender">성별</label>
+                    <select name="gender" id="gender" required>
+                        <option value="">성별을 선택하세요</option>
+                        <option value="Female">여성</option>
+                        <option value="Male">남성</option>
+                    </select>
+                </div>
 
-        <label for="birthdate">생년월일 : </label>
-        <input type="date" name="birthdate" id="birthdate" required>
+                <div class="input-group">
+                    <label for="birthdate">생년월일</label>
+                    <input type="date" name="birthdate" id="birthdate" required>
+                </div>
 
-        <label for="address">주소 : </label>
-        <input type="text" name="address" id="address" required>
+                <div class="input-group">
+                    <label for="address">주소</label>
+                    <input type="text" name="address" id="address" placeholder="주소를 입력하세요" required>
+                </div>
 
-        <button type="submit">회원 가입</button>
-    </form>
+                <button type="submit" class="login-button">회원 가입</button>
+            </form>
+            
+            <div id="login-page">
+                <button type="button" class="login-button" id="back-login">로그인으로 돌아가기</button>
+            </div>
+        </div>
+    </div>
 
     <script>
         function membership() {
@@ -59,6 +77,10 @@
         document.getElementById('membership').addEventListener('submit', (e) => {
             e.preventDefault(); // form의 기본 submit 동작 방지
             membership()
+        })
+
+        document.getElementById('back-login').addEventListener('click', () => {
+            window.location.href = '/';
         })
     </script>
 </body>

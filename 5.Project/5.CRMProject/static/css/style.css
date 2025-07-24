@@ -495,7 +495,7 @@ nav:hover, table:hover, #store_result:hover, #item_result:hover {
 /* 로그인 컨테이너 */
 .login-container {
     width: 100%;
-    max-width: 400px;
+    max-width: 500px;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -509,6 +509,7 @@ nav:hover, table:hover, #store_result:hover, #item_result:hover {
     box-shadow: 0 10px 30px rgba(58, 155, 138, 0.15);
     border: 1px solid rgba(58, 155, 138, 0.1);
     width: 100%;
+    max-width: 500px;
     transition: all 0.3s ease;
 }
 
@@ -532,21 +533,28 @@ nav:hover, table:hover, #store_result:hover, #item_result:hover {
 .login-form {
     display: flex;
     flex-direction: column;
-    gap: 25px;
+    align-items: center;
+    gap: 20px;
+    width: 100%;
 }
 
 /* 입력 그룹 */
 .input-group {
     display: flex;
-    flex-direction: column;
-    gap: 8px;
+    flex-direction: row;
+    align-items: center;
+    gap: 12px;
+    width: 100%;
+    align-self: stretch;
 }
 
 .input-group label {
     font-weight: 600;
     color: #495057;
     font-size: 0.95rem;
-    margin-left: 5px;
+    width: 90px;
+    text-align: left;
+    flex-shrink: 0;
 }
 
 .input-group input {
@@ -557,6 +565,7 @@ nav:hover, table:hover, #store_result:hover, #item_result:hover {
     background-color: #f8f9fa;
     transition: all 0.3s ease;
     box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.05);
+    flex: 1;
 }
 
 .input-group input:focus {
@@ -570,6 +579,27 @@ nav:hover, table:hover, #store_result:hover, #item_result:hover {
 .input-group input::placeholder {
     color: #6c757d;
     opacity: 0.8;
+}
+
+.input-group select {
+    padding: 15px 18px;
+    border: 2px solid #dee2e6;
+    border-radius: 12px;
+    font-size: 1rem;
+    background-color: #f8f9fa;
+    transition: all 0.3s ease;
+    box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.05);
+    cursor: pointer;
+    color: #495057;
+    flex: 1;
+}
+
+.input-group select:focus {
+    outline: none;
+    border-color: #3a9b8a;
+    background-color: white;
+    box-shadow: 0 0 0 4px rgba(58, 155, 138, 0.15), inset 0 2px 4px rgba(0, 0, 0, 0.05);
+    transform: translateY(-2px);
 }
 
 /* 로그인 버튼 */
@@ -587,6 +617,11 @@ nav:hover, table:hover, #store_result:hover, #item_result:hover {
     margin-top: 10px;
     text-transform: uppercase;
     letter-spacing: 0.5px;
+    width: auto;
+    min-width: 220px;
+    max-width: 280px;
+    margin-left: auto;
+    margin-right: auto;
 }
 
 .login-button:hover {
@@ -600,7 +635,7 @@ nav:hover, table:hover, #store_result:hover, #item_result:hover {
     box-shadow: 0 4px 12px rgba(58, 155, 138, 0.3);
 }
 
-#login-page {
+#login-page, #main-buttons {
     display: flex;                /* 필수! */
     align-items: center;         /* 세로 중앙 */
     justify-content: center;     /* 가로 중앙 */
@@ -612,12 +647,13 @@ nav:hover, table:hover, #store_result:hover, #item_result:hover {
     display: flex; 
     align-items: center;
     justify-content: center;
-    width: 100%;                 /* 전체 너비로 확장 */
-    margin: 15px 0;             /* 위아래 여백 추가 */
+    width: auto;                 /* 자동 너비 */
+    min-width: 220px;           /* 최소 너비 설정 */
+    max-width: 320px;           /* 최대 너비 제한 */
     background: linear-gradient(135deg, #3a9b8a, #2d7d6f);  /* 다른 버튼과 동일한 색상 */
-    font-size: 1.2rem;          /* 폰트 크기 증가 */
-    padding: 16px 30px;         /* 높이는 다른 버튼과 동일, 너비만 증가 */
-    box-shadow: 0 6px 15px rgba(58, 155, 138, 0.3);  /* 초록색 그림자 */
+    font-size: 1.1rem;          /* 다른 버튼과 동일한 폰트 크기 */
+    padding: 16px 24px;         /* 다른 버튼과 동일한 패딩 */
+    box-shadow: 0 4px 12px rgba(58, 155, 138, 0.3);  /* 다른 버튼과 동일한 그림자 */
 }
 
 #member-button:hover {
@@ -655,6 +691,16 @@ nav:hover, table:hover, #store_result:hover, #item_result:hover {
         padding: 14px 20px;
         font-size: 1rem;
     }
+    
+    /* 태블릿에서 입력 그룹 조정 */
+    .input-group {
+        gap: 8px;
+    }
+    
+    .input-group label {
+        width: 70px;
+        font-size: 0.9rem;
+    }
 }
 
 @media (max-width: 480px) {
@@ -668,5 +714,17 @@ nav:hover, table:hover, #store_result:hover, #item_result:hover {
     
     .login-title {
         font-size: 1.5rem;
+    }
+    
+    /* 모바일에서는 입력 그룹을 세로로 배치 */
+    .input-group {
+        flex-direction: column;
+        align-items: stretch;
+        gap: 8px;
+    }
+    
+    .input-group label {
+        min-width: unset;
+        text-align: left;
     }
 }
