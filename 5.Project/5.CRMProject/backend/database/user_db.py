@@ -203,5 +203,6 @@ def create_user(id, name, gender, age, birthdate, address):
                     insert into users (Id, Name, Gender, Age, Birthdate, Address)
                     values (?, ?, ?, ?, ?, ?)
                     ''', (id, name, gender, age, birthdate, address))
+    conn.commit()
     conn.close()
 
