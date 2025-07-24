@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <h2>회원 가입</h2>
+    <form id="membership">
+        <label for="name">이름 : </label>
+        <input type="text" name="name" id="name">
+
+        <label for="gender">성별 : </label>
+        <select name="gender" id="gender">
+            <option value="">선택하세요</option>
+            <option value="Female">Female</option>
+            <option value="Male">Male</option>
+        </select>
+
+        <label for="birthdate">생년월일 : </label>
+        <input type="date" name="birthdate" id="birthdate">
+
+        <label for="address">주소 : </label>
+        <input type="text" name="address" id="address">
+
+        <button type="submit">회원 가입</button>
+    </form>
+
+    <script>
+        function membership() {
+
+            const input_name = document.querySelector('input[name="name"]').value;
+            const input_gender = document.querySelector('select[name="gender"]').value;
+            const input_birthdate = document.querySelector('input[name="birthdate"]').value;
+            const input_address = document.querySelector('input[name="address"]').value;
+
+            fetch('/api/cus/membership', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    name: input_name,
+                    gender: input_gender,
+                    birthdate: input_birthdate,
+                    address: input_address
+                })
+            })
+                .then(response => response.json())
+                .then(result => {})
+        }
+
+        document.getElementById('membership').addEventListener('submit', (e) => {
+            e.preventDefault(); // form의 기본 submit 동작 방지
+            membership()
+        })
+    </script>
+</body>
+</html>

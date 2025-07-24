@@ -195,3 +195,13 @@ def get_item_top5_by_user_id(id):
 
     return items
 
+
+def create_user(id, name, gender, age, birthdate, address):
+    conn = get_connection()
+    cursor = conn.cursor()
+    cursor.execute('''
+                    insert into users (Id, Name, Gender, Age, Birthdate, Address)
+                    values (?, ?, ?, ?, ?, ?)
+                    ''', (id, name, gender, age, birthdate, address))
+    conn.close()
+

@@ -600,6 +600,32 @@ nav:hover, table:hover, #store_result:hover, #item_result:hover {
     box-shadow: 0 4px 12px rgba(58, 155, 138, 0.3);
 }
 
+#login-page {
+    display: flex;                /* 필수! */
+    align-items: center;         /* 세로 중앙 */
+    justify-content: center;     /* 가로 중앙 */
+    gap: 10px;                   /* 버튼 간격 */
+    margin: 5px 0;  
+}
+
+#member-button {
+    display: flex; 
+    align-items: center;
+    justify-content: center;
+    width: 100%;                 /* 전체 너비로 확장 */
+    margin: 15px 0;             /* 위아래 여백 추가 */
+    background: linear-gradient(135deg, #3a9b8a, #2d7d6f);  /* 다른 버튼과 동일한 색상 */
+    font-size: 1.2rem;          /* 폰트 크기 증가 */
+    padding: 16px 30px;         /* 높이는 다른 버튼과 동일, 너비만 증가 */
+    box-shadow: 0 6px 15px rgba(58, 155, 138, 0.3);  /* 초록색 그림자 */
+}
+
+#member-button:hover {
+    background: linear-gradient(135deg, #2d7d6f, #25665a);
+    transform: translateY(-3px);
+    box-shadow: 0 10px 25px rgba(58, 155, 138, 0.4);
+}
+
 /* 로그인 페이지 반응형 디자인 */
 @media (max-width: 768px) {
     .login-page {

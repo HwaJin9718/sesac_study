@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CRM Login</title>
+    <link rel="stylesheet" href="/static/css/style.css">
+</head>
+<body class="login-page">
+    <div class="login-container">
+        <div class="login-card">
+            <h2 class="login-title">LOGIN</h2>
+            <form id="login_form" class="login-form">
+                <div class="input-group">
+                    <label for="user_id">사용자 ID</label>
+                    <input type="text" name="user_id" id="user_id" placeholder="아이디를 입력하세요" required>
+                </div>
+                <div class="input-group">
+                    <label for="user_pw">비밀번호</label>
+                    <input type="password" name="user_pw" id="user_pw" placeholder="비밀번호를 입력하세요" required>
+                </div>
+                <button type="submit" class="login-button">로그인</button>
+            </form>
+            <button type="submit" class="login-button" id="member-button">회원가입</button>
+            <div id="login-page">
+                <button type="submit" class="login-button" id="user-button">회원 로그인</button>
+                <button type="submit" class="login-button" id="admin-button">관리자 로그인</button>
+            </div>
+        </div>
+    </div>
+    <script>
+        function login() {
+
+            const user_id = document.querySelector('input[name="user_id"]').value;
+            const user_pw = document.querySelector('input[name="user_pw"]').value;
+
+            fetch(`/api/login/user?user_id=${user_id}&user_pw=${user_pw}`)
+                .then(response => response.json())
+                .then(result => {
+                    // console.log(result.message)
+                    if (result.message === true) {
+                        window.location.href = '/api/cus';
+                    } else {
+                        alert('입력한 아이디/비밀번호가 맞지 않습니다.')
+                    }
+                })
+        }
+
+        document.getElementById('login_form').addEventListener('submit', (e) => {
+            e.preventDefault(); // form의 기본 submit 동작 방지
+            login()
+        })
+
+        document.getElementById('member-button').addEventListener('click', () => {
+            window.location.href = '/member';
+        })
+
+        document.getElementById('user-button').addEventListener('click', () => {
+            window.location.href = '/';
+        })
+
+        document.getElementById('admin-button').addEventListener('click', () => {
+            window.location.href = '/admin';
+        })
+    </script>
+</body>
+</html>
