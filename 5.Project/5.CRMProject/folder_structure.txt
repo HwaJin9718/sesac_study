@@ -6,6 +6,7 @@
 │   ├── 📁 api
 │   │   ├── 🐍 __init__.py
 │   │   ├── 🐍 item_api.py
+│   │   ├── 🐍 login_api.py
 │   │   ├── 🐍 order_api.py
 │   │   ├── 🐍 order_item_api.py
 │   │   ├── 🐍 store_api.py
@@ -35,8 +36,9 @@
 │   │   │   ├── 🌐 store.html
 │   │   │   └── 🌐 store_info.html
 │   │   └── 📁 user
+│   │       ├── 🌐 user.html
 │   │       └── 🌐 user_info.html
-│   └── 🌐 main.html
+│   └── 🌐 login.html
 ├── 🐍 app.py
 ├── 🐍 folder_structure.py
 ├── 📄 folder_structure.txt

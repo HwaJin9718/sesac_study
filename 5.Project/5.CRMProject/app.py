@@ -1,4 +1,4 @@
-from flask import Flask, send_from_directory, request, jsonify, redirect, url_for
+from flask import Flask, send_from_directory
 from backend.api.user_api import user_api
 from backend.api.store_api import store_api
 from backend.api.item_api import item_api
@@ -21,4 +21,4 @@ def index():
     return send_from_directory(app.static_folder, 'login.html')
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    app.run(host="0.0.0.0", debug=True)

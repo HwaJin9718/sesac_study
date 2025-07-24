@@ -39,7 +39,7 @@
             const pageDiv = document.getElementById('paging');
             pageDiv.innerHTML = ""; // 기존 데이터 제거
             
-            if (totalPages <= 1) return; // 페이지가 1개 이하면 페이징 안함
+            if (totalPages <= 1) return pageDiv.remove(); // 페이지가 1개 이하면 페이징 안함
             
             const query = queryString ? `?${queryString}` : '';
             
@@ -51,7 +51,7 @@
                 pageDiv.appendChild(previous);
             }
             
-            // 페이지 번호들
+            // 페이지 번호
             const pages = getPageNumbers(currentPage, totalPages);
             
             pages.forEach((page, index) => {
@@ -245,7 +245,7 @@
 
                     });
 
-                    // 새로운 페이징 함수 사용
+                    // 페이징 함수
                     createPagination(url.page, stores.total_page, '/api/store')
                     
                     });
@@ -321,7 +321,7 @@
 
                     });
 
-                    // 새로운 페이징 함수 사용
+                    // 페이징 함수
                     createPagination(url.page, stores.total_page, '/api/store')
                     
                     });
@@ -407,7 +407,7 @@
                     }
                     const queryString = queryParam.toString();
 
-                    // 새로운 페이징 함수 사용
+                    // 페이징 함수
                     createPagination(1, stores.total_page, '/api/store/search', queryString)
                 })
         }
@@ -498,7 +498,7 @@
 
                     });
 
-                    // 새로운 페이징 함수 사용
+                    // 페이징 함수
                     createPagination(url.page, stores.total_page, '/api/store/search', queryString)
 
                 })

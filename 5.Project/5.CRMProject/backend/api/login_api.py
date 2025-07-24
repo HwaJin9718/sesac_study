@@ -1,7 +1,7 @@
 from flask import Blueprint, jsonify, request
 import backend.database.user_db as db
 
-login_api = Blueprint('login', __name__) # 
+login_api = Blueprint('login', __name__)
 
 @login_api.route('/')
 def login():

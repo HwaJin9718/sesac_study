@@ -45,7 +45,7 @@
             const pageDiv = document.getElementById('paging');
             pageDiv.innerHTML = ""; // 기존 데이터 제거
             
-            if (totalPages <= 1) return; // 페이지가 1개 이하면 페이징 안함
+            if (totalPages <= 1) return pageDiv.remove(); // 페이지가 1개 이하면 페이징 안함
             
             const query = queryString ? `?${queryString}` : '';
             
@@ -57,7 +57,7 @@
                 pageDiv.appendChild(previous);
             }
             
-            // 페이지 번호들
+            // 페이지 번호
             const pages = getPageNumbers(currentPage, totalPages);
             
             pages.forEach((page, index) => {
@@ -202,11 +202,6 @@
                         return;
                     }
 
-                    // for 문으로 했을 때
-                    // for ( let i = 0; i < users.users.length; i++ ) {
-                    //     console.log(users.users[i])
-                    // }
-
                     const new_table = document.createElement('table');
                     new_table.setAttribute('id', 'user_table');
                     const new_tr = document.createElement('tr')
@@ -242,13 +237,10 @@
                         const new_tr = document.createElement('tr')
 
                         const new_td1 = document.createElement('td')
-                        // new_td1.setAttribute('id', 'id')
                         
-                        // const a = document.getElementById('id')
                         const td1_a = document.createElement('a')
                         td1_a.setAttribute('href', `/api/user/${user.Id}`)
                         td1_a.textContent = user.Id
-                        // <a href="/"></a>
 
                         const new_td2 = document.createElement('td')
                         new_td2.textContent = user.Name
@@ -272,7 +264,7 @@
 
                     });
 
-                    // 새로운 페이징 함수 사용
+                    // 페이징 함수
                     createPagination(url.page, users.total_page, '/api/user')
 
                 })
@@ -298,11 +290,6 @@
                         return;
                     }
 
-                    // for 문으로 했을 때
-                    // for ( let i = 0; i < users.users.length; i++ ) {
-                    //     console.log(users.users[i])
-                    // }
-
                     const new_table = document.createElement('table');
                     new_table.setAttribute('id', 'user_table');
                     const new_tr = document.createElement('tr')
@@ -338,13 +325,10 @@
                         const new_tr = document.createElement('tr')
 
                         const new_td1 = document.createElement('td')
-                        // new_td1.setAttribute('id', 'id')
                         
-                        // const a = document.getElementById('id')
                         const td1_a = document.createElement('a')
                         td1_a.setAttribute('href', `/api/user/${user.Id}`)
                         td1_a.textContent = user.Id
-                        // <a href="/"></a>
 
                         const new_td2 = document.createElement('td')
                         new_td2.textContent = user.Name
@@ -368,15 +352,13 @@
 
                     });
 
-                    // 새로운 페이징 함수 사용
+                    // 페이징 함수
                     createPagination(url.page, users.total_page, '/api/user')
 
                 })
         }
 
         function search_users() {
-            // 검색 시 api 연결
-            // const page = get_page_by_url()
 
             const name = document.querySelector('input[name="name"]').value;
             const gender = document.querySelector('select[name="gender"]').value;
@@ -394,7 +376,6 @@
                         const new_p = document.createElement('p')
                         new_p.textContent = "검색 결과가 없습니다."
                         resultDiv.appendChild(new_p)
-                        // resultDiv.innerHTML = "<p>검색 결과가 없습니다.</p>"
                         return;
                     }
 
@@ -470,7 +451,7 @@
                     }
                     const queryString = queryParam.toString();
 
-                    // 새로운 페이징 함수 사용
+                    // 페이징 함수
                     createPagination(1, users.total_page, '/api/user/search/page', queryString)
 
                 })
@@ -506,7 +487,6 @@
                         const new_p = document.createElement('p')
                         new_p.textContent = "검색 결과가 없습니다."
                         resultDiv.appendChild(new_p)
-                        // resultDiv.innerHTML = "<p>검색 결과가 없습니다.</p>"
                         return;
                     }
 
@@ -578,7 +558,7 @@
 
                     });
                     
-                    // 새로운 페이징 함수 사용
+                    // 페이징 함수
                     createPagination(url.page, users.total_page, '/api/user/search/page', queryString)
 
                 })
@@ -595,11 +575,6 @@
                 get_users_by_page()
             }
 
-            // if (get_page_by_url() == 1) {
-            //     get_users()
-            // } else {
-            //     get_users_by_page()
-            // }
         })
 
         document.getElementById('search_form').addEventListener('submit', (e) => {

@@ -22,3 +22,6 @@ __pycache__/
 
 # 민감정보
 .env
+
+# vscode 세팅 폴더 git 커밋 제외
+.vscode/
