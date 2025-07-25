@@ -58,10 +58,10 @@
             formData.append('birthdate', input_birthdate);
             formData.append('address', input_address);
 
-            console.log('이름:', formData.get('name'));
-            console.log('성별:', formData.get('gender'));
-            console.log('생년월일:', formData.get('birthdate'));
-            console.log('주소:', formData.get('address'));
+            // console.log('이름:', formData.get('name'));
+            // console.log('성별:', formData.get('gender'));
+            // console.log('생년월일:', formData.get('birthdate'));
+            // console.log('주소:', formData.get('address'));
 
             fetch('/api/cus/membership', {
                 method: 'POST',

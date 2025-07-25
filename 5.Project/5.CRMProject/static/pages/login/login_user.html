@@ -36,7 +36,14 @@
             const user_id = document.querySelector('input[name="user_id"]').value;
             const user_pw = document.querySelector('input[name="user_pw"]').value;
 
-            fetch(`/api/login/user?user_id=${user_id}&user_pw=${user_pw}`)
+            const formData = new FormData();
+            formData.append('user_id', user_id);
+            formData.append('user_pw', user_pw);
+
+            fetch(`/api/login/user`, {
+                method: 'POST',
+                body: formData
+            })
                 .then(response => response.json())
                 .then(result => {
                     // console.log(result.message)

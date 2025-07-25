@@ -3,12 +3,12 @@ import backend.database.user_db as db
 
 login_api = Blueprint('login', __name__)
 
-@login_api.route('/user')
+@login_api.route('/user', methods=['POST'])
 def login_user():
     login_result = False
 
-    user_id = request.args.get('user_id')
-    user_pw = request.args.get('user_pw')
+    user_id = request.form.get('user_id')
+    user_pw = request.form.get('user_pw')
     # print(f"입력한 아이디: {user_id}, 입력한 비밀번호: {user_pw}")
 
     user = db.get_user_by_id(user_id)
@@ -19,12 +19,12 @@ def login_user():
     return jsonify({'message': login_result})
 
 
-@login_api.route('/admin')
+@login_api.route('/admin', methods=['POST'])
 def login_admin():
     login_result = False
 
-    user_id = request.args.get('user_id')
-    user_pw = request.args.get('user_pw')
+    user_id = request.form.get('user_id')
+    user_pw = request.form.get('user_pw')
     # print(f"입력한 아이디: {user_id}, 입력한 비밀번호: {user_pw}")
 
     user = db.get_user_by_id(user_id)
