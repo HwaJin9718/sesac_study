@@ -34,12 +34,12 @@
             fetch(`/api/cus/order/${user.Id}`)
                 .then(response => response.json())
                 .then(orders => {
-                    console.log(orders);
+                    // console.log(orders);
 
                     const resultDiv = document.getElementById('result')
                     resultDiv.innerHTML = ""; // 기존 데이터 제거
 
-                    if (orders.length === 0) {
+                    if (orders.orders.length === 0) {
                         const new_p = document.createElement('p')
                         new_p.textContent = "주문 내역이 없습니다."
                         resultDiv.appendChild(new_p)
@@ -64,7 +64,7 @@
                     new_table.appendChild(new_tr)
                     resultDiv.appendChild(new_table)
 
-                    orders.forEach(order => {
+                    orders.orders.forEach(order => {
 
                         const order_table = document.getElementById('order_table');
                         const new_tr = document.createElement('tr')
@@ -98,14 +98,14 @@
             fetch(`/api/cus/order/${user_id}/${order_at}`)
                 .then(response => response.json())
                 .then(items => {
-                    console.log(items)
-                    console.log(items[0].OrderAt)
+                    // console.log(items)
+                    // console.log(items[0].OrderAt)
 
                     const resultDiv = document.getElementById('result')
                     resultDiv.innerHTML = ""; // 기존 데이터 제거
 
                     const new_p = document.createElement('p')
-                    new_p.textContent = `주문 일시 : ${items[0].OrderAt}`
+                    new_p.textContent = `주문 일시 : ${items.items[0].OrderAt}`
 
                     const back = document.createElement('a')
                     back.setAttribute('href', `/api/cus/`)
@@ -125,16 +125,16 @@
                     new_table.appendChild(new_tr)
                     resultDiv.appendChild(new_table)
 
-                    items.forEach(item => {
+                    items.items.forEach(item => {
 
-                        const order_table = document.getElementById('item_table');
+                        const item_table = document.getElementById('item_table');
                         const new_tr = document.createElement('tr')
 
                         const new_td1 = document.createElement('td')
                         new_td1.textContent = item.ItemName
 
                         new_tr.appendChild(new_td1)
-                        order_table.appendChild(new_tr)
+                        item_table.appendChild(new_tr)
 
                     });
 

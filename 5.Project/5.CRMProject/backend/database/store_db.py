@@ -149,3 +149,28 @@ def get_users_visit_top10_by_id(id):
 
     return users
 
+
+# store type 조회
+def get_store_type():
+    conn = get_connection()
+    cursor = conn.cursor()
+    cursor.execute("select distinct Type from stores")
+    types = cursor.fetchall()
+    conn.close()
+
+    types = [dict(t) for t in types]
+
+    return types
+
+
+# type으로 store_name 조회
+def get_store_name(type):
+    conn = get_connection()
+    cursor = conn.cursor()
+    cursor.execute("select * from stores where Type=?", (type, ))
+    names = cursor.fetchall()
+    conn.close()
+
+    names = [dict(n) for n in names]
+
+    return names

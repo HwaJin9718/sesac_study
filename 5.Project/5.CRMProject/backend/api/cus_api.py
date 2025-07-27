@@ -5,6 +5,7 @@ from flask import Blueprint, jsonify, send_from_directory, request
 import backend.database.user_db as user_db
 import backend.database.order_db as order_db
 import backend.database.item_db as item_db
+import backend.database.store_db as store_db
 
 cus_api = Blueprint('cus', __name__, static_folder='../../static/pages/cus/')
 
@@ -36,18 +37,39 @@ def membership():
 @cus_api.route('/order/<id>')
 def get_orders_by_user_id(id):
     orders = order_db.get_orders_by_user_id(id)
-    return orders
+    return jsonify({'orders': orders})
 
 
 # 특정 고객의 특정 달의 상품 목록
 @cus_api.route('/order/<id>/<month>')
 def get_order_item(id, month):
     items = item_db.get_items_by_user_id_and_order_at(id, month)
-    return items
+    return jsonify({'items': items})
 
 
 # 주문페이지 이동
 @cus_api.route('/orderpage')
 def order_page():
     return send_from_directory(cus_api.static_folder, 'order_page.html')
+
+
+# 매장 타입 전달
+@cus_api.route('/orderpage/type')
+def get_store_type():
+    types = store_db.get_store_type()
+    return jsonify({'types': types})
+
+
+# 타입에 맞는 이름 전달
+@cus_api.route('/orderpage/name/<type>')
+def get_store_name(type):
+    names = store_db.get_store_name(type)
+    return jsonify({'names': names})
+
+
+# 상품명 전달
+@cus_api.route('/orderpage/item')
+def get_item():
+    items = item_db.get_items()
+    return jsonify({'items': items})
 
