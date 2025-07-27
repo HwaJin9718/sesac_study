@@ -72,13 +72,13 @@ def get_orders_by_user_id(id):
     conn = get_connection()
     cursor = conn.cursor()
     cursor.execute(r'''
-                    select S.Name as StoreName, strftime('%Y-%m-%d', O.OrderAt) as OrderAt
+                    select S.Name as StoreName, O.OrderAt as OrderAt
                     from orders O
                             left join stores S on O.StoreId = S.Id
                             left join orderitems OI on O.id = OI.OrderId
                     where O.UserId = ?
                     group by S.Id, strftime('%Y-%m-%d', O.OrderAt)
-                    order by strftime('%Y-%m-%d', O.OrderAt)
+                    order by O.OrderAt
                     ''', (id, ))
     orders = cursor.fetchall()
     conn.close()

@@ -76,6 +76,12 @@
                 .then(items => {
                     // console.log(items.items)
 
+                    // 기존 result div 제거
+                    const existingResult = document.getElementById('result');
+                    if (existingResult) {
+                        existingResult.remove();
+                    }
+
                     const body = document.body;
                     const div = document.createElement('div')
                     div.setAttribute('id', 'result')

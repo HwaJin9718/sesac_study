@@ -117,7 +117,7 @@ def get_items_by_user_id_and_order_at(id, orderAt):
                             left join orderitems OI on O.id = OI.OrderId
                             left join items I on OI.ItemId = I.Id
                     where O.UserId = ?
-                    and strftime('%Y-%m-%d', O.OrderAt) = ?;
+                    and O.OrderAt = ?;
                     ''', (id, orderAt))
     items = cursor.fetchall()
     conn.close()
