@@ -48,6 +48,8 @@
                 .then(result => {
                     // console.log(result.message)
                     if (result.message === true) {
+                        // user 데이터값 customer 페이지 전달
+                        sessionStorage.setItem('user', JSON.stringify(result.user));
                         window.location.href = '/api/cus';
                     } else {
                         alert('입력한 아이디/비밀번호가 맞지 않습니다.')

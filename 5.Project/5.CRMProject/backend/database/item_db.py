@@ -106,3 +106,27 @@ def get_item_month_revenue_by_id(id):
 
     return item_revenues
 
+
+# user_id 및 order_at로 검색한 item 목록
+def get_items_by_user_id_and_order_at(id, orderAt):
+    conn = get_connection()
+    cursor = conn.cursor()
+    cursor.execute(r'''
+                    select I.Name as ItemName, O.OrderAt as OrderAt
+                    from orders O
+                            left join orderitems OI on O.id = OI.OrderId
+                            left join items I on OI.ItemId = I.Id
+                    where O.UserId = ?
+                    and strftime('%Y-%m-%d', O.OrderAt) = ?;
+                    ''', (id, orderAt))
+    items = cursor.fetchall()
+    conn.close()
+
+    if items:
+        # dict 형태로 변환
+        items = [dict(i) for i in items]
+    else:
+        items = []
+    
+    return items
+

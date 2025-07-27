@@ -22,6 +22,19 @@ h2 {
     font-weight: 600;
 }
 
+/* 고객 인사말 스타일링 */
+#hello {
+    color: #2c3e50;
+    margin-bottom: 30px;
+    font-size: 1.3rem;
+    font-weight: 600;
+    padding: 15px;
+    background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+    border-radius: 10px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    border-left: 4px solid #3a9b8a;
+}
+
 /* 네비게이션 스타일링 */
 nav {
     background: linear-gradient(135deg, #3a9b8a 0%, #2d7d6f 100%);

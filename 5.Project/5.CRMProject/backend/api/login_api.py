@@ -16,7 +16,7 @@ def login_user():
     if user and user_pw:
         login_result = True
 
-    return jsonify({'message': login_result})
+    return jsonify({'message': login_result, 'user': user})
 
 
 @login_api.route('/admin', methods=['POST'])

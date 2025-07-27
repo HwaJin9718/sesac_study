@@ -196,6 +196,7 @@ def get_item_top5_by_user_id(id):
     return items
 
 
+# 회원 생성
 def create_user(id, name, gender, age, birthdate, address):
     conn = get_connection()
     cursor = conn.cursor()

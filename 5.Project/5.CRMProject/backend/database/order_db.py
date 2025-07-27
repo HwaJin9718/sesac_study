@@ -51,6 +51,9 @@ def get_order_count():
 
 # order 에서 id 클릭하고 들어가
 # -> orderitems 테이블에서 order_id로 검색하면 나오는 내용 + item_name 까지 같이 나옴
+# order_item 에서 order_id 클릭하고 들어가
+# -> orders 테이블에서 id로 검색하면 나오는 내용
+
 # id로 orders 조회
 def get_order_by_id(id):
     conn = get_connection()
@@ -64,5 +67,26 @@ def get_order_by_id(id):
     return order
 
 
-# order_item 에서 order_id 클릭하고 들어가
-# -> orders 테이블에서 id로 검색하면 나오는 내용
+# user_id로 검색한 orders 목록
+def get_orders_by_user_id(id):
+    conn = get_connection()
+    cursor = conn.cursor()
+    cursor.execute(r'''
+                    select S.Name as StoreName, strftime('%Y-%m-%d', O.OrderAt) as OrderAt
+                    from orders O
+                            left join stores S on O.StoreId = S.Id
+                            left join orderitems OI on O.id = OI.OrderId
+                    where O.UserId = ?
+                    group by S.Id, strftime('%Y-%m-%d', O.OrderAt)
+                    order by strftime('%Y-%m-%d', O.OrderAt)
+                    ''', (id, ))
+    orders = cursor.fetchall()
+    conn.close()
+
+    if orders:
+        # dict 형태로 변환
+        orders = [dict(o) for o in orders]
+    else:
+        orders = []
+    
+    return orders
