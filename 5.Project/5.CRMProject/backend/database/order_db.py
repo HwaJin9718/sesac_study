@@ -90,3 +90,16 @@ def get_orders_by_user_id(id):
         orders = []
     
     return orders
+
+
+# 주문 생성
+def create_order(order_id, order_at, store_id, user_id):
+    conn = get_connection()
+    cursor = conn.cursor()
+    cursor.execute('''
+                    insert into orders (Id, OrderAt, StoreId, UserId)
+                    values (?, ?, ?, ?)
+                    ''', (order_id, order_at, store_id, user_id))
+    conn.commit()
+    conn.close()
+

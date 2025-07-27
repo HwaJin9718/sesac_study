@@ -6,6 +6,7 @@ import backend.database.user_db as user_db
 import backend.database.order_db as order_db
 import backend.database.item_db as item_db
 import backend.database.store_db as store_db
+import backend.database.order_item_db as order_item_db
 
 cus_api = Blueprint('cus', __name__, static_folder='../../static/pages/cus/')
 
@@ -72,4 +73,29 @@ def get_store_name(type):
 def get_item():
     items = item_db.get_items()
     return jsonify({'items': items})
+
+
+# 상품 주문
+@cus_api.route('/orderpage/order', methods=['POST'])
+def create_order():
+    order_id = str(uuid.uuid4())
+    order_at = datetime.now().replace(microsecond=0) # 마이크로 초 제거한 년-월-일 시:분:초
+    store_id = request.form.get('store_id')
+    user_id = request.form.get('user_id')
+
+    order_db.create_order(order_id, order_at, store_id, user_id)
+
+    items = request.form.getlist('items')
+    for item in items:
+        order_item_id = str(uuid.uuid4())
+        order_item_db.create_order_item(order_item_id, order_id, item)
+
+    create_order = order_db.get_order_by_id(order_id)
+    create_order_item = order_item_db.get_order_item_by_order_id(order_id)
+
+    create_result = False
+    if create_order and create_order_item:
+        create_result = True
+
+    return jsonify({'create_result': create_result})
 

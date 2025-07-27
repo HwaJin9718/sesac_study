@@ -70,7 +70,7 @@
                 })
         }
 
-        function get_item() {
+        function get_item(store_id) {
             fetch('/api/cus/orderpage/item')
                 .then(response => response.json())
                 .then(items => {
@@ -117,6 +117,7 @@
                         const new_td1 = document.createElement('td')
                         const td1_input = document.createElement('input')
                         td1_input.setAttribute('type', 'checkbox')
+                        td1_input.setAttribute('name', 'item')
                         td1_input.setAttribute('value', item.Id)
 
                         const new_td2 = document.createElement('td')
@@ -133,6 +134,12 @@
 
                     });
 
+                    const storeId = document.createElement('input');
+                    storeId.setAttribute('type', 'hidden');
+                    storeId.setAttribute('name', 'store_id');
+                    storeId.setAttribute('value', store_id);
+                    form.appendChild(storeId);
+
                     const btn = document.createElement('button');
                     btn.setAttribute('type', 'submit')
                     btn.setAttribute('class', 'back-button')
@@ -142,8 +149,52 @@
                 })
         }
 
+        function crate_order() {
+
+            const checkedBoxes = document.querySelectorAll('input[name="item"]:checked');
+            const checkedItems = Array.from(checkedBoxes).map(cb => cb.value);
+            // console.log('선택된 상품:', checkedItems);
+
+            const store_id = document.querySelector('input[name="store_id"]').value;
+            // console.log('매장 ID:', storeId);
+
+            const user = JSON.parse(sessionStorage.getItem('user'));
+            // console.log(user)
+
+            const formData = new FormData();
+            formData.append('user_id', user.Id);
+            formData.append('store_id', store_id);
+            checkedItems.forEach(item => {
+                // console.log(item)
+                formData.append('items', item);
+            })
+
+            fetch(`/api/cus/orderpage/order`, {
+                method: 'POST',
+                body: formData
+            })
+                .then(response => response.json())
+                .then(create_result => {
+                    console.log(create_result.create_result)
+                    if (create_result.create_result === true) {
+                        alert('주문이 완료되었습니다.');
+                        window.location.href = '/api/cus';
+                    } else {
+                        alert('주문이 실패하였습니다.');
+                        window.location.href = '/api/cus';
+                    }
+                })
+        }
+
         document.addEventListener('DOMContentLoaded', () => {
             get_store_type()
+
+            document.addEventListener('submit', (e) => {
+                if (e.target.id === 'order_form') {
+                    e.preventDefault(); // form의 기본 submit 동작 방지
+                    crate_order()
+                }
+            })
         })
 
         // change 이벤트
@@ -155,7 +206,7 @@
             } else if (e.target.id === 'name') {
                 // name 변경 시
                 const selectedNameId = e.target.value;
-                get_item()
+                get_item(selectedNameId)
             }
         })
     </script>
