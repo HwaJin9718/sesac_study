@@ -5,6 +5,7 @@
 ├── 📁 backend
 │   ├── 📁 api
 │   │   ├── 🐍 __init__.py
+│   │   ├── 🐍 cus_api.py
 │   │   ├── 🐍 item_api.py
 │   │   ├── 🐍 login_api.py
 │   │   ├── 🐍 order_api.py
@@ -22,23 +23,29 @@
 ├── 📁 static
 │   ├── 📁 css
 │   │   └── 🎨 style.css
-│   ├── 📁 pages
-│   │   ├── 📁 item
-│   │   │   ├── 🌐 item.html
-│   │   │   └── 🌐 item_info.html
-│   │   ├── 📁 order
-│   │   │   ├── 🌐 order.html
-│   │   │   └── 🌐 order_info.html
-│   │   ├── 📁 order_item
-│   │   │   ├── 🌐 order_item.html
-│   │   │   └── 🌐 order_item_info.html
-│   │   ├── 📁 store
-│   │   │   ├── 🌐 store.html
-│   │   │   └── 🌐 store_info.html
-│   │   └── 📁 user
-│   │       ├── 🌐 user.html
-│   │       └── 🌐 user_info.html
-│   └── 🌐 login.html
+│   └── 📁 pages
+│       ├── 📁 cus
+│       │   ├── 🌐 customer.html
+│       │   ├── 🌐 membership.html
+│       │   └── 🌐 order_page.html
+│       ├── 📁 item
+│       │   ├── 🌐 item.html
+│       │   └── 🌐 item_info.html
+│       ├── 📁 login
+│       │   ├── 🌐 login_admin.html
+│       │   └── 🌐 login_user.html
+│       ├── 📁 order
+│       │   ├── 🌐 order.html
+│       │   └── 🌐 order_info.html
+│       ├── 📁 order_item
+│       │   ├── 🌐 order_item.html
+│       │   └── 🌐 order_item_info.html
+│       ├── 📁 store
+│       │   ├── 🌐 store.html
+│       │   └── 🌐 store_info.html
+│       └── 📁 user
+│           ├── 🌐 user.html
+│           └── 🌐 user_info.html
 ├── 🐍 app.py
 ├── 🐍 folder_structure.py
 ├── 📄 folder_structure.txt
