@@ -338,8 +338,14 @@
         function search_items() {
             const url = get_page_by_url()
 
-            const type = document.querySelector('select[name="type"]').value;
+            const type = document.querySelector('select[name="type"]').value.trim();
             // console.log('검색된 type', type)
+
+            if (!type) {
+                // 검색값이 없으면 일반 조회 페이지로 리다이렉트
+                window.location.href = '/api/item/1';
+                return;
+            }
 
             fetch(`/api/item/search?type=${type}`)
                 .then(response => response.json())
@@ -427,6 +433,11 @@
 
             // 쿼리 스트링 생성
             const searchParams = get_search_param()
+
+            if (!searchParams) {
+                get_items_by_page()
+                return;
+            }
 
             // null이나 빈 값 필터링
             const filteredParams = new URLSearchParams();

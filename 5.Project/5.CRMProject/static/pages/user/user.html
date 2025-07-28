@@ -365,8 +365,14 @@
 
         function search_users() {
 
-            const name = document.querySelector('input[name="name"]').value;
-            const gender = document.querySelector('select[name="gender"]').value;
+            const name = document.querySelector('input[name="name"]').value.trim();
+            const gender = document.querySelector('select[name="gender"]').value.trim();
+
+            if (!name && !gender) {
+                // 검색값이 없으면 전체 조회 페이지로 리다이렉트
+                window.location.href = '/api/user/1';
+                return;
+            }
 
             fetch(`/api/user/search?name=${name}&gender=${gender}`)
                 .then(response => response.json())
@@ -464,8 +470,13 @@
 
         function search_users_paging() {
             const url = get_page_by_url()
-            console.log(url.page)
+            // console.log(url.page)
             const searchParams = get_search_param(); // 쿼리 파라미터 받아오기
+
+            if (!searchParams) {
+                get_users_by_page()
+                return;
+            }
 
             // null이나 빈 값 필터링
             const filteredParams = new URLSearchParams();

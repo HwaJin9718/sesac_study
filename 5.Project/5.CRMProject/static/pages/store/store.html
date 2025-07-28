@@ -335,7 +335,13 @@
         function search_stores() {
             const url = get_page_by_url()
 
-            const name = document.querySelector('input[name="name"]').value;
+            const name = document.querySelector('input[name="name"]').value.trim();
+
+            if (!name) {
+                // 검색값이 없으면 일반 조회 페이지로 리다이렉트
+                window.location.href = '/api/store/1';
+                return;
+            }
 
             fetch(`/api/store/search?name=${name}`)
                 .then(response => response.json())
@@ -422,6 +428,11 @@
 
             // 쿼리 스트링 생성
             const searchParams = get_search_param()
+
+            if (!searchParams) {
+                get_stores_by_page()
+                return;
+            }
 
             // null이나 빈 값 필터링
             const filteredParams = new URLSearchParams();
