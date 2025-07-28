@@ -74,15 +74,18 @@ def get_items_search_data():
     total_page = 0
 
     search_type = request.args.get('type')
+    # print(f"검색된 type : {search_type}")
 
     if search_type:
         items = db.get_item_by_type(search_type, current_page, items_per_page)
-        item_count = db.get_store_by_name_count(search_type)
+        item_count = db.get_item_by_name_count(search_type)
     
     if item_count % items_per_page == 0:
         total_page = item_count // items_per_page
     else:
         total_page = (item_count // items_per_page) + 1
+
+    # print(f"items : {items}, item_count : {item_count}, total_page : {total_page}")
 
     return jsonify({'items' : items, 'total_page' : total_page})
 

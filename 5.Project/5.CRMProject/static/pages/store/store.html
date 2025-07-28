@@ -40,7 +40,11 @@
             const pageDiv = document.getElementById('paging');
             pageDiv.innerHTML = ""; // 기존 데이터 제거
             
-            if (totalPages <= 1) return pageDiv.remove(); // 페이지가 1개 이하면 페이징 안함
+            if (totalPages <= 1) {
+                // pageDiv.remove(); // 페이지가 1개 이하면 페이징 안함
+                pageDiv.style.display = 'none'; // 페이지 태그 안보이도록 함
+                return
+            }
             
             const query = queryString ? `?${queryString}` : '';
             

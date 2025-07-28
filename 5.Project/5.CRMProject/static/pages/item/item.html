@@ -45,7 +45,11 @@
             const pageDiv = document.getElementById('paging');
             pageDiv.innerHTML = ""; // 기존 데이터 제거
             
-            if (totalPages <= 1) return pageDiv.remove(); // 페이지가 1개 이하면 페이징 안함
+            if (totalPages <= 1) {
+                // pageDiv.remove(); // 페이지가 1개 이하면 페이징 안함
+                pageDiv.style.display = 'none'; // 페이지 태그 안보이도록 함
+                return
+            }
             
             const query = queryString ? `?${queryString}` : '';
             
@@ -335,10 +339,13 @@
             const url = get_page_by_url()
 
             const type = document.querySelector('select[name="type"]').value;
+            // console.log('검색된 type', type)
 
             fetch(`/api/item/search?type=${type}`)
                 .then(response => response.json())
                 .then(items => {
+                    // console.log(items.items)
+                    // console.log(items.total_page)
                     const resultDiv = document.getElementById('result');
                     const pageDiv = document.getElementById('paging');
                     resultDiv.innerHTML = ""; // 기존 데이터 제거
