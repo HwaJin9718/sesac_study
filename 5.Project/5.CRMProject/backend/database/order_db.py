@@ -83,12 +83,8 @@ def get_orders_by_user_id(id):
     orders = cursor.fetchall()
     conn.close()
 
-    if orders:
-        # dict 형태로 변환
-        orders = [dict(o) for o in orders]
-    else:
-        orders = []
-    
+    orders = [dict(o) for o in orders] if orders else [] # dict 형태로 변환 없으면 빈 값 반환
+
     return orders
 
 

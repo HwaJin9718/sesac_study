@@ -121,12 +121,8 @@ def get_items_by_user_id_and_order_at(id, orderAt):
                     ''', (id, orderAt))
     items = cursor.fetchall()
     conn.close()
-
-    if items:
-        # dict 형태로 변환
-        items = [dict(i) for i in items]
-    else:
-        items = []
+    
+    items = [dict(i) for i in items] if items else [] # dict 형태로 변환 없으면 빈 값 반환
     
     return items
 

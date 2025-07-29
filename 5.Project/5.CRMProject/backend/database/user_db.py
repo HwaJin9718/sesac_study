@@ -57,10 +57,7 @@ def get_user_by_id(id):
     user = cursor.fetchone()
     conn.close()
 
-    if user:
-        user = dict(user)
-    else:
-        user = []
+    user = dict(user) if user else [] # dict 형태로 변환 없으면 빈 값 반환
 
     return user
 
