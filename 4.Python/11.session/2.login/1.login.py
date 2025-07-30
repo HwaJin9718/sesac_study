@@ -55,5 +55,31 @@ def logout():
     return redirect(url_for('index'))
 
 
+@app.route('/update', methods=['GET', 'POST'])
+def update():
+    user = session.get('user')
+    print(user)
+
+    if request.method == 'POST':
+        name = request.form.get('name')
+        password = request.form.get('password')
+
+        for u in users:
+            if u['id'] == user['id']:
+                u['name'] = name
+                u['pw'] = password
+        
+        user = next((u for u in users if u['id'] == user['id'] and u['name'] == name and u['pw'] == password), None)
+
+        session['user'] = user
+
+        return render_template('dashboard.html', user=user)
+
+    if user:
+        return render_template('update.html', user=user)
+    else:
+        return redirect(url_for('index'))
+
+
 if __name__ == '__main__':
     app.run(debug=True)
