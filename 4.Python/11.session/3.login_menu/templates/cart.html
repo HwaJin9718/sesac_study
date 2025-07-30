@@ -1,0 +1,30 @@
+{% extends "base.html" %}
+
+{% block title %}장바구니 페이지{% endblock %}
+
+{% block content %}
+
+<h1>장바구니</h1>
+
+{% if not user %}
+    <p>로그인 후 장바구니 이용이 가능합니다. <a href="/login">로그인 하러 가기</a></p>
+{% endif %}
+
+<table border="1">
+    <thead>
+        <th>상품명</th>
+        <th>가격</th>
+        <th>수량</th>
+        <th>삭제하기</th>
+    </thead>
+    {% for i in carts %}
+        <tbody>
+            <td>{{ i.name }}</td>
+            <td>{{ i.price }}</td>
+            <td>{{ i.qty }}</td>
+            <td><a href="/del-to-cart?id={{ i.id }}">삭제</a></td>
+        </tbody>
+    {% endfor %}
+</table>
+
+{% endblock %}

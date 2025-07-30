@@ -1,0 +1,36 @@
+{% extends "base.html" %}
+
+{% block title %}상품 페이지{% endblock %}
+
+{% block content %}
+
+<h1>상품</h1>
+
+{% if not user %}
+<p>로그인 후 장바구니 담기가 가능합니다. <a href="/login">로그인 하러 가기</a></p>
+{% endif %}
+
+<table border="1">
+    <thead>
+        <th>상품명</th>
+        <th>가격</th>
+        {% if user %}
+            <th>장바구니 추가</th>
+        {% endif %}
+    </thead>
+    {% for i in items %}
+        <tbody>
+            <td>{{ i.name }}</td>
+            <td>{{ i.price }}</td>
+            {% if user %}
+                <td><a href="/add-to-cart?id={{ i.id }}">장바구니 추가</a></td>
+                <!-- <form action="{{ url_for('add_to_cart') }}" method="POST" style="display:inline;">
+                    <input type="hidden" name="item_id" value="{{ item.id }}">
+                    <button type="submit">담기</button>
+                </form> -->
+            {% endif %}
+        </tbody>
+    {% endfor %}
+</table>
+
+{% endblock %}
