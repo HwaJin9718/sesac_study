@@ -1,4 +1,4 @@
-from flask import Blueprint, jsonify, request
+from flask import Blueprint, jsonify, request, session
 import backend.database.user_db as db
 
 login_api = Blueprint('login', __name__)
@@ -14,6 +14,7 @@ def login_user():
     user = db.get_user_by_id(user_id)
 
     if user and user_pw:
+        session['user'] = user # 세션에 user 정보 추가
         login_result = True
 
     return jsonify({'message': login_result, 'user': user})
@@ -31,6 +32,7 @@ def login_admin():
     # print(f"admin 검색된 user : {user}")
 
     if user['Id'] == 'admin' and user_pw == 'admin':
+        session['user'] = user # 세션에 admin 정보 추가
         login_result = True
 
     return jsonify({'message': login_result})
