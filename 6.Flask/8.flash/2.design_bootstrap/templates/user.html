@@ -13,9 +13,9 @@
         <h2>대시보드</h2>
         
         {% with messages = get_flashed_messages(with_categories=true) %}
-            {% if message %}
+            {% if messages %}
                 {% for category, msg in messages %}
-                <div class="alert alert-{{category}} alert-dismissible fade show" role="alert">
+                <div class="alert alert-{{category}} alert-dismissible fade show" role="alert" id="auto-close-alert">
                     {{ msg }}
                     <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
                 </div>
@@ -29,5 +29,19 @@
         {% endif %}
         
     </div>
+
+    <script>
+        setTimeout(() => {
+            const alert = document.getElementById('auto-close-alert');
+
+            if (alert) {
+                alert.classList.remove('show');
+                
+                if (!alert.classList.contains('show')) {
+                    alert.remove();
+                }
+            }
+        }, 5000);
+    </script>
 </body>
 </html>
