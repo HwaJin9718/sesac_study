@@ -10,6 +10,10 @@
     <p>로그인 후 장바구니 이용이 가능합니다. <a href="/login">로그인 하러 가기</a></p>
 {% endif %}
 
+{% if user %}
+    <a href="/all-del">전체 지우기</a>
+{% endif %}
+
 <table border="1">
     <thead>
         <th>상품명</th>

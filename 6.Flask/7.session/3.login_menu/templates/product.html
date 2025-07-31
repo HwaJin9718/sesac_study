@@ -24,10 +24,10 @@
             <td>{{ i.price }}</td>
             {% if user %}
                 <td><a href="/add-to-cart?id={{ i.id }}">장바구니 추가</a></td>
-                <!-- <form action="{{ url_for('add_to_cart') }}" method="POST" style="display:inline;">
+                <!-- {# <form action="{{ url_for('add_to_cart') }}" method="POST" style="display:inline;">
                     <input type="hidden" name="item_id" value="{{ item.id }}">
                     <button type="submit">담기</button>
-                </form> -->
+                </form> #} -->
             {% endif %}
         </tbody>
     {% endfor %}

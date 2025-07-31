@@ -71,17 +71,24 @@ def cart():
     carts = session.get('carts', []) # carts session 없을 경우 빈 dict 반환
     # print(carts)
 
+    # items의 복사본 생성 (원본에 영향 주지 않음)
+    item_list = []
+    for i in items:
+        item_copy = i.copy()  # 각 상품을 복사
+        item_copy['qty'] = 0     # qty 초기화
+        item_list.append(item_copy)
+
+    # 장바구니에 있는 상품 수량 + (기본은 0)
     for c in carts:
-        if c['id'] == 'prod-001':
-            c['qty'] = c.get('qty', 0) + 1
-        elif c['id'] == 'prod-002':
-            c['qty'] = c.get('qty', 0) + 1
-        elif c['id'] == 'prod-003':
-            c['qty'] = c.get('qty', 0) + 1
-        elif c['id'] == 'prod-004':
-            c['qty'] = c.get('qty', 0) + 1
+        for i in item_list:
+            if c['id'] == i['id']:
+                i['qty'] += 1
     
-    session['carts'] = carts
+    for i in reversed(item_list):
+        if i['qty'] == 0:
+            item_list.remove(i)
+
+    session['carts'] = item_list
 
     carts = session.get('carts')
 
@@ -184,6 +191,13 @@ def del_to_cart():
     session['carts'] = carts
 
     return render_template('cart.html', user=user, carts=carts)
+
+
+@app.route('/all-del')
+def all_del_to_cart():
+    user = session.get('user')
+    session.pop('carts', None)
+    return render_template('cart.html', user=user)
 
 
 if __name__ == '__main__':
