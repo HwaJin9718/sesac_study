@@ -85,6 +85,32 @@
                 </div>
             </div>
 
+            <!-- 관심분야 (체크박스로 최소1개, 최대 4개) -->
+            <div class="mb-3">
+                <label class="form-label">관심 분야 (최소 1개, 최대 3개 선택)</label>
+                <div class="form-label" id="interest-group">
+                    <div class="form-check">
+                        <input class="form-check-input interest-checkbox" type="checkbox" id="interest1">
+                        <label class="form-check-label" for="interest1">파이썬</label>
+                    </div>
+                    <div class="form-check">
+                        <input class="form-check-input interest-checkbox" type="checkbox" id="interest2">
+                        <label class="form-check-label" for="interest2">자바스크립트</label>
+                    </div>
+                    <div class="form-check">
+                        <input class="form-check-input interest-checkbox" type="checkbox" id="interest3">
+                        <label class="form-check-label" for="interest3">자바</label>
+                    </div>
+                    <div class="form-check">
+                        <input class="form-check-input interest-checkbox" type="checkbox" id="interest4">
+                        <label class="form-check-label" for="interest5">C++</label>
+                    </div>
+                </div>
+                <div class="invalid-feedback">
+                    관심 분야는 최소 1개, 최대 3개만 선택할 수 있습니다.
+                </div>
+            </div>
+
             <!-- 제출 -->
             <button type="submit" class="btn btn-primary mt-3">제출</button>
         </form>
@@ -130,6 +156,39 @@
             }
         }
 
+        // 비밀번호 검증 - 정규표현식 없이
+        function validateUesrpw2() {
+            const password = document.getElementById('password');
+            const pw = password.value;
+
+            let hasUpper = false;
+            let hasLower = false;
+            let hasNumber = false;
+            let hasSpecial = false;
+
+            for (let ch of pw) {
+                if (ch >= 'A' && ch <= 'Z') {
+                    hasUpper = true;
+                } else if (ch >= 'a' && ch <= 'z') {
+                    hasLower = true;
+                } else if (!isNaN(ch)) {
+                    hasNumber = true;
+                } else if ("!@#$%^&*".includes(ch)) {
+                    hasSpecial = true;
+                }
+            }
+            const lengthValid = pw.length >= 8;
+            const typesCount = [hasUpper, hasLower, hasNumber || hasSpecial].filter(Boolean).length;
+
+            if (lengthValid && typesCount >= 3) {
+                password.classList.remove('is-invalid');
+                password.classList.add('is-valid');
+            } else {
+                password.classList.remove('is-valid');
+                password.classList.add('is-invalid');
+            }
+        }
+
         function validateUesrname() {
             // 이름 검증 - 이름은 1글자 이상 10글자 이하로 입력해야 합니다.
             const username = document.getElementById('username');
@@ -172,6 +231,21 @@
                     interest.classList.add('is-valid');
                 });
             }
+        }
+
+        // 강사님 관심 분야 검증
+        function validateInterest() {
+            const interestGroup = document.getElementById('interest-group')
+            const interests = document.querySelectorAll('.interest-checkbox');
+            const selectedInterests = Array.from(interests).filter(checkbox => checkbox.checked);
+            if (selectedInterests.length < 1 || selectedInterests.length > 3) {
+                interests.forEach(checkbox => checkbox.classList.add('is-invalid'));
+                interestGroup.classList.add('is-invalid');
+            } else {
+                interests.forEach(checkbox => checkbox.classList.remove('is-invalid'));
+                interestGroup.classList.remove('is-invalid');
+            }
+
         }
     </script>
 
