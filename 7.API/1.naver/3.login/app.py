@@ -4,9 +4,11 @@ import os
 import requests
 # request : 클라이언트가 나한테 요청할 때 값을 담아오는 것
 # requests : 내가 다른 서버에 요청을 보낼 때
+import database as db
 
 # TODO: sqlite 와 연동해서.. 사용자 정보 저장하기..
 
+db.create_table() # 최초의 DB 생성
 load_dotenv()
 
 app = Flask(__name__)
@@ -66,11 +68,41 @@ def naver_callback():
     # TODO: 우리의 DB(sqlite3)에 이 사용자가 있는지 확인, 있으면 그 정보 가져와서 세션에 저장
     # 사용자가 없으면 새롭게 DB에 삽입
     # 이걸 더 확장하면?? 사용자가 없으면 회원가입 페이지로 이동, 그 후 주소, 전화번호 등 추가정보를 입력받아서 DB에 저장
+
+    response = profile['response']
+    naver_id = response['id']
+    user = db.get_user_by_naverid(naver_id)
+
+    if not user:
+        db.create_user(response['id'], response['name'], response['nickname'], response['profile_image'], response['email'])
+        user = db.get_user_by_naverid(naver_id)
     
     # 해당 정보를 내 세션에 저장하기
-    session['user'] = profile['response']
+    session['user'] = user
 
     return redirect(url_for('index'))
+
+
+@app.route('/modify', methods=['GET', 'POST'])
+def modify():
+    user = session.get('user')
+
+    if request.method == 'POST':
+        naverid = request.form.get('naverid')
+        username = request.form.get('username')
+        nickname = request.form.get('nickname')
+        email = request.form.get('email')
+        profileimg = request.form.get('profileimg')
+
+        db.update_user(user['id'], naverid, username, nickname, profileimg, email)
+        user = db.get_user_by_naverid(naverid)
+
+        # 해당 정보를 내 세션에 저장하기
+        session['user'] = user
+
+        return redirect(url_for('index'))
+    
+    return render_template('update.html', user=user)
 
 
 @app.route('/logout')

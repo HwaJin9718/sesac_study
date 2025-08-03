@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>회원 정보 수정</title>
+</head>
+<body>
+    {% if user %}
+        <h2>회원 정보 수정</h2>
+        <form method="POST" action="/modify">
+            <label for="naverid">네이버 ID : </label>
+            <input type="text" name="naverid" value="{{ user.naverid }}" readonly>
+            <br>
+            <label for="username">이름 : </label>
+            <input type="text" name="username" value="{{ user.username }}" required>
+            <br>
+            <label for="nickname">닉네임 : </label>
+            <input type="text" name="nickname" value="{{ user.nickname }}" required>
+            <br>
+            <label for="email">이메일 : </label>
+            <input type="text" name="email" value="{{ user.email }}" readonly>
+            <br>
+            <input type="hidden" name="id" value="{{ user.id }}">
+            <input type="hidden" name="profileimg" value="{{ user.profileimg }}">
+
+            <button type="submit">수정</button>
+        </form>
+    {% else %}
+    <a href="{{ url_for('login_naver') }}">
+        <img src="{{ url_for('static', filename='btnG_완성형.png') }}" width="200">
+    </a>
+    {% endif %}
+</body>
+</html>
