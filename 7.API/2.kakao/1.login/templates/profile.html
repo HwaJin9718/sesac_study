@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>회원 페이지</title>
+</head>
+<body>
+    {% if user %}
+        <h2>안녕하세요, {{ user.nickname }}님!</h2>
+        {% if user.profileimg %}
+            <img src="{{ user.profileimg }}" width="100">
+        {% endif %}
+        <p>
+            <a href="{{ url_for('modify') }}">회원정보 수정</a> | 
+            <a href="{{ url_for('logout') }}">LOGOUT</a>
+        </p>
+    {% endif %}
+</body>
+</html>
