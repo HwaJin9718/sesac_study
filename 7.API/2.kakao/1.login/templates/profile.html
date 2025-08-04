@@ -16,5 +16,15 @@
             <a href="{{ url_for('logout') }}">LOGOUT</a>
         </p>
     {% endif %}
+
+    <!-- 강사님 코드 -->
+    <!-- <h1>내 프로필</h1>
+    <p>닉네임: {{ user.properties.nickname }}</p>
+    <p>이메일: {{ user.properties.email or '이메일 정보는 안주었음' }}</p>
+    <p>사진: {{ user.properties.profile_image }} </p>
+
+    {% if user.properties.profile_image %}
+        <img src="{{ user.properties.profile_image }}" style="width: 200px;">
+    {% endif %} -->
 </body>
 </html>
