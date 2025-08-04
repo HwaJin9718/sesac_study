@@ -74,6 +74,15 @@ def membership():
         if id_exists:
             flash('해당 ID를 사용할 수 없습니다. 다시 입력해주세요.', 'warning')
             return redirect(url_for('membership'))
+        
+        email_exists = False
+        for u in users:
+            if u['email'] == email:
+                email_exists = True
+
+        if email_exists:
+            flash('해당 이메일을 사용할 수 없습니다. 다시 입력해주세요.', 'warning')
+            return redirect(url_for('membership'))
             
         user = {'id' : id, 'password' : pw, 'email' : email}
         users.append(user)
@@ -123,7 +132,7 @@ def send_code():
 def verify_code():
     input_code = request.form.get('code')
     session_code = session.get('send_code', None)
-    print(f'입력된 code : {input_code}, 세션에 저장되 코드 : {session_code}')
+    print(f'입력된 code : {input_code}, 세션에 저장된 코드 : {session_code}')
 
     result = False
 
@@ -150,6 +159,68 @@ def verify_code():
 @app.route('/password-search')
 def password_search():
     return render_template('password_search.html')
+
+
+@app.route('/pw-send-code', methods=['POST'])
+def pw_send_code():
+    email = request.form.get('email') # 사용자로 부터 받아오기
+
+    email_exists = False
+    for u in users:
+        if u['email'] == email:
+            email_exists = True
+            session['user'] = u
+
+    if email_exists:
+
+        code = random.randint(000000, 999999)
+        print(f'random 코드 : {code}')
+
+        msg = Message('SeSAC 인증 코드', sender=app.config['MAIL_USERNAME'], recipients=[email])
+        msg.body = f"SeSAC 인증코드 : {code} 입니다."
+
+        try:
+            mail.send(msg)
+            session['pw_send_code'] = str(code)
+            return jsonify({
+                'result': True,
+                'message': '메일 전송이 성공했습니다. 발송된 메일 내 인증코드를 입력해주세요.',
+                'type': 'success'
+            })
+        except Exception as e:
+            return jsonify({
+                'result': False,
+                'message': f'메일 전송 중 오류가 발생했습니다. 재시도 해주세요. 오류 내용 : {e}',
+                'type': 'warning'
+            })
+        
+    flash('해당 이메일은 존재하지 않습니다. 다시 입력해주세요.', 'warning')
+    return redirect(url_for('password_search'))
+
+
+@app.route('/pw-verify-code', methods=['POST'])
+def pw_verify_code():
+    input_code = request.form.get('code')
+    session_code = session.get('pw_send_code', None)
+    user = session.get('user', None)
+    print(f'입력된 code : {input_code}, 세션에 저장된 코드 : {session_code}, 세션에 저장된 user : {user}')
+
+    if (input_code == session_code):
+        for u in users:
+            if u['id'] == user['id']:
+                u['password'] = session_code
+                break
+        return jsonify({
+            'result': True,
+            'message': '인증 성공. 인증번호로 비밀번호가 변경되었습니다.',
+            'type': 'success'
+        })
+    else:
+        return jsonify({
+            'result': False,
+            'message': '인증에 실패했습니다. 다시 시도해주세요.',
+            'type': 'danger'
+        })
 
 
 if __name__ == '__main__':
