@@ -9,7 +9,7 @@ llm = OpenAI()
 template = 'You are a naming consultant. Suggest a name for a company that makes {product}'
 
 prompt = PromptTemplate(
-    input_variables=['porduct'],
+    input_variables=['product'],
     template=template
 )
 

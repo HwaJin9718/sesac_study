@@ -23,7 +23,7 @@ llm = ChatOpenAI(model='gpt-3.5-turbo', temperature=1.0, max_tokens=1000)
 parser = StrOutputParser()
 
 # 4. 체인 생성
-chain = prompt | llm | parser | StrOutputParser()
+chain = prompt | llm | parser
 
 # 5. 입력 및 호출
 input_text = {
