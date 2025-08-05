@@ -8,8 +8,8 @@ from langchain_core.runnables import RunnableLambda
 load_dotenv()
 
 # 1. 템플릿 정의
-template = '다음 문장으르 3줄로 요약하시오\n\n{article}'
-prompt = PromptTemplate(input_variavles=['article'], template=template)
+template = '다음 문장을 3줄로 요약하시오\n\n{article}'
+prompt = PromptTemplate(input_variables=['article'], template=template)
 
 # 2. 모델 정의
 llm = OpenAI(temperature=0.5) # 너무 창의력이 뛰어나면 아무래도 요약에 대한 정확성이 떨어지니

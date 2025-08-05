@@ -9,7 +9,7 @@ load_dotenv()
 
 # 1. 템플릿 정의
 template = '다음 문장을 영어로 번역하시오\n\n{article}'
-prompt = PromptTemplate(input_variavles=['article'], template=template)
+prompt = PromptTemplate(input_variables=['article'], template=template)
 
 # 2. 모델 정의
 llm = OpenAI(temperature=0.5) # 너무 창의력이 뛰어나면 아무래도 번역 시 정확성이 떨어지니

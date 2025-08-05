@@ -17,7 +17,7 @@ load_dotenv()
 # 위 방법으로는 변수를 치환하지 못함 -> 하기 형식처럼 튜플로 처리하여 변수 치환되도록 설정
 prompt = ChatPromptTemplate.from_messages([
     ('system', '당신은 문장 요약을 잘 해주는 챗봇 입니다.'),
-    ('human', '다음 문장으르 3줄로 요약하시오\n\n{article}')
+    ('human', '다음 문장을 3줄로 요약하시오\n\n{article}')
 ])
 
 # 2. 모델 정의
