@@ -1,32 +1,36 @@
 from dotenv import load_dotenv
 
-from langchain_core.prompts import PromptTemplate
+from langchain_core.prompts import ChatPromptTemplate
+from langchain_core.messages import SystemMessage, HumanMessage
+from langchain_core.runnables import RunnableLambda # 데이터 형태를 변환하는 도구
 
-from langchain_openai import OpenAI
-from langchain_core.runnables import RunnableLambda
+from langchain_openai import ChatOpenAI
+from langchain_core.output_parsers import StrOutputParser # LLM 응답을 깔끔한 문자열로 만들어주는 도구
 
 load_dotenv()
 
 # 1. 템플릿 정의
-template = '다음 문장으르 3줄로 요약하시오\n\n{article}'
-prompt = PromptTemplate(input_variavles=['article'], template=template)
+# prompt = ChatPromptTemplate.from_messages([
+#     SystemMessage(content='당신은 문장 요약을 잘 해주는 챗봇 입니다.'),
+#     HumanMessage(content='다음 문장으르 3줄로 요약하시오\n\n{article}')
+# ])
+# 위 방법으로는 변수를 치환하지 못함 -> 하기 형식처럼 튜플로 처리하여 변수 치환되도록 설정
+prompt = ChatPromptTemplate.from_messages([
+    ('system', '당신은 문장 요약을 잘 해주는 챗봇 입니다.'),
+    ('human', '다음 문장으르 3줄로 요약하시오\n\n{article}')
+])
 
 # 2. 모델 정의
-llm = OpenAI(temperature=0.5) # 너무 창의력이 뛰어나면 아무래도 요약에 대한 정확성이 떨어지니
+# 너무 창의력이 뛰어나면 아무래도 요약에 대한 정확성이 떨어지니
+llm = ChatOpenAI(model='gpt-3.5-turbo', temperature=0.5) 
 
-# 3. 체인 생성
-chain = prompt | llm | RunnableLambda(lambda x: {'summary': x.strip()})
+# 3. parser 생성
+parser = StrOutputParser()
 
-# 한줄로 출력할 때
-# print_line_by_line = RunnableLambda(
-#     lambda x: {
-#         'summary': [line.strip() for line in x.split('\n') if line.strip()]
-#     }
-# )
+# 4. 체인 생성
+chain = prompt | llm | parser | RunnableLambda(lambda x: {'summary': x})
 
-# chain = prompt | llm | print_line_by_line
-
-# 4. 입력 및 호출
+# 5. 입력 및 호출
 input_text = {
     'article' : '''
     애플이 올해 가을 출시 예정인 아이폰17 프로 라인업에 고성능 이미지 센서, 향상된 배터리 설계, AI 최적화를 위한 사양 업그레이드를 대거 적용한다.
@@ -41,9 +45,4 @@ input_text = {
 
 result = chain.invoke(input_text)
 print('최종결과 : ', result)
-
-# 한줄로 출력할 때
-# lines = result['summary'].split('\n')
-# for line in lines:
-#     print(line)
 

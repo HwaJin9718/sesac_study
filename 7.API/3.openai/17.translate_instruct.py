@@ -15,7 +15,7 @@ prompt = PromptTemplate(input_variavles=['article'], template=template)
 llm = OpenAI(temperature=0.5) # 너무 창의력이 뛰어나면 아무래도 번역 시 정확성이 떨어지니
 
 # 3. 체인 생성
-chain = prompt | llm | RunnableLambda(lambda x: {'response': x.strip()})
+chain = prompt | llm | RunnableLambda(lambda x: {'translated': x.strip()})
 
 # 4. 입력 및 호출
 input_text = {
