@@ -1,7 +1,6 @@
 from dotenv import load_dotenv
 
-from langchain_core.prompts import ChatPromptTemplate
-from langchain_core.messages import SystemMessage, HumanMessage
+from langchain_core.prompts import ChatPromptTemplate, SystemMessagePromptTemplate, HumanMessagePromptTemplate
 from langchain_core.runnables import RunnableLambda # 데이터 형태를 변환하는 도구
 
 from langchain_openai import ChatOpenAI
@@ -15,9 +14,20 @@ load_dotenv()
 #     HumanMessage(content='다음 문장으르 3줄로 요약하시오\n\n{article}')
 # ])
 # 위 방법으로는 변수를 치환하지 못함 -> 하기 형식처럼 튜플로 처리하여 변수 치환되도록 설정
+# prompt = ChatPromptTemplate.from_messages([
+#     ('system', '당신은 문장 요약을 잘 해주는 챗봇 입니다.'),
+#     ('human', '다음 문장을 3줄로 요약하시오\n\n{article}')
+# ])
+
+# 강사님꺼
+template = '다음 문장을 3줄로 요약하시오\n\n{article}'
+# prompt = ChatPromptTemplate.from_messages([
+#     HumanMessagePromptTemplate.from_template(template)
+# ])
+
 prompt = ChatPromptTemplate.from_messages([
-    ('system', '당신은 문장 요약을 잘 해주는 챗봇 입니다.'),
-    ('human', '다음 문장을 3줄로 요약하시오\n\n{article}')
+    SystemMessagePromptTemplate.from_template("당신은 긴 장문에 대해서 요약하는 전문가 입니다."),
+    HumanMessagePromptTemplate.from_template(template)
 ])
 
 # 2. 모델 정의
@@ -25,10 +35,22 @@ prompt = ChatPromptTemplate.from_messages([
 llm = ChatOpenAI(model='gpt-3.5-turbo', temperature=0.5) 
 
 # 3. parser 생성
-parser = StrOutputParser()
+# parser = StrOutputParser()
+
+# 강사님꺼
+print_line_by_line = RunnableLambda(
+    lambda x: {
+        "summary": [line.strip() for line in x.split('\n') if line.strip()]
+    }
+)
 
 # 4. 체인 생성
-chain = prompt | llm | parser | RunnableLambda(lambda x: {'summary': x})
+# chain = prompt | llm | parser | RunnableLambda(lambda x: {'summary': x})
+# chain = prompt | llm | parser | RunnableLambda(lambda x: {'summary': x.content.strip()})
+
+# 강사님꺼
+chain = prompt | llm | RunnableLambda(lambda x: {'summary': x.content.strip()})
+# chain = prompt | llm | print_line_by_line
 
 # 5. 입력 및 호출
 input_text = {
@@ -45,4 +67,3 @@ input_text = {
 
 result = chain.invoke(input_text)
 print('최종결과 : ', result)
-

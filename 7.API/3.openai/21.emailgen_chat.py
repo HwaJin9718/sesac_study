@@ -1,7 +1,7 @@
 from dotenv import load_dotenv
 
-from langchain_core.prompts import ChatPromptTemplate
-from langchain_core.messages import SystemMessage, HumanMessage
+from langchain_core.prompts import ChatPromptTemplate, SystemMessagePromptTemplate, HumanMessagePromptTemplate
+from langchain_core.runnables import RunnableLambda
 
 from langchain_openai import ChatOpenAI
 from langchain_core.output_parsers import StrOutputParser
@@ -14,16 +14,34 @@ prompt = ChatPromptTemplate.from_messages([
     ('human', '다음 수신자에게 주제의 내용에 해당하는 회사의 공식 이메일 형태로 작성해주세요.\n\n수신자: {recipient}\n\n주제: {topic}')
 ])
 
+# 강사님꺼
+template = "다음 수신자에게 주제의 내용에 해당하는 회사의 공식 이메일 형태로 작성해주세요.\n\n수신자: {recipient}\n\n주제: {topic}"
+prompt = ChatPromptTemplate.from_messages([
+    SystemMessagePromptTemplate.from_template(
+        # "You are an expert corporate communication specialist."
+        # "Write in a formal, professional tone"
+        "당신은 김미경 같은 사내 소통 전문가 입니다."
+        "문장에 형식을 갖추고 전문성있고 예의바르게 글을 작성하는 사람입니다."
+    ),
+    HumanMessagePromptTemplate.from_template(template)
+])
+
+
 # 2. 모델 정의
 # 메일을 작성하는 것이니 창의력이 높아도 괜춘
 # max_tokens은 기본값이 256 -> 메일 본문이 길어질 수 있으니 max_tokens 수정
 llm = ChatOpenAI(model='gpt-3.5-turbo', temperature=1.0, max_tokens=1000) 
 
 # 3. parser 생성
-parser = StrOutputParser()
+# parser = StrOutputParser()
 
 # 4. 체인 생성
-chain = prompt | llm | parser
+# chain = prompt | llm | parser
+# chain = prompt | llm | StrOutputParser()
+# chain = prompt | llm | RunnableLambda(lambda x: {'email': x.content.strip()})
+
+# 강사님꺼
+chain = prompt | llm | RunnableLambda(lambda x: x.content.strip())
 
 # 5. 입력 및 호출
 input_text = {
