@@ -13,6 +13,27 @@
         <button type="submit">Add</button>
     </form>
 
+    <div id="modify-modal" class="modify-modal">
+        <!-- 실제 모달 창 -->
+        <div id="modal" class="modal">
+            <div class="modal-header">
+                <h3>ToDo 수정</h3>
+                <button onclick="closeModifyModal()">&times;</button>
+            </div>
+            <form id="modify-body">
+                <div class="modal-body">
+                    <label for="todo_id">ToDo 번호: </label>
+                    <input type="text" id="todo-id" value="" readonly>
+                    <label for="todo_text">ToDo 내용: </label>
+                    <input type="text" id="todo-text" value="" required>
+                </div>
+                <div class="modal-footer">
+                    <button type="submit">Modify</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
     <ul id="todo-list"><!-- todo 출력할 곳 --></ul>
     <script src="js/todo.js"></script>
 </body>
