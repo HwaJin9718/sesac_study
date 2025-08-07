@@ -78,11 +78,15 @@ function addMessage(message, sender) {
     const messageElement = document.createElement('div');
     messageElement.innerHTML = sender === 'user'
         ? `<i class="bi bi-person"></i> ${message}`
-        : `<i class="bi bi-robot"></i> ${message}`
+        : `<i class="bi bi-robot"></i> ${addLine(message)}`
     messageElement.classList.add(sender);
 
     container.appendChild(messageElement);
     container.scrollTop = container.scrollHeight;
+}
+
+function addLine(message) {
+    return message.replace(/\n/g, '<br>')
 }
 
 const ECHO_MODE = false;
@@ -101,5 +105,8 @@ async function sendMessageToServer(userInput) {
     const answer = await response.json();
     // console.log('서버응답:', answer.response)
 
+    // todo 조회, 리프레쉬 하지 않고 나오게 하기 위해서 챗봇 답변할 때 호출
+    loadTodos() // -> 다른 파일에 있는 함수라 조심!!
+    
     return answer.response; // 나중에 서버의 응답 변수로 변경해야함!! ECHO_MODE = false
 }
