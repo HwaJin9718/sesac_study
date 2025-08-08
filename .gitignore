@@ -20,6 +20,12 @@ __pycache__/
 *.sqlite
 *.sqlite3
 
+# chroma DB 파일 (백터DB)
+chroma_db/
+
+# 데이터 파일
+DATA/
+
 # 민감정보
 .env
 
