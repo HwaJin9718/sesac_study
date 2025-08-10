@@ -23,7 +23,7 @@ document2 = TextLoader('./ssd.txt', encoding='utf-8').load()
 # print(documents)
 
 # 2. 문서를 청크(chunk) 단위로 짜르기
-# 1000개 token 단위로 자른다 단, 자를때 200개 token은 겹치게 
+# 1000개 token 단위로 자른다 단, 자를때 200개 token은 겹치게 (1000/200) or (2000/500)
 text_splitter = RecursiveCharacterTextSplitter(chunk_size=1000, chunk_overlap=200) 
 texts1 = text_splitter.split_documents(document1)
 texts2 = text_splitter.split_documents(document2)
@@ -36,10 +36,11 @@ for i, doc in enumerate(texts1, start=1):
 for i, doc in enumerate(texts2, start=1):
     doc.metadata.update({'chunk_id': i, 'created_date' : '2025-08-08'})
 
+# 모든 청크 합치기
 texts = texts1 + texts2
 
 # 3. 임베딩 하기
-# 백터에 찍기?
+# 백터 공간에 찍기
 embeddings = OpenAIEmbeddings()
 store = Chroma.from_documents(texts, embeddings, collection_name='nvme')
 # print(store)
@@ -65,7 +66,7 @@ template = '''
 prompt = ChatPromptTemplate.from_template(template)
 
 # 체인 구성
-# 사용자 질문은 question에 담아서 그대로 넘어감
+# RunnablePassthrough : 사용자 질문은 question에 담아서 그대로 넘어감
 # context 는 retriever로 부터 추출해서 {context} 라는 공간에 채워줄 예정
 # 프롬프트 -> LLM -> 응답
 chain = {'context' : retriever, 'question' : RunnablePassthrough()} | prompt | llm | StrOutputParser()
@@ -87,19 +88,19 @@ def debug_retrivelal(question):
         print(f"\n--- 문서 {i} ---")
         print(f"출처: {doc.metadata}")
         print(f"내용 (처음 200자): {doc.page_content[:200]}...(중략)")
-        if hasattr(doc, 'score'):
+        if hasattr(doc, 'score'): # 문서에 유사도 점수가 있을 경우
             print(f'유사도 점수: {doc.score}')
     print('=' * 50)
 
 
 # question1 = 'NVME와 SATA의 차이점을 100글자로 요약해 주세요.'
-# print(answer_question(question1))
+# answer_question(question1)
 
 # question2 = 'PCIe는?'
-# print(answer_question(question2))
+# answer_question(question2)
 
 # question3 = '우주의 크기는 얼마나 되나요?'
-# print(answer_question(question3))
+# answer_question(question3)
 
-question2 = 'PCIe는?'
-debug_retrivelal(question2)
+question4 = 'PCIe는?'
+debug_retrivelal(question4)

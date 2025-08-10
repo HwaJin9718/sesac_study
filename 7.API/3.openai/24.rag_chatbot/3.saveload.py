@@ -10,19 +10,16 @@ from langchain_core.output_parsers import StrOutputParser
 from langchain_openai import OpenAIEmbeddings
 from langchain_community.document_loaders import TextLoader
 from langchain.text_splitter import RecursiveCharacterTextSplitter
-# 외부 라이브러리를 불러오기 위한 langchain 라이브러리 : pip install langchain-community 
-# 백터 DB: pip install chromadb
-from langchain_community.vectorstores import Chroma
 from langchain_core.documents import Document
 # langchain 과 chroma를 연결하는 라이브러리 : pip install langchain-chroma
 from langchain_chroma import Chroma
 
 load_dotenv()
 
-PERSIST_DIR = './chroma_db'
+PERSIST_DIR = './chroma_db' # DB 커밋하지 않도록 .gitignore에 추가
 
 # 새롭게 문서 로딩 함수
-def create_vechor_db():
+def create_vector_db():
     # 1. 문서 로딩
     loader = TextLoader('./nvme.txt', encoding='utf-8')
     documents = loader.load()
@@ -44,13 +41,14 @@ def load_vector_db():
 
     return store
 
+# 실행 시 DB 있을 경우 로딩, 없을 경우 생성
 import os
 if os.path.exists(PERSIST_DIR):
     print('이전 DB를 로딩 중입니다.')
     store = load_vector_db()
 else:
     print('이전 DB가 없어, 새로 생성중입니다.')
-    store = create_vechor_db()
+    store = create_vector_db()
 
 print('DB 준비가 완료되었습니다.')
 
@@ -75,4 +73,3 @@ question = 'NVME와 SATA의 차이점을 100글자로 요약해 주세요.'
 response = chain.invoke(question)
 
 print(response.content)
-
