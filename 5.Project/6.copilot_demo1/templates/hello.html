@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>간단한 Todo 앱</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 0; padding: 0; }
+        .container { width: 300px; margin: 50px auto; }
+        input[type="text"], button { width: 100%; padding: 10px; margin: 5px 0; }
+        ul { list-style-type: none; padding: 0; }
+        li { padding: 10px; background: #eee; margin: 5px 0; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Todo 리스트</h1>
+        <input type="text" id="new-task" placeholder="할 일 입력">
+        <button onclick="addTask()">추가하기</button>
+        <ul id="todo-list"></ul>
+    </div>
+
+    <script>
+        async function addTask() {
+            const taskInput = document.getElementById('new-task');
+            const taskValue = taskInput.value.trim();
+            if (taskValue) {
+                const response = await fetch('/todo', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ task: taskValue })
+                });
+
+                if (response.ok) {
+                    const data = await response.json();
+                    updateTaskList(data.tasks);
+                    taskInput.value = '';
+                } else {
+                    console.error('Failed to add the task');
+                }
+            }
+        }
+
+        async function toggleTaskComplete(event) {
+            const taskItem = event.target;
+            const taskValue = taskItem.textContent;
+            try {
+                const response = await fetch('/todo', {
+                method: 'PUT',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ task: taskValue })
+                });
+
+                if (response.ok) {
+                    const data = await response.json();
+                    updateTaskList(data.tasks);
+                } else {
+                    console.error('Failed to mark the task as complete');
+                }
+            } catch (error) {
+                console.error('Error:', error);
+            }
+        }
+
+        async function deleteTask(event) {
+            const taskItem = event.target;
+            const taskValue = taskItem.firstChild.textContent;
+            try {
+                const response = await fetch('/todo', {
+                method: 'DELETE',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ task: taskValue })
+                });
+
+                if (response.ok) {
+                    const data = await response.json();
+                    updateTaskList(data.tasks);
+                } else {
+                    console.error('Failed to delete the task');
+                }
+            } catch (error) {
+                console.error('Error:', error);
+            }
+        }
+
+        function updateTaskList(tasks) {
+            const taskList = document.getElementById('todo-list');
+            taskList.innerHTML = '';
+            tasks.forEach(task => {
+                const taskItem = document.createElement('li');
+                taskItem.textContent = task.task;
+                if (task.completed) {
+                    taskItem.style.textDecoration = 'line-through';
+                }
+                taskItem.addEventListener('click', toggleTaskComplete);
+                taskItem.addEventListener('dblclick', deleteTask);
+                taskList.appendChild(taskItem);
+            });
+        }
+
+        document.addEventListener('DOMContentLoaded', async () => {
+            try {
+                const response = await fetch('/todo', {
+                    method: 'GET',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    }
+                });
+                if (response.ok) {
+                    const data = await response.json();
+                    updateTaskList(data.tasks);
+                } else {
+                    console.error('Failed to fetch tasks');
+                }
+            } catch (error) {
+                console.error('Error:', error);
+            }
+        });
+    </script>
+</body>
+</html>
