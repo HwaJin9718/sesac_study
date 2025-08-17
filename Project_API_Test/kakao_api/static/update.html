@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>회원 정보 수정</title>
+</head>
+<body>
+    <h2>회원 정보 수정</h2>
+    <form method="POST" action="/modify">
+        <label for="kakaoid">카카오 ID : </label>
+        <input type="text" name="kakaoid" id="id" value="" readonly>
+        <br>
+        <label for="nickname">닉네임 : </label>
+        <input type="text" name="nickname" id="nickname" value="" required>
+        <br>
+        <input type="hidden" name="profileimg" id="profileimg" value="">
+
+        <button type="submit">수정</button>
+    </form>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', async () => {
+            const id = document.getElementById('id')
+            const nickname = document.getElementById('nickname')
+            const profileimg = document.getElementById('profileimg')
+
+            const response = await fetch('/modify-data')
+            const user = await response.json()
+
+            id.setAttribute('value', `${user.user.id}`)
+            nickname.setAttribute('value', `${user.user.nickname}`)
+            profileimg.setAttribute('value', `${user.user.image}`)
+        })
+    </script>
+</body>
+</html>

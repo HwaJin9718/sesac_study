@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>카카오 로그인</title>
+</head>
+<body>
+    <a href="">
+        <img src="/static/img/kakao_login_large.png" alt="카카오 로그인" width="300" id="kakaoBtn"/>
+    </a>
+
+    <script>
+        const kakaoBtn = document.getElementById('kakaoBtn')
+        kakaoBtn.addEventListener('click', async (e) => {
+            e.preventDefault()
+            // fetch 진행할 경우 CORS 오류 발생
+            // const response = await fetch('/login/kakao') // fetch를 쓸 경우 CORS 설정 필요
+            window.location.href = '/login/kakao'; // 이렇게 할 경우 CORS 오류는 발생하지 않음
+        })
+    </script>
+</body>
+</html>
