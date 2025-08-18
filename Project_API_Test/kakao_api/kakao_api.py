@@ -1,4 +1,5 @@
 # 소셜 로그인
+# docs : https://developers.kakao.com/docs/latest/ko/kakaologin/rest-api
 from dotenv import load_dotenv
 from flask import Flask, request, redirect, url_for, session, jsonify
 import requests
